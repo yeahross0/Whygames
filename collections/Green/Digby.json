@@ -1,0 +1,162 @@
+{
+  "format_version": 0,
+  "members": [
+    {
+      "name": "",
+      "position": {
+        "y": 108,
+        "x": 192
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "{Play Screen}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            "Play",
+            {
+              "Animate": {
+                "style": "PlayOnce",
+                "speed": "VerySlow",
+                "sprites": [
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            "IsAnimationFinished"
+          ],
+          "demands": [
+            "Play",
+            {
+              "Animate": {
+                "style": "PlayOnce",
+                "speed": "VerySlow",
+                "sprites": [
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  },
+                  {
+                    "index": 0,
+                    "size": "Empty"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Background",
+      "position": {
+        "y": 108,
+        "x": 192
+      },
+      "sprite": {
+        "index": 0,
+        "size": "OuterBg"
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    }
+  ],
+  "published": true,
+  "length": "Infinite",
+  "size": "Big",
+  "intro_text": {
+    "Same": ""
+  },
+  "font": "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",
+  "image": "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",
+  "music": null,
+  "asset_filenames": {
+    "image": "digby.png",
+    "font": null,
+    "music": null,
+    "sounds": null
+  },
+  "sounds": {}
+}

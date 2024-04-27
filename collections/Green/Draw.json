@@ -1,0 +1,3480 @@
+{
+  "format_version": 0,
+  "members": [
+    {
+      "name": "Background",
+      "position": {
+        "y": 108,
+        "x": 192
+      },
+      "sprite": {
+        "index": 0,
+        "size": "OuterBg"
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 108,
+        "x": 192
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "{Edit Sprite}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "Dot",
+      "position": {
+        "y": 200,
+        "x": 78
+      },
+      "sprite": {
+        "index": 128,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Draw Mode",
+                "value": "Dot"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 144,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Dot"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 128,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Square",
+      "position": {
+        "y": 200,
+        "x": 100
+      },
+      "sprite": {
+        "index": 145,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Draw Mode",
+                "value": "Square"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 145,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Square"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 129,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Circ",
+      "position": {
+        "y": 200,
+        "x": 122
+      },
+      "sprite": {
+        "index": 146,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Draw Mode",
+                "value": "Circle"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 146,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Circle"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 130,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bucket",
+      "position": {
+        "y": 200,
+        "x": 172
+      },
+      "sprite": {
+        "index": 147,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Draw Mode",
+                "value": "Bucket"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 147,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Bucket"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 131,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shapes",
+      "position": {
+        "y": 200,
+        "x": 198
+      },
+      "sprite": {
+        "index": 148,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 148,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Shapes"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 132,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Select",
+      "position": {
+        "y": 200,
+        "x": 224
+      },
+      "sprite": {
+        "index": 149,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 149,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Select"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 133,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Diamond",
+      "position": {
+        "y": 162,
+        "x": 32
+      },
+      "sprite": {
+        "index": 177,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Bucket",
+                "value": "Diamond"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 177,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Bucket",
+                "value": "Diamond"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 161,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "AttachFromPositions": {
+                  "name": "Sprawl"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Circled",
+      "position": {
+        "y": 139,
+        "x": 32
+      },
+      "sprite": {
+        "index": 178,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Bucket",
+                "value": "Circle"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 178,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Bucket",
+                "value": "Circle"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 162,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "AttachFromPositions": {
+                  "name": "Sprawl"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lined",
+      "position": {
+        "y": 116,
+        "x": 32
+      },
+      "sprite": {
+        "index": 179,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Bucket",
+                "value": "Lined"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 179,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Bucket",
+                "value": "Lined"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 163,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "AttachFromPositions": {
+                  "name": "Sprawl"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Random",
+      "position": {
+        "y": 94,
+        "x": 32
+      },
+      "sprite": {
+        "index": 180,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Bucket",
+                "value": "Random"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 180,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Bucket",
+                "value": "Random"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 164,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "AttachFromPositions": {
+                  "name": "Sprawl"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sprawl",
+      "position": {
+        "y": 71,
+        "x": 32
+      },
+      "sprite": {
+        "index": 181,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Bucket",
+                "value": "Sprawl"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 181,
+                "size": {
+                  "Square": 32
+                }
+              }
+            },
+            {
+              "Motion": {
+                "JumpTo": {
+                  "Point": {
+                    "y": 66,
+                    "x": -50
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Bucket",
+                "value": "Sprawl"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 165,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Bucket"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "JumpTo": {
+                  "Point": {
+                    "y": 70,
+                    "x": 30
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 1",
+      "position": {
+        "y": 18,
+        "x": 27
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 1}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "1"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "1"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 1",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 1",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 2",
+      "position": {
+        "y": 18,
+        "x": 49
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 2}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "2"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "2"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 2",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 2",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 3",
+      "position": {
+        "y": 18,
+        "x": 71
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 3}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "3"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "3"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 3",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 3",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 4",
+      "position": {
+        "y": 18,
+        "x": 93
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 4}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "4"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "4"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 4",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 4",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 5",
+      "position": {
+        "y": 18,
+        "x": 115
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 5}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "5"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "5"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 5",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 5",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 6",
+      "position": {
+        "y": 18,
+        "x": 137
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 6}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "6"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "6"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 6",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 6",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 7",
+      "position": {
+        "y": 18,
+        "x": 159
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 7}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "7"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "7"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 7",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 7",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 8",
+      "position": {
+        "y": 18,
+        "x": 181
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 8}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "8"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "8"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 8",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 8",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 9",
+      "position": {
+        "y": 18,
+        "x": 203
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 9}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "9"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "9"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 9",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 9",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 10",
+      "position": {
+        "y": 18,
+        "x": 225
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 10}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "10"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "10"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 10",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 10",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 11",
+      "position": {
+        "y": 18,
+        "x": 247
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 11}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "11"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "11"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 11",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 11",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 12",
+      "position": {
+        "y": 18,
+        "x": 269
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 12}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "12"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "12"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 12",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 12",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 13",
+      "position": {
+        "y": 18,
+        "x": 291
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 13}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "13"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "13"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 13",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 13",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 14",
+      "position": {
+        "y": 18,
+        "x": 313
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 14}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "14"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "14"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 14",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 14",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 15",
+      "position": {
+        "y": 18,
+        "x": 335
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 15}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "15"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "15"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 15",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 15",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paint 16",
+      "position": {
+        "y": 18,
+        "x": 357
+      },
+      "sprite": {
+        "index": 196,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "{Paint 16}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Paint",
+                "value": "16"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Paint",
+                "value": "16"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 16",
+                "switch": "Off"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 196,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Paint 16",
+                "switch": "SwitchedOn"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 197,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 198,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 199,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 200,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 18,
+        "x": 9
+      },
+      "sprite": {
+        "index": 166,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "PreviousPage"
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 166,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Down",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 167,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "0",
+      "position": {
+        "y": 18,
+        "x": 375
+      },
+      "sprite": {
+        "index": 182,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "NextPage"
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 182,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Down",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 183,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Spray",
+      "position": {
+        "y": 200,
+        "x": 146
+      },
+      "sprite": {
+        "index": 150,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Draw Mode",
+                "value": "Spray"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 150,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Spray"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 134,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Erase",
+      "position": {
+        "y": 200,
+        "x": 250
+      },
+      "sprite": {
+        "index": 151,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 151,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Draw Mode",
+                "value": "Erase"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 135,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 222,
+        "x": 299
+      },
+      "sprite": {
+        "index": 6,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 201,
+        "x": 353
+      },
+      "sprite": {
+        "index": 45,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "SaveArt"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Clear",
+      "position": {
+        "y": 201,
+        "x": 32
+      },
+      "sprite": {
+        "index": 46,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            },
+            {
+              "SetSprite": {
+                "index": 47,
+                "size": {
+                  "Square": 64
+                }
+              }
+            },
+            "ClearArt"
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Release",
+                "hover": "Anywhere"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "Off"
+            },
+            {
+              "SetSprite": {
+                "index": 46,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsSwitchSetTo": {
+                "name": "Clear",
+                "switch": "SwitchedOff"
+              }
+            },
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": null,
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "ClearArt"
+          ]
+        }
+      ]
+    }
+  ],
+  "published": true,
+  "length": "Infinite",
+  "size": "Big",
+  "intro_text": {
+    "Same": ""
+  },
+  "font": "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",
+  "image": "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ZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJnaW1wOmRvY2lkOmdpbXA6OTk0ZTE0YzgtNDNjZi00NWUyLWFhOGMtMmQ3NzNhNzE0MTUxIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhmNWFhMDU5LTM5YTYtNGM4NC1iY2NkLTI0YzI3ODIyZmQ4NyIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjM3ZTkyNmE2LTkxMzgtNGU5NS1iZWEzLTdjNDc3ZTQ2M2Q4ZSIKICAgZGM6Rm9ybWF0PSJpbWFnZS9wbmciCiAgIEdJTVA6QVBJPSIyLjAiCiAgIEdJTVA6UGxhdGZvcm09IldpbmRvd3MiCiAgIEdJTVA6VGltZVN0YW1wPSIxNzA0MjIyMDY4ODQ4Mzc5IgogICBHSU1QOlZlcnNpb249IjIuMTAuMzAiCiAgIHRpZmY6T3JpZW50YXRpb249IjEiCiAgIHhtcDpDcmVhdG9yVG9vbD0iR0lNUCAyLjEwIj4KICAgPHhtcE1NOkhpc3Rvcnk+CiAgICA8cmRmOlNlcT4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiCiAgICAgIHN0RXZ0OmNoYW5nZWQ9Ii8iCiAgICAgIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6MjgwYWIzNzQtNzliZC00NWFkLWE1YjQtMWM3ZTVmYmFlMmY2IgogICAgICBzdEV2dDpzb2Z0d2FyZUFnZW50PSJHaW1wIDIuMTAgKFdpbmRvd3MpIgogICAgICBzdEV2dDp3aGVuPSIyMDI0LTAxLTAyVDAwOjA5OjI2Ii8+CiAgICAgPHJkZjpsaQogICAgICBzdEV2dDphY3Rpb249InNhdmVkIgogICAgICBzdEV2dDpjaGFuZ2VkPSIvIgogICAgICBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjVlNmIyYjQ3LTc4OGYtNDZkNy1hNGFkLTU5NzQ4MjkxMDc3NyIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iR2ltcCAyLjEwIChXaW5kb3dzKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyNC0wMS0wMlQxOTowMTowOCIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgPC9yZGY6RGVzY3JpcHRpb24+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9InciPz7YiYVbAAAABmJLR0QA+AD2APSKnpmEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH6AECEwEIqAp2LgAAIABJREFUeNrt3X+sXvV9H/BzXYMMjbksDaaORi+RmlK6OdVIYlGQCKAYBZCBqKXCtqBhIWJL8GUiXspitIgJJzQzqLVhGxpZ1EQYFBpRsBKqMKXEUhhyFqbE3QhpJLhjqhuTZFxuZyxDefZHc27OPT4/n+f8es55vaQr+/l1znN+POfz/n7P9znPzC1/+sQoAGBw7vuDq2asheFaZRUAgAAAAAgAAIAAAAAtOe1XzxpF/0UAAKAnxT3rsdf+9uWZ6L8IAAB0oEBPMu2wqJ/2q2eNykxPb4AAAECNslrdaY9Fi3NWoX7tb1+eibfyo8+PTz96KkBvgAAAQIu9AFnBIK/3IF7Ik3oDov8PA0NaMEAAAGCMIp822K5IQU97XZEehHjLPvq68P/xnoKivRQIAADktNrjg+3SgkBeQc8LCGGhT2rZh0EkLWzEH9f6FwAAmLDln1Sk81r5SdPICwhprfi8ecZ7CIwFGM9qqwCAaGs/3guQVGAn6YKPtvKzinj0dplBgugBAGDMIJBUrMftWcjrASjTyxCfziTvTQAAgJTimzXiPq3LP6l1nnWuPq3lH39tvNhnDQhEAACgZNEvck49rcWe9dqy5+qjBT4eCvK+WUA+YwAASGx5ZxX7tPvLPDcvFCjwegAAaLlXIP7/qgq2Ii8AANDhXgHFWgAAAAQAAEAAAAAEAABAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAQAAAAAQAAEAAAIABWj3UBd8/v83WB4IgCILNex6yEtADoPgDjgkgAAAAPbR66CtgYXFpxm4AwzQ3u3ZkLaAHAADQAwBAM479xX9dcXvNhz5opSAAAPS9+McLfhgIBAHq5BQAQMes+dAHgzUf+uAJPQMgAAD0rBcAmuYUAEDLrf14CND1jwAAMLAgEA8DSWMEQAAAGFAYgCoZAwAAAgAAXaMXAAEAAKiEMQAAU9CiNxgQAQBgQIU/7fXCAJNyCgBgSsOEsQEIAAA9bP3f94XP1jJdCAKnAAA6p0jhj4cApwTQAwAACAAAbdNNjwAAgJBBJxgDANBhRcYD3PLRT1tRCAAA09IyLzvYT9GnSk4BAEwZxR89AAA9LOTRngHFHj0AAFPGwDwEAABK0/pHAAAYiEkGBoIAADAwLgWMAAAwxcJuf93/CAAAA2uVK/4IAAA9CAG65+ki1wEAaKE3oMqvCAoYCAAAUxoIoGlOAQCAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAAACAAAgAAAAAgAAIAAAAAIAACAAAIAAAAAIAACAAAAACAAAgAAAAAgAAECXrR76CpibXTuyGwCgBwAAEAD6aPOeh2x5wDGBQVvtAw8AegAAAAEAABAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAQAABAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgPrNWAXdNje7dlTFdBYWl2xr2x+gugCw5X0bRkEQBA//90MOMDUc+Pc/9XQl09u86WKFwPa3/YHuB4DvH/zuqKppvWfje2eqeA/jTmecg3+ZA/+Nf/6vgi9e88eFC0GZIlB2HVS9ztqc/7Rs/7JBQAgAgiAIVnfxTX3/4HdHYYulqul97uMfKRVSkt5DtCDUVQzKHPzjhb9IENj/1NPB5k0Xj4oUgbR1kLbsZZ/f5flPw/YfR5ntDwgAmers+j+0Y+fE09iwe9fYhSc+/w2RgtBEMSgaAsr2Aky6DpKKatnnF53/lx/5xgkt2Kz5F33+uPPu2vYH6FUPwIoQsOeezsw/WtziYaCKIlC29ffFa/44uGvvs0EQBMEd28+vrRWYtA22vG/DKC38lX1+ntN/5eRS0yv7/KLzjgaCzR3Y/noBgFYDwJAGAWaFgbBF2FZr8K69z5YKAUwWROJhoO3tD9C7HoBpCQNhj0CTheCuvc8Gt2w9LwiCILhv33M2SothYHPN23/D+8/7xf72nefGem3Z1wECAAXCQNgjEA0CdYWAsNtfL0B3wkDYI7C5hu0fLf7h7SLFPOl1ggBQWQDw/f+VPQLRIFBHCIie83/1p8eXC9AtW88L7tv3nBDQco9ANAhUsf3jLX9FHdADMAVBoMoQEC/8r/70eHD6r5y8HALoXhCYNASU6faPB4ND33lu+TVCApBk1aQT2PK+DaNwICArg8ChHTtXDBCbpPjfsf385eKfNMo99Mbb3xHctffZ1NMENBcEoiFgon1pjMIdFv14MADQA9BQCNh38prKuoOjrf6s1v8bb39HcNLPfjLWVwSpNgT8/Ct3pbd/tHAXKeLRkJD0fK1/oPIeALJtPX5soteHrf+0ln80ENyy9bzgpJ/9ZDkEvPH2d9gALavyipZZISFe7JPGCwBU2gNgEGB28Q8v7PK5j3+kkmnmnQKgW8V/nO2fde5/nNa91j9QSwAgu/iHB35BaZjFf5LtX1XhNggQqCUA+DngEwt/EKz8Gdc61k18PADdKfxNbP+iAcJpAEAPQMOFv6qW/x3bzz9hHEDS4L9Xf3o8uG/fc877d6Tw19Xyjz5WpEWv1Q8IADUX/6RzvVW2/KIhIAiC3NZ/OBjQNwCaKf51b3+AzgWAoR7koqP7qzzXHy0m8V6A6Hf7w98AiAaCooW/zpHpQ2vxN7H963zvgADQm2LcZNEPfe7jH6kkCC0sLs3Mza4dpYWAeI9AkrwWf3jw91Owkxf9Jrd/1ctg+wOdHgS4YfeuQs/LO1iWPUC/Z+N7Z75/8LujDbGWUvyg32YvSN1d+1nrIGl9ln1+0flvLjn/zRXMP2taXdn+AJOa+MBVVwAoc/nUvO9Yj/ve4u+hqYP+3OzaUdFwM07rtUzrL2kdZC172ed3ef62PyAAtNQDEJ1+njrmH593ky29aBGoUtmDf9l1UPU6a3P+tj8gANCaqgqBA7/tb20CAAAAAAAAAAAAAAAAAAAAAAAAAAAAQGNyrw9e5Y+SjHM9cvM3f/Nvb/5Af60u8qQXDh+eeEbnrF8/9mvN3/zNv735A/20yioAAAGAKXXwW4esBAAKW20VME3CruywWzzatR2/r4qu82lbL0NbbkAAoIVCk6euQhSdbtI8Xjh8eFDnvOPLes769UIAkMspgAoOvuFf2wWgqffwwuHDuX91zrvN8BG15tS3BUEQBDse/WbnAplBf0CvewDiB7mmWz1ttrzCorN/flsQBEFw/XWXNfoesore7msvHcSH59jRv1te3jWnvm35dtvFH2BwPQBttsSafA87Hv1msH9+23LxH5KiRa/u4hhu57AXQPEHBhkAHIyaDRh5hd/2qNeaU9+23MsRLfzxUFDnPrB5z0OZzzEGAGgkAAz1YBNf7ryDshZiP4RFP17wk0JBXT0PWfub4g8UMdVjAF44fLj1bv/4e2ji/HfRUe59HA3epUGATRT8PJv3PLSiR0jxBwYRAJoquF18D0VCgGJQr/jAvzYGAkZDgO0NDCoADFlWCKi7GLQVvIr2ajTR+xEv9k0U/93XXprY66X4AwJAz8ULb1IIqLsYtD2+IFrcs64E2Od9oOnTToAAQMd7Auou/m23NOPzT7sS4NCCIPjpaASAAYcA+iurl8dYEEW3ajdtmR89+PAeIUAAALoc8BT4flB06WQA6MI5X/M3f/MHaDAAtN0tZf7mb/5QXtbPY2f9rDYCAABTLlrYk4q8n44WAACosNVdtjjXXfzbfB8IAACDa3VXERRAAACYElk/DNbUz3gX/c2Qos+jf1ZZBQCgBwAAxuJqhHoAAGjZtA8CvGnL/MhWFAAAAAEAgDxFv2ngGwnDZQwAQMWaGulfpLgXuRJgm+HENxAEAIBBtbzrFi+saVcCbHv9+BpiRwNA2yM6zb/d+R948r9VNv+LLv+dqZv/0Nc/kxddioUjIaAdjY0BaHtEp/mbv/lD94o/AwgAACj+dIcxAD3w5Ue+EVx/3WVWBAzYwuLSTBd7ejbveSjY8eg3g93XXpr6HN3/AgBk2viBDUEQBMHBbx1acTvpvvD2kNbL0JZb0T3Rgw/v6dRYj+hvIqSFAMVfAGDKCk2eugpRdLpJ8zj4rUOl3mfftsnGD2wQAgZedLssHgIU/3YZAzCBFw4fXv5r8z1E/63bOevX5/7VpWhha6IAhus761ff2gpkQwpATGcIUPz1AFRyAG4rSbb5Xdaw6IRJOjzgN/UeNl1xY+pjT339i4P44ITref/8tla+wqTIMw32z29LDMmKvx6AWopi39/D5j0PBbuvvTRzQE1fFS16dRfHcDuHIVDxh+wQkHWbKQ4Avt7RbMDIK/y2R71eOHx4+QAWLfzxUFCXL33p4eCWj3468znGANDFEBD+0aMAMNSunPhyh+e1ulKkqHe7xwt+Uiioo/iH0kKA4k9XjkFpY6Tij2U9l3pN7RiAc9avb73bP/4emki356xfX+hD0sdLa3ZpEGATBT/PLR/9dHDfFz6r+NP5BpJGowBQ20F4aO+hSAjwIau/hRNdx20FrjAEKP7AoALA0BN2WgiouxC1NdK/6Hfcm/gufJFfWqvaDTdsWXEaQMufrunq1QgRAKZevLchKQTUXYjaPkcXLe5ZVwLsq3gIuOGGLT4YdIoLIwkAtNATUHfxb7ulGZ9/2pUA+07RBwQAGin8tCveqxENOXk9Hk4PAAIATKmsIq7AA+PyWwAAoAdgpbZHdJp/u/O/6PLfGfT8h77+AQAAAAAAAAAAAAAAAACAVqT+aMPc7NrKvn+8sLjkxyEAoEMyLwR0aMfOiWewYfcuaxkApikABEEQ3Pz4Q2NP/IGrt1nDANBBjfwWgMuZAsAAAwAMQZXjZqZx/oAAAIMs/l9+5ButFeG52bWjTVfcKAQAha3u+hts+9sI5j/s+Zcp/m1+RjZdcaOjGdCvABAEQfDC4cMTT+Oc9evNf4rnv+PRb040//3z9QxIVfyBaeUUAFNh97WXdu49Kf6AANCySVqXk843/tdX371lT+nXfOq8f1F5COhKEFD8AQGgI8W/yeKbVey7EATqmP9775sv/ZrPP/efetkboPgDvQ0Ac7NrR4d27Cx8EaBn/vql5b82C10ThbfoPPoYAoo665n/Ufs82uoNUPyBvqhsEOBT208NNu09Gjzz1y8FF7z77OCBq7fVehngrBZ4FYPWuqxMCGljXbx8wT9rbF7REDDpQEHFHxAAKrTpihuDBx/eU+nXr/IKYF2Fr2yruq73kTfN8H22Ufx/6devDv7+R4+3sjOHYaCOIKD4A31T2RiATXuPBkEQBBe8++zOtH6HrI7if+zDp55w34d++aQVt69Z1/4gvTpODSwsLs1cf91lrS3TwuLSzFNf/6IjFtCtAHDBu89e/utC8R96CKir5b/msaMn3PcX/++NFbe/+sytvV2vQgAgAExJYevrWIAuBJu5T30p9bE31q7u7QdGCAAEgI6HAMW/5kL0+RtSHztp6c3W31+d3xAQAgABoKMhoK7i33YPRLT4J12EqMkLEt1x7N7O7ydCAEDPAkBWce3zVwCjy/bC4cOZf3W7a81tJ9z3Z995//L/v3D1Q73/8AgBgADQkRDQROFr+xRElwPO773/O8v//+jj2zrxnuq+WJAQAPQqACwsLs1s2L0reODqbZ1fgLAgNlkYs1rZTbTAmw4Bv37mn/ikCAGAHoDu9wQ0HQSa7Hpvw49+nP7VvtP/48qxAH/0Zz9bcftPf+vjve8FiIaAhcWlmTaWMQwBbc0fmD6rrQIm8eq/XDkW4A9/7+0rbv/B//oPg+oJGPL8h2xudu1oSNu66eXt2vroy/JPRQAY8g/rmL+rOtL9wn/KRbuane+BnaM2C99TXzu1U9th05VBI+sjXP42Lwue5PrrLhtr+WeyFvTQjp0TvakNu3fV8lsAAF0o/qdctCt4/ontiY+fe9Xe2t/D6wd2NhYC5mbXjuKFf9OVK68OmvZ4U4Fh05VHa1sfSb8HsvEDG1bcPvitQ4mPx++vMQiUWv6Zurs4BABgaMW/byGgSPFPCgFNB4C6QkCR4p8UApoOAGVDQOopgHACN22ZH/m4AxQv9HnBYFxJ0z379J3BPXfeP/rkZz7RWEMrWvzD4h7et+nKo5kFPyk4xKcxaa9C3esjWvzD4h7et/EDGzILflJwiE9j0l6FosuvZQ4wRus/WpDzWvpJhTt8Tdo04vdnhYqzTz8tmL/t7qCOopfV+s+7P+12Ws9BmV6FvOdUtT6yWv95xTntdlrPQZlehaznXH/dZYWW37cAACpsmRft9n/+ie1jnSKIvqaunoairf+81nqR5yX1JhSZV9L7auJUQ14RLyKtoKcFiqLvq+ypBgEAYEznXrX3hCKc1KIvcoogKxBEn99G0R+n2MeLd/R2VmEvWvSL9ArUKa/Yxot39HZWYS9a9Iv0CggAADWHgLRCXaS1nhUiys6/bUmnBoq0youcIsh6vCtfS0w6NVCkVV7kFEHW4+MOMhQAAMaQ1dIft6DHQ0O8uHet2I/TCk8r1knhocsFP97lPk7LPS88VF3wBQCACSwsLs38w4V4thcq7klBIf6apF6ArGlFX/f6gZ21DQAMl3fTlcHyQMDoYL0io/bzWvFFzvuXOb9f5QDAcPmvv+6y5YGA0cF6RUbt57Xii5z3L3N+v+gAwCDoyW8BADQtrzWedN4//MvqGcj6xkBXpBXjrCKdV8C7dnXBcVrxWUU6r4A3ea2AkK8BAowh+nXAsi33tOJe9tsEdbf+48vb9SJddes/vvxduwTwJK1/AQDGOAi0+UMsbc+fE7dHEDT/WwCvH/iHy7Q3Vfzjy9u93wI42sj66PBvAYy1/DPT8OGqwjgHTfMf9vzTWgBt/ezv3Oza0aYrbgz87G+33HPn/aM9997e6Dznb7s7CIKg0eLf5vJ2aX30afkHEwDG+U0C8+/G/DfveWiiee+f31bJb1JEuwDbCAFhAAiCQAjoYAhocn5tFP42l7dr66Mvy+9bAHTe/vltE4eAqv28J6C17vif9wQ4HTDQAmR5LX8Vpv5bAN9beLmV+b5w+PAJf32173f/TenXXL3+6spDwP75bZ0LAVX2kowTAtqcPyAAtF78mwwBWcW+C0Ggjvlv/ernSr/m8cOP19YbIAQIAcCAA0BY9NecvLqxEFC0uPYxBBR19Ktfr30eXesNEAKAaTSVYwDixX/NyauDY8ffDL638HLw23Nn9XqDlQkh56xf3/j7O/V3r2hsXtEQ0PYYAWMCAD0ADRf/UN09AWVb1XW1ws9Zvz7zL/q8pv3olze2tl90oVdATwAgADRc/JsKAdOijuL/vfMXT7jvXa/9ZMXta9Zd2vqyCwFCANCzAJBX/IWAelv+v/3s7An3vXjaO1bc/qsX7x78B6qtiwSFXB8A6F0ACM/tHzv+Zubzwsf7OhagC183PHb9H6U+9ld/94rir/gDAkCzIUDxb8aaL/9h6mP/9G1ntP7+2jgNoPgDAkBLIaDu4l+2a73qrvho8U+6CFGTFyS69sV/3fn9pMkQoPgDAkBLIaDvLf94oCj6TYC6PPquf3/Cfbue+MfL///Uxt2D+QAp/oAA0HIIaKL4Fy2udRXhNr7aV9TOq/7P8v8/f3DHIHoBFH9AAGg5BDTZ8s9qZTfRAm86BPz9W7f7lCj+gADQ3RDQtDa63tvwS6vSv9r343+7cizAP9/7P1fc/vQ/+nAvewEUf0AAYNDO/HcrxwL8l+3/ZMXtz/7fx3q1vAuLSzNtFv+FxaUZxR8QAKClIjzk+QP90ekfA1pYXJq5acv8yPzNHwAAAAAAAAAAAAAAAAAAAAAAAAAAYHq5rjid9e0zzqjkMsAXvvLKjPmX98M7zqxk/r9x148dZ0AAgGaL37hFsAvzP+Pman6r65UH3io9/x/ecebolQfeqmT+Z9y8SggAAYBpMje7tpIiWPYX7KouvmWLcDj/Kgtw2fmfcfOqoMoCXCYEVFn8hQDortVWAVme/vb3J3r9xRe+Z6LXv/MvD070+r+5ZONErz/pumcnev0bj5w/1cvf9vyB+qyyCgBAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAQAAAAAQAAEAAAAAEAABAAAAABAAAIM9qq4AsF1/4nlbn3/bvyb/xyPmDXv625w/UZ6bqCc7Nrh01uQALi0szXVqhQ1/+qnz7jDMqXY8XvvLKzLTN/4ybq+mge+WBt0rP/4d3nDl65YG3Kpn/GTevCn7jrh/3cj8lCE5bf9aoy+/vtcMvzwx1feYte2UrJix8+05e0+jK2nr8WCcKYbj8p1y0q9H5vn5gZ2+DQFVFuGzxM/9fhIAq5q/497foP/nmsU6/z8tXrxkrBLQVan7/4g9XNq2vPP1Y7rJX8sGcm107Siv8Fxw5svz/Z9aty51W+Pys5yY9Z+vxY60VwbnZtaNTLtoVPP/E9hX3n3vV3hW3w8fj91cVBPraGwAMt+iHRXyS+V6+ek3pEHDTlvlO9WyEBb1sSPjK04+lLvvEfYxFi3/S7SrtO3lN493vWcU/WvCbcMpFu1pZfmAYxf/JN4+1Vvzj/y/ryTePlW7VP/jwns40qMLiH/9/0V6FtGWvbRBgvOVfZ/GPuufO+0ef/MwnGt1w0UIftu7D+55/Yntmiz8pJMSnUabHoI3lB/pf/Ise78Njftc8+eax4PL1Z43K9AQ8+PCemaSegP+8708Sn/+xrbeWfl/htMZ5bZkQ8JWnHzth2SfqAUhr/Y/T7R/+TfKcfSevCfbce3twz533N9ISDlv/8cJdtGin9RDE73/+ie0r/rJ6AZpcfqD/xb9MYy/rvnGLdtL/616mrJ6AtOKf91jSc6PPj9+OF/Ck/0+67LV+DTCp+F9w5MiK+4vsKE31Hkza+k9ryeeJPq/IaYOsXoVoCNATADRV/MPjenhf9FifdAyP14e08V9phb/INOsUb7EnFe+k+4q09JN6BRb/5n+fcN+kPRGVB4DoRskr3Fk7T5nndEFesU9q1Y8z7SLTOfv0nY5eQCXFv0jLO1p4i57yjTcG8+pGkYZj2jS7EgjC+z+29dbl5497CiCvJ6LI9Fq7EFCfin9e0c86NZBW3Iv2BCR56dXXgrNPP81RDBhb2fP+WS3xtNZ+2ZqRNd1wmpevXtPIYMVoAc4qtlkt9jKnDCYNHrUHgKxz/0VSXdGdJ+2+tot92a78rBZ/UnhIm2ZV8wXIE47GXyzQOCt7ujfeg5A07SK9zHWGgI9tvTW1kMdb9UULcpFu/Ul7BSoPAAuLSzNbZ4MTBgKWKc5VjgHYevxYMH/b3UFT574XFpdmzj79tNFLr76WWnzLnhooGxAUfaDp4j9J43CSY3ye2Xf+Wu5zqrgeQFrBLtL1nhQSqggFRXok4sve2imAIueJmvz64CTiBblI8c96zaQFvY4LDQGkFe9n1q3LPZVbpDdg3DEBv6ho6RcNquJiQEnn67MKepHz8GXO/Sc9Nz7f2Xf+2gnfFEi7GNDEASDaC5DV8h+3G79ob0LTrf/o8s8d2Dk696ryRTmtUJe5X7EHmvLkm8eWewGiDbQyo/yTwkPRRmPW9J5Zty618FetaFd7/HlZBXySc/lpPSB5Fw2q5NdGFhaXZrYeP7Z8Xf4mhfNto/hHl//1AzuXr8vfpKLXCAAoI61wRq8ImFa8498KqNK406u66z+rhT5Jy7/I/fHu/o9tvXW5+CddJyBt2SstmPfcef9oz723N7qTzt92dxAEQdCF77w3vfzh2IOkHgG/DQBMYlp+8KdIiJn23wEo2muQ1Pqv/ceA4kWwyRXRtYvdNLX8e+69PfWXB18/sLPVHhFACOhKz0Xfin9WAIh3+ecte+WDAIdedJpa/qzeBsUfqEJYQC4Myl8cqEvvv0/Fv8plVySmWFpvg+IPNNEz0KfiPw3LVPUyKxQ9DAECAAACwMBCgOIPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN00U8VE5mbXjpp80wuLSzNNr6iml3Ea19FQ9gX7v/1/6Pu85e/H8s9UseCnXLSr0RX++oGdje0I4TK+6+LfnKpk9+LTP2j0wxKup30nr2l0ObceP9Z6URzC/v/U106dqv1/05VHa19HQ9j+PvP93v4zkyx8fMGff2J75mvOvWpv4v3h69IeT3vO6wd21v4Bf+nV11Ifv+SajVMRBOr+oGStp2fWrWvsoNB0q28I+3+08IdFNWrcYBBOq+zry75u05VHa1lHSds/b1sW2c5lC0GbPX15hf+CI0cSjwFp93f9M19k+6dt83GPAVn7TBXbf1WdCz+u55/Yvrzg0f/Hb59y0a7aul/mZteO8lr9f/nnBzsfAN518W/W2kWVdyAIP+xVueDIkcRp7jt5TWOTsmFRAAAEg0lEQVRdcUPZ/4sU2aRQUFeLPjqv+O00T33t1MrXUZHtHz/w54XDcdS5/Sct/nUeA9r4zFdR/MvuB3nPrWL7r65jBVWVcIu65877R5/8zCdqTYLx1n68+CeFgfA14WNpPQZZry3y+rxpnX36aY2so3iqDz/4Fxw5UirtJx0wir6+qeUc2v6f1OoPC/CmK4+e0CIfp7dgkh6GvNc2tY7OvWrvivAWvV3XvtGFfb7IZzrtMzzJ572ry5+0zcct/nn7zCTLX/pFWemnTBdX0soo2wUa7QqZv+3uoKqdINr6Tyq+0SJ7yTUbM3sCsh6PB4Syj5d53tmnn1bpOoq3BIp29+V92LNaC8+sW5c4n+h9W48fq3w5h7j/JxXepO73rPuKhIf47azXTDq/KtbRJK2/rEJQ5LE0VW//Klr/WZ/zIseEMiGg7s/8JNs/uu2yinr0+WUD4yTbv7IegHg3ZdYOnJeE4iuvju6zIqIFNa+VnhUSsqZ/yTUbc3sXik5n3PdRRbovUsDLtA6KhoK6uhft//kt7Pjj8dBQtEgXfU3eNMaZXxM9AUW2ZdhbUPaxrouG9rRegLRGw7RK28bxfSLv2NHENl/d5sope4Dr0ocgqdVdtKWe9NwihTramxCff5n30cZBoMiHvWxLIPr8pgYbDn3/Tyry8XPzeUU4q7AXPa8/7mu7omzLcJpFQ0DXg3xd27jJ17YaAIp0Y5Y5+HXhAxDvxi86+j/v9ECRgl1FMW/q2wppxT2e/PM+7EWKeVeLfx/3/zrDQ9HXjFPc2/zqYt62ztqufdrmRQp9H4v/ONs1afxI73oA0g6SeQfEtls/0WIe73IvUmTTWv95Ywyypl/0eV1K/mU/7NHzhZMOFupySOj6/p8mrTCPU3zLBIIuFfsixb/oPtHX4h///KaNB+hTIEgr4ln7RNMhoHQAWFhcmpk7sDN3IFTWQhfZyYt+H7KOATALi0szwdM/GJUJAfFiXKQQx6c3bus/azqXXLMxePHpH9QySGZhcWlm62wweqngB7foh71ID0FS70ITg4GGsv9vujLIHAiYV4DjzxvnK4VFByLmvbaqAYBlt3/awbvMd8Hz9pUmBwBGP/PjXPwn61RA2nEgL+A3OQCwyPZPKuLjNBCKhoBJt/+qoEHjpJmutXzKtvzLTq/t6dSV/uMf7Pj3+bM+7HkDh6alxdCH/T+v+A+55V90u4XXcohf4yHp8TKhcVp7BvqobPhr63Nf6ZUAm1Z3+i1yMaCuq6v1H19PRVsEeV/zG7cHoY6vOdr/i10MqMuqbP1Xsf3zvuaXVeib6P2p4zNfl6Zb/338/E/1bwE0sfGn/bcAmvx+bBC0d13wNg4EQ9r/p/W3AOoOSH3f/j7z/d7+E6+8e+68f7Tn3tsbXQHzt90dBEHQ2MZvYxmnbR0NZV+w/9v/h77PW/7+LP9MVSuhyRXQxoZvehmncR0NZV+w/9v/h77PW37LDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA37/+UBYdaRv17lAAAAAElFTkSuQmCC",
+  "music": null,
+  "asset_filenames": {
+    "image": "blue.png",
+    "font": null,
+    "music": null,
+    "sounds": null
+  },
+  "sounds": {}
+}

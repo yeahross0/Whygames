@@ -1,0 +1,20 @@
+pub enum Action {
+    Play,
+    Stop,
+    Quit,
+    MoveToGame { name: String },
+    FadeToGame { name: String },
+    FadeOut,
+    BackInQueue,
+    NextInQueue,
+    AddToQueue { name: String },
+    ResetQueue,
+    // Editor stuff tagged on too
+    New,
+    Load,
+    Save,
+    SetImageFile,
+    SetMusicFile,
+    PreviewMusic,
+    StopMusic,
+}

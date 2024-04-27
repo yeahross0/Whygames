@@ -1,0 +1,806 @@
+{
+  "format_version": 0,
+  "members": [
+    {
+      "name": "Background",
+      "position": {
+        "x": 192,
+        "y": 108
+      },
+      "sprite": {
+        "index": 0,
+        "size": "OuterBg"
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "Back",
+      "position": {
+        "x": 42,
+        "y": 200
+      },
+      "sprite": {
+        "index": 58,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "BackInQueue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OK",
+      "position": {
+        "x": 344,
+        "y": 200
+      },
+      "sprite": {
+        "index": 63,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "NextInQueue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Game File 1",
+      "position": {
+        "x": 90,
+        "y": 54
+      },
+      "sprite": {
+        "index": 3,
+        "size": {
+          "Square": 128
+        }
+      },
+      "text": {
+        "contents": "{Game Name 1}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 38,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "1"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableValid": {
+                "name": "Game File",
+                "value": "1"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 3,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Game File",
+                "value": "1"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 7,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Game File 2",
+      "position": {
+        "x": 184,
+        "y": 53
+      },
+      "sprite": {
+        "index": 3,
+        "size": {
+          "Square": 128
+        }
+      },
+      "text": {
+        "contents": "{Game Name 2}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 38,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "2"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableValid": {
+                "name": "Game File",
+                "value": "2"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 3,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Game File",
+                "value": "2"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 7,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Game File 3",
+      "position": {
+        "x": 298,
+        "y": 52
+      },
+      "sprite": {
+        "index": 3,
+        "size": {
+          "Square": 128
+        }
+      },
+      "text": {
+        "contents": "{Game Name 3}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 38,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "3"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableValid": {
+                "name": "Game File",
+                "value": "3"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 3,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Game File",
+                "value": "3"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 7,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Game File 4",
+      "position": {
+        "x": 90,
+        "y": 137
+      },
+      "sprite": {
+        "index": 3,
+        "size": {
+          "Square": 128
+        }
+      },
+      "text": {
+        "contents": "{Game Name 4}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 38,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "4"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableValid": {
+                "name": "Game File",
+                "value": "4"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 3,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Game File",
+                "value": "4"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 7,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Game File 5",
+      "position": {
+        "x": 184,
+        "y": 137
+      },
+      "sprite": {
+        "index": 3,
+        "size": {
+          "Square": 128
+        }
+      },
+      "text": {
+        "contents": "{Game Name 5}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 38,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "5"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableValid": {
+                "name": "Game File",
+                "value": "5"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 3,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Game File",
+                "value": "5"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 7,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Game File 6",
+      "position": {
+        "x": 297,
+        "y": 137
+      },
+      "sprite": {
+        "index": 3,
+        "size": {
+          "Square": 128
+        }
+      },
+      "text": {
+        "contents": "{Game Name 6}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 38,
+                "size": {
+                  "Square": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": []
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SelectPagedVariable": {
+                "name": "Game File",
+                "value": "6"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableValid": {
+                "name": "Game File",
+                "value": "6"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 3,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsPagedVariableSelected": {
+                "name": "Game File",
+                "value": "6"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 7,
+                "size": {
+                  "Square": 128
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Previous Page",
+      "position": {
+        "x": 160,
+        "y": 200
+      },
+      "sprite": {
+        "index": 119,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "PreviousPage"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Next Page",
+      "position": {
+        "x": 226,
+        "y": 200
+      },
+      "sprite": {
+        "index": 120,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "NextPage"
+          ]
+        }
+      ]
+    }
+  ],
+  "published": true,
+  "length": "Infinite",
+  "size": "Big",
+  "font": "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",
+  "image": "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",
+  "music": null,
+  "asset_filenames": {
+    "image": "choose-image-file.png",
+    "font": null,
+    "music": null,
+    "sounds": null
+  },
+  "sounds": {}
+}

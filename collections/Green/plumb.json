@@ -1,0 +1,647 @@
+{
+  "format_version": 0,
+  "members": [
+    {
+      "name": "Background",
+      "position": {
+        "y": 72,
+        "x": 128
+      },
+      "sprite": {
+        "index": 0,
+        "size": "InnerBg"
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 112,
+        "x": 32
+      },
+      "sprite": {
+        "index": 24,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "VeryFast",
+                "sprites": [
+                  {
+                    "index": 24,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 26,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 32,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 34,
+                    "size": {
+                      "Square": 64
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 69,
+        "x": 47
+      },
+      "sprite": {
+        "index": 4,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "Go": {
+                  "direction": [
+                    "West"
+                  ],
+                  "speed": "VerySlow"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "85",
+      "position": {
+        "y": 112,
+        "x": 96
+      },
+      "sprite": {
+        "index": 24,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "VeryFast",
+                "sprites": [
+                  {
+                    "index": 24,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 26,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 32,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 34,
+                    "size": {
+                      "Square": 64
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8598",
+      "position": {
+        "y": 112,
+        "x": 160
+      },
+      "sprite": {
+        "index": 24,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "VeryFast",
+                "sprites": [
+                  {
+                    "index": 24,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 26,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 32,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 34,
+                    "size": {
+                      "Square": 64
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "859855",
+      "position": {
+        "y": 112,
+        "x": 224
+      },
+      "sprite": {
+        "index": 24,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "VeryFast",
+                "sprites": [
+                  {
+                    "index": 24,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 26,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 32,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 34,
+                    "size": {
+                      "Square": 64
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 64,
+        "x": 116
+      },
+      "sprite": {
+        "index": 40,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Fast",
+                "sprites": [
+                  {
+                    "index": 40,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 41,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 42,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 43,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 44,
+                    "size": {
+                      "Square": 64
+                    }
+                  },
+                  {
+                    "index": 45,
+                    "size": {
+                      "Square": 64
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "Anywhere"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "Roam": {
+                  "roam_type": "Bounce",
+                  "area": {
+                    "min": {
+                      "y": 1,
+                      "x": 37
+                    },
+                    "max": {
+                      "y": 80,
+                      "x": 38
+                    }
+                  },
+                  "speed": "Normal",
+                  "movement_handling": "Anywhere"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 68,
+        "x": 169
+      },
+      "sprite": {
+        "index": 224,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "Go": {
+                  "direction": [
+                    "West"
+                  ],
+                  "speed": "Slow"
+                }
+              }
+            },
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 224,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 225,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 226,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 227,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "y": 27,
+        "x": 211
+      },
+      "sprite": {
+        "index": 12,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "Go": {
+                  "direction": [
+                    "West"
+                  ],
+                  "speed": "VerySlow"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "98",
+      "position": {
+        "y": 68,
+        "x": 290
+      },
+      "sprite": {
+        "index": 224,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "Go": {
+                  "direction": [
+                    "West"
+                  ],
+                  "speed": "Slow"
+                }
+              }
+            },
+            {
+              "Animate": {
+                "style": "Loop",
+                "speed": "Normal",
+                "sprites": [
+                  {
+                    "index": 224,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 225,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 226,
+                    "size": {
+                      "Square": 32
+                    }
+                  },
+                  {
+                    "index": 227,
+                    "size": {
+                      "Square": 32
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "published": true,
+  "length": "Short",
+  "size": "Small",
+  "intro_text": {
+    "Same": ""
+  },
+  "font": "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",
+  "image": "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",
+  "music": null,
+  "asset_filenames": {
+    "image": "plumb.png",
+    "font": null,
+    "music": null,
+    "sounds": null
+  },
+  "sounds": {}
+}

@@ -1,0 +1,8 @@
+/target
+/ziptest
+*.wasm
+*.zip
+*.7z
+/artifacts
+/temp
+/dist

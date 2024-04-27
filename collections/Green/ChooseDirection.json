@@ -1,0 +1,1003 @@
+{
+  "format_version": 0,
+  "members": [
+    {
+      "name": "Background",
+      "position": {
+        "x": 192,
+        "y": 108
+      },
+      "sprite": {
+        "index": 0,
+        "size": "OuterBg"
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "Back",
+      "position": {
+        "x": 42,
+        "y": 200
+      },
+      "sprite": {
+        "index": 58,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "BackInQueue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OK",
+      "position": {
+        "x": 350,
+        "y": 200
+      },
+      "sprite": {
+        "index": 63,
+        "size": {
+          "Square": 64
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "NextInQueue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 192,
+        "y": 50
+      },
+      "sprite": {
+        "index": 208,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 208,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "North",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 216,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 208,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "North",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 216,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "North",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 243,
+        "y": 51
+      },
+      "sprite": {
+        "index": 212,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 212,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "North East",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 220,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 212,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "North East",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 220,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "North East",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 244,
+        "y": 97
+      },
+      "sprite": {
+        "index": 219,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 211,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "East",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 219,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 211,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "East",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 219,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "East",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 244,
+        "y": 140
+      },
+      "sprite": {
+        "index": 213,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 213,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "South East",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 221,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 213,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "South East",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 221,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "South East",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 192,
+        "y": 141
+      },
+      "sprite": {
+        "index": 209,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 209,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "South",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 217,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 209,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "South",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 217,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "South",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 141,
+        "y": 141
+      },
+      "sprite": {
+        "index": 214,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 214,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "South West",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 222,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 214,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "South West",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 222,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "South West",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 143,
+        "y": 97
+      },
+      "sprite": {
+        "index": 210,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 210,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "West",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 218,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 210,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "West",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 218,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "West",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "position": {
+        "x": 143,
+        "y": 51
+      },
+      "sprite": {
+        "index": 215,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 215,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "North West",
+                "value": "True"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 223,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 215,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "North West",
+                "value": "True"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            },
+            {
+              "IsSpriteSetTo": {
+                "index": 223,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "North West",
+                "value": "False"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "published": true,
+  "length": "Infinite",
+  "size": "Big",
+  "font": "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",
+  "image": "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",
+  "music": null,
+  "asset_filenames": {
+    "image": "choose-thing.png",
+    "font": null,
+    "music": null,
+    "sounds": null
+  },
+  "sounds": {}
+}

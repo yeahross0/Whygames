@@ -1,0 +1,13 @@
+{
+  "IGNORED_box_filename": "eyes.png",
+  "IGNORED_base_filename": "base.png",
+  "IGNORED_music_filename": "music-texture.png",
+  "initial_game": {
+    "collection": "Green",
+    "game": "Music"
+  },
+  "initial_subgame": {
+    "collection": "Green",
+    "game": "Maker"
+  }
+}

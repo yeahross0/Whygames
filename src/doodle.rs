@@ -7,6 +7,7 @@ use macroquad::{
     math::Vec2,
     texture::FilterMode,
 };
+use std::collections::HashMap;
 use std::collections::{hash_map::DefaultHasher, BTreeSet};
 use std::hash::{Hash, Hasher};
 use strum_macros::EnumString;
@@ -69,6 +70,7 @@ pub fn draw_using_brush(
     paint_image: &Image,
     mouse_position: pixels::Position,
     movement: Vec2,
+    updates: &mut HashMap<pixels::Position, (Colour, Colour)>,
 ) {
     for row in 0..brush.len() {
         for column in 0..brush[row].len() {
@@ -79,7 +81,15 @@ pub fn draw_using_brush(
                 let y = (mouse_position.y as f32 - movement.y + y_offset) as u32;
                 let colour = paint_image.get_pixel(x % PAINT_SIZE as u32, y % PAINT_SIZE as u32);
                 if x < image.width as u32 && y < image.height as u32 {
+                    let pos = pixels::Position::new(x as i32, y as i32);
+                    let before = image.get_pixel(x, y);
                     image.set_pixel(x, y, colour);
+                    // TODO: More efficient way, hashmap or ?
+                    if let Some(previous) = updates.get_mut(&pos) {
+                        previous.1 = colour;
+                    } else {
+                        updates.insert(pos, (before, colour));
+                    }
                 }
             }
         }
@@ -167,6 +177,7 @@ pub struct Tracker {
     pub fill: Option<Fill>,
     pub temp_clear: bool,
     pub temp_save: bool,
+    pub pixel_updates: HashMap<pixels::Position, (Colour, Colour)>,
 }
 
 #[derive(Debug)]

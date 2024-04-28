@@ -4,7 +4,10 @@ use super::play::{ChoreId, DemandId, QuestionId};
 use super::serial::{Demand, Question};
 use super::MakerNote;
 use super::Vec2;
+use crate::colours::Colour;
 use crate::music::PointInMusic;
+use crate::pixels;
+use std::collections::HashMap;
 use std::fmt;
 use std::ops::Not;
 
@@ -82,6 +85,10 @@ pub enum Event {
         editing_position: PointInMusic,
         old_notes: Vec<MakerNote>,
     },
+    // Draw stuff
+    SetPixels {
+        updates: HashMap<pixels::Position, (Colour, Colour)>,
+    },
 }
 
 impl fmt::Display for Event {
@@ -130,6 +137,9 @@ impl fmt::Display for Event {
             }
             Event::RemoveNote { .. } => {
                 write!(f, "Remove note")
+            }
+            Event::SetPixels { updates } => {
+                write!(f, "Set {} pixels", updates.len())
             }
             // TODO: Keyboard & signatures
             event => {

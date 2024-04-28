@@ -1,6 +1,6 @@
 //#[allow(dead_code)]
 //#[allow(unused_variables)]
-use macroquad::color::Color as Colour;
+pub use macroquad::color::Color as Colour;
 
 pub const BLANK: Colour = Colour::new(0.00, 0.00, 0.00, 0.00);
 

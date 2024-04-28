@@ -13,7 +13,7 @@ use crate::menu;
 use crate::music::{MusicMaker, POTENTIAL_NOTE_OFFSET};
 use crate::nav::{Link, Navigation};
 use crate::pixels;
-use crate::play;
+use crate::play::{self, Assets};
 use crate::play::{
     is_position_in_sized_area, rename_in_todo_list, update_game, DifficultyLevel, SoundQueue,
 };
@@ -41,7 +41,7 @@ pub const INNER_WIDTH: u32 = 256;
 pub const INNER_HEIGHT: u32 = 144;
 pub const INNER_SIZE: pixels::Size = pixels::Size::new(INNER_WIDTH, INNER_HEIGHT);
 pub const INNER_CENTRE: pixels::Position = INNER_SIZE.centre();
-pub const INITIAL_SCALE: f32 = 2.0;
+pub const INITIAL_SCALE: f32 = 4.0;
 
 pub const EDITABLE_SCREEN_NAME: &str = "{Screen}";
 pub const SCREEN_NAME: &str = "{Screen}";
@@ -483,98 +483,6 @@ pub async fn update_metagame(
         }
     }
 
-    #[derive(Debug, PartialEq)]
-    enum HistoryAction {
-        Undo,
-        Redo,
-        None,
-    }
-
-    let history_action = {
-        //log::debug!("CHARS PRESSED: {:?}", chars_pressed);
-        let is_ctrl_z_pressed = input.chars_pressed.contains(&CTRL_Z_CHAR);
-        #[cfg(target_arch = "wasm32")]
-        let is_ctrl_z_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
-            && keyboard[&KeyCode::Z].is_repeated;
-        let is_ctrl_y_pressed = input.chars_pressed.contains(&CTRL_Y_CHAR);
-        #[cfg(target_arch = "wasm32")]
-        let is_ctrl_y_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
-            && keyboard[&KeyCode::Y].is_repeated;
-        let is_shift_pressed = macroquad::input::is_key_down(KeyCode::LeftShift)
-            || macroquad::input::is_key_down(KeyCode::RightShift);
-
-        if is_ctrl_y_pressed || (is_ctrl_z_pressed && is_shift_pressed) {
-            HistoryAction::Redo
-        } else if is_ctrl_z_pressed {
-            HistoryAction::Undo
-        } else {
-            HistoryAction::None
-        }
-    };
-
-    if history_action == HistoryAction::Undo {
-        if let Some(step) = editor.undo_stack.pop() {
-            let event = match step.direction {
-                StepDirection::Forward => &step.back,
-                StepDirection::Back => &step.forward,
-            };
-
-            apply_event(
-                event,
-                &mut subgame.members,
-                &mut editor.selected_index,
-                &mut environment.context,
-                music_maker,
-            );
-
-            let name = match step.direction {
-                StepDirection::Forward => step.forward.to_string(),
-                StepDirection::Back => format!("Undo {}", step.forward),
-            };
-            log::debug!("Event: Undo '{}'", name);
-
-            editor.redo_stack.push(step);
-        }
-    } else if history_action == HistoryAction::Redo {
-        music_maker.refresh_song();
-        if let Some(step) = editor.redo_stack.pop() {
-            let event = match step.direction {
-                StepDirection::Forward => &step.forward,
-                StepDirection::Back => &step.back,
-            };
-
-            apply_event(
-                event,
-                &mut subgame.members,
-                &mut editor.selected_index,
-                &mut environment.context,
-                music_maker,
-            );
-
-            let name = match step.direction {
-                StepDirection::Forward => step.forward.to_string(),
-                StepDirection::Back => format!("Undo {}", step.forward),
-            };
-            log::debug!("Event: Redo '{}'", name);
-
-            editor.undo_stack.push(step);
-        }
-    }
-
-    if history_action != HistoryAction::None || !events_to_apply.is_empty() {
-        music_maker.refresh_song();
-    }
-
-    handle_events(
-        events_to_apply,
-        subgame,
-        &mut editor.selected_index,
-        &mut environment.context,
-        &mut editor.undo_stack,
-        &mut editor.redo_stack,
-        music_maker,
-    );
-
     // Extracted from render code
     for member in &game.members {
         if member.text.contents == "{Sprite Sheet}" {
@@ -613,6 +521,7 @@ pub async fn update_metagame(
                     paint_image,
                     input.inner.position,
                     movement,
+                    &mut draw_tool.tracker.pixel_updates,
                 );
 
                 while (movement.x != 0.0 || movement.y != 0.0) && draw_mode != DrawMode::Spray {
@@ -622,6 +531,7 @@ pub async fn update_metagame(
                         paint_image,
                         input.inner.position,
                         movement,
+                        &mut draw_tool.tracker.pixel_updates,
                     );
                     if movement.x.abs() < 1.0 {
                         movement.x = 0.0;
@@ -669,15 +579,25 @@ pub async fn update_metagame(
                 _ => {}
             }
 
+            match draw_mode {
+                DrawMode::Bucket => {}
+                _ => {
+                    draw_tool.tracker.fill = None;
+                }
+            }
+
             if draw_tool.tracker.temp_clear {
                 for x in 0..INNER_WIDTH {
                     for y in 0..INNER_HEIGHT {
-                        subgame.assets.image.set_pixel(x, y, colours::WHITE);
+                        let from = subgame.assets.image.get_pixel(x, y);
+                        let to = colours::WHITE;
+                        subgame.assets.image.set_pixel(x, y, to);
+                        let pos = pixels::Position::new(x as i32, y as i32);
+                        draw_tool.tracker.pixel_updates.insert(pos, (from, to));
                     }
                 }
                 subgame.assets.texture.update(&subgame.assets.image);
             }
-            draw_tool.tracker.temp_clear = false;
 
             draw_tool.fill_in(&mut subgame.assets.image);
 
@@ -688,6 +608,18 @@ pub async fn update_metagame(
                     draw_tool.tracker.fill = None;
                 }
             }
+
+            if (draw_tool.tracker.temp_clear || input.outer.left_button.is_released())
+                && !draw_tool.tracker.pixel_updates.is_empty()
+            {
+                // TODO: Remove clone
+                events_to_apply.push(Event::SetPixels {
+                    updates: draw_tool.tracker.pixel_updates.clone(),
+                });
+                draw_tool.tracker.pixel_updates = HashMap::new();
+            }
+
+            draw_tool.tracker.temp_clear = false;
         }
 
         if member.text.contents == CHOOSE_AREA_NAME {
@@ -705,6 +637,102 @@ pub async fn update_metagame(
             environment.update_var("Y", input.inner.position.y.to_string());
         }
     }
+
+    #[derive(Debug, PartialEq)]
+    enum HistoryAction {
+        Undo,
+        Redo,
+        None,
+    }
+
+    let history_action = {
+        //log::debug!("CHARS PRESSED: {:?}", chars_pressed);
+        let is_ctrl_z_pressed = input.chars_pressed.contains(&CTRL_Z_CHAR);
+        #[cfg(target_arch = "wasm32")]
+        let is_ctrl_z_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
+            && keyboard[&KeyCode::Z].is_repeated;
+        let is_ctrl_y_pressed = input.chars_pressed.contains(&CTRL_Y_CHAR);
+        #[cfg(target_arch = "wasm32")]
+        let is_ctrl_y_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
+            && keyboard[&KeyCode::Y].is_repeated;
+        let is_shift_pressed = macroquad::input::is_key_down(KeyCode::LeftShift)
+            || macroquad::input::is_key_down(KeyCode::RightShift);
+
+        if is_ctrl_y_pressed || (is_ctrl_z_pressed && is_shift_pressed) {
+            log::debug!("REDO");
+            HistoryAction::Redo
+        } else if is_ctrl_z_pressed {
+            log::debug!("UNDO: {}", editor.undo_stack.len());
+            HistoryAction::Undo
+        } else {
+            HistoryAction::None
+        }
+    };
+
+    if history_action == HistoryAction::Undo {
+        if let Some(step) = editor.undo_stack.pop() {
+            let event = match step.direction {
+                StepDirection::Forward => &step.back,
+                StepDirection::Back => &step.forward,
+            };
+
+            apply_event(
+                event,
+                &mut subgame.members,
+                &mut editor.selected_index,
+                &mut environment.context,
+                music_maker,
+                &mut subgame.assets,
+            );
+
+            let name = match step.direction {
+                StepDirection::Forward => step.forward.to_string(),
+                StepDirection::Back => format!("Undo {}", step.forward),
+            };
+            log::debug!("Event: Undo '{}'", name);
+
+            editor.redo_stack.push(step);
+        }
+    } else if history_action == HistoryAction::Redo {
+        music_maker.refresh_song();
+        if let Some(step) = editor.redo_stack.pop() {
+            let event = match step.direction {
+                StepDirection::Forward => &step.forward,
+                StepDirection::Back => &step.back,
+            };
+
+            apply_event(
+                event,
+                &mut subgame.members,
+                &mut editor.selected_index,
+                &mut environment.context,
+                music_maker,
+                &mut subgame.assets,
+            );
+
+            let name = match step.direction {
+                StepDirection::Forward => step.forward.to_string(),
+                StepDirection::Back => format!("Undo {}", step.forward),
+            };
+            log::debug!("Event: Redo '{}'", name);
+
+            editor.undo_stack.push(step);
+        }
+    }
+
+    if history_action != HistoryAction::None || !events_to_apply.is_empty() {
+        music_maker.refresh_song();
+    }
+
+    handle_events(
+        events_to_apply,
+        subgame,
+        &mut editor.selected_index,
+        &mut environment.context,
+        &mut editor.undo_stack,
+        &mut editor.redo_stack,
+        music_maker,
+    );
 
     apply_menu_actions(
         menu_actions,
@@ -740,6 +768,7 @@ pub fn apply_event(
     selected_index: &mut usize,
     context_variables: &mut HashMap<String, String>,
     music_maker: &mut MusicMaker,
+    assets: &mut Assets,
 ) -> bool {
     match event {
         Event::AddMember { index, member } => {
@@ -924,6 +953,15 @@ pub fn apply_event(
             music_maker.switch_to_standard_signature();
             true
         }
+        Event::SetPixels { updates } => {
+            for (position, (_from, to)) in updates {
+                assets
+                    .image
+                    .set_pixel(position.x as u32, position.y as u32, *to);
+            }
+            assets.texture.update(&assets.image);
+            true
+        }
     }
 }
 
@@ -1040,6 +1078,14 @@ pub fn handle_events(
                 editing_position: *editing_position,
                 old_notes: old_notes.clone(),
             },
+            Event::SetPixels { updates } => {
+                let dupe = updates
+                    .clone()
+                    .into_iter()
+                    .map(|(pos, (from, to))| (pos, (to, from)))
+                    .collect();
+                Event::SetPixels { updates: dupe }
+            }
         };
 
         let mut reversed_redo_stack = redo_stack.clone();
@@ -1050,7 +1096,24 @@ pub fn handle_events(
         for step in &mut *redo_stack {
             step.direction = !step.direction;
         }
+
         undo_stack.append(redo_stack);
+
+        /*let mut reversed_redo_stack = redo_stack.clone();
+        reversed_redo_stack.reverse();
+
+        undo_stack.append(&mut reversed_redo_stack);
+
+        for step in &mut redo_stack {
+            step.direction = !step.direction;
+        }
+        undo_stack.append(&mut redo_stack);*/
+
+        /* TODO: if wanted to limit undo_stack size:
+        let over_200 = undo_stack.len() as i64 - 20;
+        if over_200 > 0 {
+            undo_stack.drain(0..over_200 as usize);
+        }*/
 
         if apply_event(
             &event,
@@ -1058,6 +1121,7 @@ pub fn handle_events(
             selected_index,
             context_variables,
             music_maker,
+            &mut subgame.assets,
         ) {
             undo_stack.push(Step {
                 back: back_event,

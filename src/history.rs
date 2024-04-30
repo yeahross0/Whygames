@@ -10,7 +10,10 @@ use crate::pixels;
 use std::collections::HashMap;
 use std::fmt;
 use std::ops::Not;
+use std::rc::Rc;
 
+// TODO: Place all events_to_apply Events behind an Rc?
+// i.e. events_to_apply: Vec<Rc<Event>>
 #[derive(Clone, Debug)]
 pub enum Event {
     AddMember {
@@ -87,7 +90,8 @@ pub enum Event {
     },
     // Draw stuff
     SetPixels {
-        updates: HashMap<pixels::Position, (Colour, Colour)>,
+        updates: Rc<HashMap<pixels::Position, (Colour, Colour)>>,
+        left_to_right: bool,
     },
 }
 
@@ -138,8 +142,8 @@ impl fmt::Display for Event {
             Event::RemoveNote { .. } => {
                 write!(f, "Remove note")
             }
-            Event::SetPixels { updates } => {
-                write!(f, "Set {} pixels", updates.len())
+            Event::SetPixels { updates, .. } => {
+                write!(f, "Set {} pixels", updates.as_ref().len())
             }
             // TODO: Keyboard & signatures
             event => {

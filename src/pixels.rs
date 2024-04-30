@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, AddAssign, Mul, Sub};
 
+// Wouldn't have named this min and max, have to keep min the smaller one after updates
 #[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct Rect {
     pub min: Position,
@@ -41,6 +42,14 @@ impl Rect {
         Rect::new(min, max)
     }
 
+    pub fn min(self) -> Position {
+        Position::new(self.min.x.min(self.max.x), self.min.y.min(self.max.y))
+    }
+
+    pub fn max(self) -> Position {
+        Position::new(self.min.x.max(self.max.x), self.min.y.max(self.max.y))
+    }
+
     /*pub const fn from_aabb(ax: i32, ay: i32, bx: i32, by: i32) -> Rect {
         let w = bx - ax;
         let h = by - ay;
@@ -57,8 +66,8 @@ impl Rect {
     // TODO: ?
     pub fn centre(self) -> [f32; 2] {
         [
-            self.min.x as f32 + self.half_width(),
-            self.min.y as f32 + self.half_height(),
+            self.min.x.min(self.max.x) as f32 + self.half_width(),
+            self.min.y.min(self.max.y) as f32 + self.half_height(),
         ]
     }
 
@@ -67,11 +76,11 @@ impl Rect {
     }
 
     pub fn width(self) -> u32 {
-        (self.max.x - self.min.x) as u32
+        (self.max.x - self.min.x).abs() as u32
     }
 
     pub fn height(self) -> u32 {
-        (self.max.y - self.min.y) as u32
+        (self.max.y - self.min.y).abs() as u32
     }
 
     pub fn half_width(self) -> f32 {

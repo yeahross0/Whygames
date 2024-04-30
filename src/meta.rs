@@ -13,9 +13,9 @@ use crate::menu;
 use crate::music::{MusicMaker, POTENTIAL_NOTE_OFFSET};
 use crate::nav::{Link, Navigation};
 use crate::pixels;
-use crate::play::{self, Assets};
 use crate::play::{
-    is_position_in_sized_area, rename_in_todo_list, update_game, DifficultyLevel, SoundQueue,
+    self, is_position_in_sized_area, rename_in_todo_list, update_game, Assets, DifficultyLevel,
+    SoundQueue,
 };
 use crate::seeded_rng::SeededRng;
 use crate::serial::{self, ImageString, SoundString};
@@ -490,136 +490,13 @@ pub async fn update_metagame(
         }
 
         if member.text.contents == "{Edit Sprite}" {
-            let draw_mode: DrawMode =
-                get_typed_variable(&environment.context, "Draw Mode").unwrap();
-
-            let brush = draw_mode.brush(&mut environment.rng);
-
-            // TODO: Outer mouse?
-            if input.inner.left_button.is_down()
-                && is_position_in_sized_area(
-                    input.outer.position,
-                    member.position,
-                    pixels::Size::new(INNER_WIDTH, INNER_HEIGHT),
-                )
-            {
-                let mut movement: Vec2 = input.inner.drag.into();
-
-                if input.inner.left_button.is_pressed() {
-                    movement = Vec2::ZERO;
-                }
-
-                let paint_image = if draw_mode == DrawMode::Erase {
-                    &draw_tool.erase_paint.image
-                } else {
-                    &draw_tool.paint_choices[draw_tool.tracker.paint_index].image
-                };
-
-                draw_using_brush(
-                    &brush,
-                    &mut subgame.assets.image,
-                    paint_image,
-                    input.inner.position,
-                    movement,
-                    &mut draw_tool.tracker.pixel_updates,
-                );
-
-                while (movement.x != 0.0 || movement.y != 0.0) && draw_mode != DrawMode::Spray {
-                    draw_using_brush(
-                        &brush,
-                        &mut subgame.assets.image,
-                        paint_image,
-                        input.inner.position,
-                        movement,
-                        &mut draw_tool.tracker.pixel_updates,
-                    );
-                    if movement.x.abs() < 1.0 {
-                        movement.x = 0.0;
-                    }
-                    if movement.y.abs() < 1.0 {
-                        movement.y = 0.0;
-                    }
-
-                    movement -= movement.normalize_or_zero();
-                }
-
-                subgame.assets.texture.update(&subgame.assets.image);
-            }
-
-            match draw_mode {
-                DrawMode::Bucket => {
-                    if input.outer.left_button.is_pressed()
-                        && is_position_in_sized_area(
-                            input.outer.position,
-                            member.position,
-                            pixels::Size::new(INNER_WIDTH, INNER_HEIGHT),
-                        )
-                        && draw_tool.tracker.fill.is_none()
-                    {
-                        let fill_order =
-                            get_typed_variable(&environment.context, "Bucket").unwrap();
-                        draw_tool.tracker.fill = Some(Fill::new(
-                            &subgame.assets.image,
-                            input.inner.position,
-                            draw_tool.tracker.paint_index,
-                            fill_order,
-                        ));
-                    }
-                }
-                DrawMode::Erase => {
-                    // TODO: ?
-                    for x in 0..OUTER_WIDTH {
-                        for y in 0..OUTER_HEIGHT {
-                            subgame.assets.image.set_pixel(x, y, colours::WHITE);
-                        }
-                    }
-
-                    // subgame.assets.texture.update(&subgame.assets.image);
-                }
-                _ => {}
-            }
-
-            match draw_mode {
-                DrawMode::Bucket => {}
-                _ => {
-                    draw_tool.tracker.fill = None;
-                }
-            }
-
-            if draw_tool.tracker.temp_clear {
-                for x in 0..INNER_WIDTH {
-                    for y in 0..INNER_HEIGHT {
-                        let from = subgame.assets.image.get_pixel(x, y);
-                        let to = colours::WHITE;
-                        subgame.assets.image.set_pixel(x, y, to);
-                        let pos = pixels::Position::new(x as i32, y as i32);
-                        draw_tool.tracker.pixel_updates.insert(pos, (from, to));
-                    }
-                }
-                subgame.assets.texture.update(&subgame.assets.image);
-            }
-
-            draw_tool.fill_in(&mut subgame.assets.image);
-
-            if let Some(fill) = &draw_tool.tracker.fill {
-                subgame.assets.texture.update(&subgame.assets.image);
-
-                if fill.pixels.is_empty() {
-                    draw_tool.tracker.fill = None;
-                }
-            }
-
-            if (draw_tool.tracker.temp_clear || input.outer.left_button.is_released())
-                && !draw_tool.tracker.pixel_updates.is_empty()
-            {
-                // TODO: Remove clone
-                events_to_apply.push(Event::SetPixels {
-                    updates: draw_tool.tracker.pixel_updates.clone(),
-                });
-                draw_tool.tracker.pixel_updates = HashMap::new();
-            }
-
-            draw_tool.tracker.temp_clear = false;
+            draw_tool.draw_stuff(
+                environment,
+                input,
+                member.position,
+                &mut subgame.assets,
+                &mut events_to_apply,
+            );
         }
 
         if member.text.contents == CHOOSE_AREA_NAME {
@@ -953,8 +830,12 @@ pub fn apply_event(
             music_maker.switch_to_standard_signature();
             true
         }
-        Event::SetPixels { updates } => {
-            for (position, (_from, to)) in updates {
+        Event::SetPixels {
+            updates,
+            left_to_right,
+        } => {
+            for (position, (from, to)) in updates.as_ref() {
+                let to = if *left_to_right { to } else { from };
                 assets
                     .image
                     .set_pixel(position.x as u32, position.y as u32, *to);
@@ -1078,14 +959,13 @@ pub fn handle_events(
                 editing_position: *editing_position,
                 old_notes: old_notes.clone(),
             },
-            Event::SetPixels { updates } => {
-                let dupe = updates
-                    .clone()
-                    .into_iter()
-                    .map(|(pos, (from, to))| (pos, (to, from)))
-                    .collect();
-                Event::SetPixels { updates: dupe }
-            }
+            Event::SetPixels {
+                updates,
+                left_to_right,
+            } => Event::SetPixels {
+                updates: updates.clone(),
+                left_to_right: !left_to_right,
+            },
         };
 
         let mut reversed_redo_stack = redo_stack.clone();

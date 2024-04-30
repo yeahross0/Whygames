@@ -3,7 +3,7 @@ use crate::anim::animation_time_from_speed;
 use crate::art::{Sprite, SpriteSize};
 use crate::aud::AudioPlayer;
 use crate::colours;
-use crate::doodle::DrawTool;
+use crate::doodle::{DrawTool, PreviewShape, Shape};
 use crate::drawer::{
     drawn_from_top_left, drawn_rect, drawn_sized_rect, drawn_source_rect, drawn_square,
     page_width_for_sprite, sheet_source_rect, sprite_size_in_pixels, Camera, DrawParams, Drawer,
@@ -414,6 +414,31 @@ impl WhyDrawer {
                         &subgame.assets.texture,
                         params,
                     );
+                }
+
+                match draw_tool.tracker.preview_shape {
+                    Some(PreviewShape {
+                        shape: Shape::Line,
+                        area,
+                    }) => self.drawer.draw_line(
+                        inner_camera,
+                        area.min,
+                        area.max,
+                        quad_colours::LIGHTGRAY,
+                    ),
+                    Some(PreviewShape {
+                        shape: Shape::Rectangle,
+                        area,
+                    }) => self
+                        .drawer
+                        .draw_rectangle_lines(inner_camera, area, colours::GREY),
+                    Some(PreviewShape {
+                        shape: Shape::Circle,
+                        area,
+                    }) => self
+                        .drawer
+                        .draw_ellipse_lines(inner_camera, area, colours::GREY),
+                    _ => {}
                 }
             }
 

@@ -6,7 +6,7 @@ use macroquad::camera::{set_camera as set_quad_camera, Camera2D as QuadCamera};
 use macroquad::color::{colors as quad_colours, Color as Colour};
 use macroquad::math::Rect;
 use macroquad::math::Vec2;
-use macroquad::shapes::draw_rectangle;
+use macroquad::shapes::{draw_circle_lines, draw_line, draw_rectangle};
 use macroquad::texture::Texture2D;
 use macroquad::window::{self as quad_window};
 
@@ -114,6 +114,131 @@ impl Drawer {
         };
 
         draw_rectangle(0.0, 0.0, width as f32, height as f32, colour);
+    }
+
+    pub fn draw_debug_line(
+        &mut self,
+        camera: Camera,
+        min: pixels::Position,
+        max: pixels::Position,
+        colour: Colour,
+    ) {
+        self.set_camera(camera);
+        let thickness = 1.0;
+        draw_line(
+            min.x as _, min.y as _, max.x as _, max.y as _, thickness, colour,
+        )
+    }
+
+    pub fn draw_line(
+        &mut self,
+        camera: Camera,
+        mut start: pixels::Position,
+        end: pixels::Position,
+        colour: Colour,
+    ) {
+        self.set_camera(camera);
+        //let thickness = 1.0;
+        let dx = (end.x - start.x).abs();
+        let sx = if start.x < end.x { 1 } else { -1 };
+        let dy = (end.y - start.y).abs();
+        let sy = if start.y < end.y { 1 } else { -1 };
+        let mut err: f32 = 0.5 * if dx > dy { dx } else { -dy } as f32;
+
+        loop {
+            draw_rectangle(start.x as _, start.y as _, 1.0, 1.0, colour);
+            if start.x == end.x && start.y == end.y {
+                break;
+            }
+            let e2 = err;
+            if e2 > -dx as f32 {
+                err -= dy as f32;
+                start.x += sx;
+            }
+            if e2 < dy as f32 {
+                err += dx as f32;
+                start.y += sy;
+            }
+        }
+    }
+
+    pub fn draw_ellipse_lines(&mut self, camera: Camera, area: pixels::Rect, colour: Colour) {
+        self.set_camera(camera);
+        let thickness = 1.0;
+        let centre: Vec2 = area.centre().into();
+        let rx = area.half_width();
+        let ry = area.half_height();
+        if rx == 0.0 || ry == 0.0 {
+            return;
+        }
+        let mut p = (ry * ry) - (rx * rx * ry) + (0.25 * rx * rx);
+        let mut x = 0.0;
+        let mut y = ry;
+        let mut dx = 2.0 * (rx * ry) * x;
+        let mut dy = 2.0 * (rx * rx) * y;
+        let set_pixel = |x: f32, y: f32| {
+            let px = centre.x + x;
+            let py = centre.y + y;
+            // TODO: Also check max
+            if px >= 0.0 && py >= 0.0 {
+                draw_rectangle(px as _, py as _, 1.0, 1.0, colour);
+            }
+        };
+        while dy >= dx {
+            set_pixel(x, y);
+            set_pixel(-x, y);
+            set_pixel(x, -y);
+            set_pixel(-x, -y);
+
+            if p < 0.0 {
+                x += 1.0;
+                dx = 2.0 * ry * ry * x;
+                p += dx + ry * ry;
+
+                dy = 2.0 * rx * rx * y;
+            } else {
+                x += 1.0;
+                y -= 1.0;
+                dx = 2.0 * ry * ry * x;
+                dy = 2.0 * rx * rx * y;
+                p += dx - dy + ry * ry;
+            }
+        }
+
+        p = (x + 0.5) * (x + 0.5) * ry * ry + (y - 1.0) * (y - 1.0) * rx * rx - rx * rx * ry * ry;
+
+        while y >= 0.0 {
+            set_pixel(x, y);
+            set_pixel(-x, y);
+            set_pixel(x, -y);
+            set_pixel(-x, -y);
+
+            if p > 0.0 {
+                y -= 1.0;
+
+                dy = 2.0 * (rx * rx) * y;
+                p -= dy + (rx * rx);
+            } else {
+                x += 1.0;
+                y -= 1.0;
+
+                dy -= (2.0 * rx * rx);
+                dx += (2.0 * ry * ry);
+                p += dx - dy + (rx * rx);
+            }
+        }
+    }
+
+    pub fn draw_debug_circle_lines(
+        &mut self,
+        camera: Camera,
+        position: Vec2,
+        radius: f32,
+        colour: Colour,
+    ) {
+        self.set_camera(camera);
+        let thickness = 1.0;
+        draw_circle_lines(position.x as _, position.y as _, radius, thickness, colour)
     }
 
     // TODO: Think about best way of composing many arguments to function

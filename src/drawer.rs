@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use super::art::{Sprite, SpriteSize};
 use super::colours;
 use super::pixels;
@@ -176,12 +178,14 @@ impl Drawer {
         let mut y = ry;
         let mut dx = 2.0 * (rx * ry) * x;
         let mut dy = 2.0 * (rx * rx) * y;
-        let set_pixel = |x: f32, y: f32| {
+        let mut zoo = Vec::new();
+        let mut set_pixel = |x: f32, y: f32| {
             let px = centre.x + x;
             let py = centre.y + y;
             // TODO: Also check max
             if px >= 0.0 && py >= 0.0 {
                 draw_rectangle(px as _, py as _, 1.0, 1.0, colour);
+                zoo.push((px as i32, py as i32));
             }
         };
         while dy >= dx {
@@ -227,6 +231,25 @@ impl Drawer {
                 p += dx - dy + (rx * rx);
             }
         }
+
+        /*let mut mins: HashMap<i32, i32> = HashMap::new();
+        let mut maxes: HashMap<i32, i32> = HashMap::new();
+        for (px, py) in zoo {
+            let min_x = mins.get(&py).copied().map(|x: i32| x.min(px)).unwrap_or(px);
+            mins.insert(py, min_x);
+            let max_x = maxes
+                .get(&py)
+                .copied()
+                .map(|x: i32| x.max(px))
+                .unwrap_or(px);
+            maxes.insert(py, max_x);
+        }
+
+        for hmm in mins.keys() {
+            let start = pixels::Position::new(mins[hmm], *hmm);
+            let end = pixels::Position::new(maxes[hmm], *hmm);
+            self.draw_line(camera, start, end, colour);
+        }*/
     }
 
     pub fn draw_debug_circle_lines(
@@ -261,7 +284,7 @@ impl Drawer {
             Justify::Centre => screen_rect.min,
         };*/
 
-        let position = screen_rect.min;
+        let position = screen_rect.min();
 
         draw_rectangle(
             position.x as f32,
@@ -299,8 +322,8 @@ impl Drawer {
         self.set_camera(camera);
 
         macroquad::shapes::draw_rectangle_lines(
-            screen_rect.min.x as f32,
-            screen_rect.min.y as f32,
+            screen_rect.min().x as f32,
+            screen_rect.min().y as f32,
             screen_rect.width() as f32,
             screen_rect.height() as f32,
             params.thickness as f32,

@@ -388,8 +388,8 @@ impl DrawTool {
                                     .pixel_updates
                                     .insert(pixels::Position::new(x, y), (before, colour));
                             };
-                            let start = area.min;
-                            let end = area.max;
+                            let start = area.min();
+                            let end = area.max();
                             for y in [start.y, end.y] {
                                 for x in start.x..=end.x {
                                     set_pixel(x, y);
@@ -403,15 +403,17 @@ impl DrawTool {
                             }
                         }
                         Shape::Circle => {
-                            let start = area.min;
-                            let end = area.max;
                             let centre: Vec2 = area.centre().into();
-                            // TODO: Ellipses
-                            let radius =
-                                (end.x - start.x).abs().max((end.y - start.y).abs()) as f32 / 2.0;
+                            let rx = area.half_width();
+                            let ry = area.half_height();
+                            if rx == 0.0 || ry == 0.0 {
+                                return;
+                            }
+                            let mut p = (ry * ry) - (rx * rx * ry) + (0.25 * rx * rx);
                             let mut x = 0.0;
-                            let mut y = radius;
-                            let mut d = (5.0 - radius * 4.0) / 4.0;
+                            let mut y = ry;
+                            let mut dx = 2.0 * (rx * ry) * x;
+                            let mut dy = 2.0 * (rx * rx) * y;
                             let mut set_pixel = |x: f32, y: f32| {
                                 let px = centre.x + x;
                                 let py = centre.y + y;
@@ -429,22 +431,49 @@ impl DrawTool {
                                     );
                                 }
                             };
-                            while y >= x {
+                            while dy >= dx {
                                 set_pixel(x, y);
                                 set_pixel(-x, y);
                                 set_pixel(x, -y);
                                 set_pixel(-x, -y);
-                                set_pixel(y, x);
-                                set_pixel(-y, x);
-                                set_pixel(y, -x);
-                                set_pixel(-y, -x);
-                                if d <= 0.0 {
-                                    d += 2.0 * x + 1.0;
+
+                                if p < 0.0 {
+                                    x += 1.0;
+                                    dx = 2.0 * ry * ry * x;
+                                    p += dx + ry * ry;
+
+                                    dy = 2.0 * rx * rx * y;
                                 } else {
-                                    d += 2.0 * (x - y) + 1.0;
+                                    x += 1.0;
                                     y -= 1.0;
+                                    dx = 2.0 * ry * ry * x;
+                                    dy = 2.0 * rx * rx * y;
+                                    p += dx - dy + ry * ry;
                                 }
-                                x += 1.0;
+                            }
+
+                            p = (x + 0.5) * (x + 0.5) * ry * ry + (y - 1.0) * (y - 1.0) * rx * rx
+                                - rx * rx * ry * ry;
+
+                            while y >= 0.0 {
+                                set_pixel(x, y);
+                                set_pixel(-x, y);
+                                set_pixel(x, -y);
+                                set_pixel(-x, -y);
+
+                                if p > 0.0 {
+                                    y -= 1.0;
+
+                                    dy = 2.0 * (rx * rx) * y;
+                                    p -= dy + (rx * rx);
+                                } else {
+                                    x += 1.0;
+                                    y -= 1.0;
+
+                                    dy -= (2.0 * rx * rx);
+                                    dx += (2.0 * ry * ry);
+                                    p += dx - dy + (rx * rx);
+                                }
                             }
                         }
                     }

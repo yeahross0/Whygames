@@ -197,7 +197,9 @@ impl TrackIndex {
                 if *index < INSTRUMENT_TRACK_COUNT {
                     TrackIndex::Instrument(*index)
                 } else {
-                    TrackIndex::Drums
+                    // TODO: TEMP UNTIL DRUMS
+                    TrackIndex::Instrument(0)
+                    //TrackIndex::Drums
                 }
             }
             TrackIndex::Drums => TrackIndex::Instrument(0),
@@ -211,7 +213,9 @@ impl TrackIndex {
                     *index -= 1;
                     TrackIndex::Instrument(*index)
                 } else {
-                    TrackIndex::Drums
+                    // TODO: TEMP UNTIL DRUMS
+                    TrackIndex::Instrument(INSTRUMENT_TRACK_COUNT - 1)
+                    //TrackIndex::Drums
                 }
             }
             TrackIndex::Drums => TrackIndex::Instrument(INSTRUMENT_TRACK_COUNT - 1),

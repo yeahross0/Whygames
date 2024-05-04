@@ -6,14 +6,15 @@ use crate::inp::Input;
 use crate::meta::{self, Environment};
 use crate::play::{self, is_position_in_sized_area, Assets};
 use crate::rend::{Image, Texture};
+use itertools::Itertools;
 use macroquad::{
     color::{colors as quad_colours, Color as Colour},
     logging as log,
     math::Vec2,
     texture::FilterMode,
 };
-use std::collections::HashMap;
 use std::collections::{hash_map::DefaultHasher, BTreeSet};
+use std::collections::{HashMap, VecDeque};
 use std::hash::{Hash, Hasher};
 use std::rc::Rc;
 use strum_macros::EnumString;
@@ -158,6 +159,15 @@ pub enum Shape {
     Circle,
 }
 
+#[derive(Debug, Clone, Copy, EnumString, Default, PartialEq)]
+pub enum ShapeStyle {
+    Lined {
+        thickness: u32,
+    },
+    #[default]
+    Filled,
+}
+
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone)]
 pub struct DistancedPosition {
     pub dist: u64,
@@ -188,13 +198,16 @@ impl EditableImage {
 #[derive(Debug, Default)]
 pub struct PreviewShape {
     pub shape: Shape,
+    pub style: ShapeStyle,
     pub area: pixels::Rect,
 }
 
 #[derive(Debug, Default)]
 pub struct Tracker {
     pub paint_index: usize,
+    // TODO: Enum over Shape/Fill?
     pub fill: Option<Fill>,
+    pub shape_fill: VecDeque<(pixels::Position, Colour, Colour)>,
     pub temp_clear: bool,
     pub temp_save: bool,
     pub pixel_updates: HashMap<pixels::Position, (Colour, Colour)>,
@@ -278,207 +291,332 @@ impl DrawTool {
             assets.texture.update(&assets.image);
         }
 
+        let constrained_input_position = pixels::Position::new(
+            input
+                .inner
+                .position
+                .x
+                .max(0)
+                .min(meta::INNER_WIDTH as i32 - 1),
+            input
+                .inner
+                .position
+                .y
+                .max(0)
+                .min(meta::INNER_HEIGHT as i32 - 1),
+        );
+
         match draw_mode {
             DrawMode::Bucket => {
                 if input.outer.left_button.is_pressed()
                     && Self::is_mouse_hovering(tool_position, input.outer.position)
-                    && self.tracker.fill.is_none()
                 {
-                    // TODO: Remove unwrap
-                    let fill_order = environment.get_typed_var("Bucket").unwrap();
-                    self.tracker.fill = Some(Fill::new(
-                        &assets.image,
-                        input.inner.position,
-                        self.tracker.paint_index,
-                        fill_order,
-                    ));
+                    if self.tracker.fill.is_none() {
+                        // TODO: Remove unwrap
+                        let fill_order = environment.get_typed_var("Bucket").unwrap();
+                        self.tracker.fill = Some(Fill::new(
+                            &assets.image,
+                            constrained_input_position,
+                            self.tracker.paint_index,
+                            fill_order,
+                        ));
+                    } else {
+                        self.tracker.fill = None;
+                        if !self.tracker.pixel_updates.is_empty() {
+                            let updates =
+                                std::mem::replace(&mut self.tracker.pixel_updates, HashMap::new());
+                            events_to_apply.push(Event::SetPixels {
+                                updates: Rc::new(updates),
+                                left_to_right: true,
+                            });
+                        }
+                    }
                 }
             }
             DrawMode::Shapes => {
                 let shape = environment.get_typed_var::<Shape>("Shape").unwrap();
 
+                let shape_style = environment
+                    .get_typed_var::<ShapeStyle>("Shape Style")
+                    .unwrap();
+
                 // TODO: Tracker var instead of environment::MinX|Y?
                 if input.outer.left_button.is_pressed() {
                     self.tracker.preview_shape = Some(PreviewShape {
                         shape,
+                        style: shape_style,
                         area: pixels::Rect {
-                            min: input.inner.position,
-                            max: input.inner.position,
+                            min: constrained_input_position,
+                            max: constrained_input_position,
                         },
                     });
                 }
                 // TODO: ?
                 else if input.outer.left_button.is_down() {
                     self.tracker.preview_shape = match self.tracker.preview_shape {
-                        Some(PreviewShape { shape, area }) => Some(PreviewShape {
+                        Some(PreviewShape { shape, style, area }) => Some(PreviewShape {
                             shape,
+                            style: style,
                             area: pixels::Rect {
                                 min: area.min,
-                                max: input.inner.position,
+                                max: constrained_input_position,
                             },
                         }),
                         _ => Some(PreviewShape {
                             shape,
+                            style: shape_style,
                             area: pixels::Rect {
-                                min: input.inner.position,
-                                max: input.inner.position,
+                                min: constrained_input_position,
+                                max: constrained_input_position,
                             },
                         }),
                     };
                 }
 
-                if self.tracker.preview_shape.is_some() {
-                    log::debug!("{:?}", self.tracker.preview_shape);
-                }
-
-                // TODO: environment.get_object("Area"); or EnvObject::Area
-                let min_x = environment.context["MinX"].parse().unwrap_or(0);
-                let min_y = environment.context["MinY"].parse().unwrap_or(0);
-                let max_x = environment.context["MaxX"].parse().unwrap_or(0);
-                let max_y = environment.context["MaxY"].parse().unwrap_or(0);
-
                 if input.outer.left_button.is_released()
-                    && Self::is_mouse_hovering(tool_position, input.outer.position)
+                /*&& Self::is_mouse_hovering(tool_position, input.outer.position)*/
                 {
-                    let area = self.tracker.preview_shape.as_ref().map(|s| s.area).unwrap();
-                    match shape {
-                        Shape::Line => {
-                            let mut start = area.min;
-                            let end = area.max;
-                            let dx = (end.x - start.x).abs();
-                            let sx = if start.x < end.x { 1 } else { -1 };
-                            let dy = (end.y - start.y).abs();
-                            let sy = if start.y < end.y { 1 } else { -1 };
-                            let mut err: f32 = 0.5 * if dx > dy { dx } else { -dy } as f32;
+                    if self.tracker.shape_fill.is_empty() {
+                        let area = self.tracker.preview_shape.as_ref().map(|s| s.area).unwrap();
+                        match shape {
+                            Shape::Line => {
+                                let mut start = area.min;
+                                let end = area.max;
+                                let dx = (end.x - start.x).abs();
+                                let sx = if start.x < end.x { 1 } else { -1 };
+                                let dy = (end.y - start.y).abs();
+                                let sy = if start.y < end.y { 1 } else { -1 };
+                                let mut err: f32 = 0.5 * if dx > dy { dx } else { -dy } as f32;
 
-                            loop {
-                                let before = assets.image.get_pixel(start.x as _, start.y as _);
-                                let colour = paint_image.get_pixel(
-                                    start.x as u32 % PAINT_SIZE as u32,
-                                    start.y as u32 % PAINT_SIZE as u32,
-                                );
-                                self.tracker.pixel_updates.insert(start, (before, colour));
-                                /*assets.image.set_pixel(
-                                    start.x as u32,
-                                    start.y as u32,
-                                    colours::RED,
-                                );*/
-                                if start.x == end.x && start.y == end.y {
-                                    break;
-                                }
-                                let e2 = err;
-                                if e2 > -dx as f32 {
-                                    err -= dy as f32;
-                                    start.x += sx;
-                                }
-                                if e2 < dy as f32 {
-                                    err += dx as f32;
-                                    start.y += sy;
-                                }
-                            }
-                        }
-                        Shape::Rectangle => {
-                            let mut set_pixel = |x, y| {
-                                let before = assets.image.get_pixel(x as _, y as _);
-                                let colour = paint_image.get_pixel(
-                                    x as u32 % PAINT_SIZE as u32,
-                                    y as u32 % PAINT_SIZE as u32,
-                                );
-                                self.tracker
-                                    .pixel_updates
-                                    .insert(pixels::Position::new(x, y), (before, colour));
-                            };
-                            let start = area.min();
-                            let end = area.max();
-                            for y in [start.y, end.y] {
-                                for x in start.x..=end.x {
-                                    set_pixel(x, y);
-                                    //assets.image.set_pixel(x as u32, y as u32, colours::RED);
-                                }
-                            }
-                            for x in [start.x, end.x] {
-                                for y in start.y..=end.y {
-                                    set_pixel(x, y);
-                                }
-                            }
-                        }
-                        Shape::Circle => {
-                            let centre: Vec2 = area.centre().into();
-                            let rx = area.half_width();
-                            let ry = area.half_height();
-                            if rx == 0.0 || ry == 0.0 {
-                                return;
-                            }
-                            let mut p = (ry * ry) - (rx * rx * ry) + (0.25 * rx * rx);
-                            let mut x = 0.0;
-                            let mut y = ry;
-                            let mut dx = 2.0 * (rx * ry) * x;
-                            let mut dy = 2.0 * (rx * rx) * y;
-                            let mut set_pixel = |x: f32, y: f32| {
-                                let px = centre.x + x;
-                                let py = centre.y + y;
-                                // TODO: Also check max
-                                if px >= 0.0 && py >= 0.0 {
-                                    //assets.image.set_pixel(px as u32, py as u32, colours::RED);
-                                    let before = assets.image.get_pixel(px as _, py as _);
+                                loop {
+                                    let before = assets.image.get_pixel(start.x as _, start.y as _);
                                     let colour = paint_image.get_pixel(
-                                        px as u32 % PAINT_SIZE as u32,
-                                        py as u32 % PAINT_SIZE as u32,
+                                        start.x as u32 % PAINT_SIZE as u32,
+                                        start.y as u32 % PAINT_SIZE as u32,
                                     );
-                                    self.tracker.pixel_updates.insert(
-                                        pixels::Position::new(px as _, py as _),
-                                        (before, colour),
-                                    );
-                                }
-                            };
-                            while dy >= dx {
-                                set_pixel(x, y);
-                                set_pixel(-x, y);
-                                set_pixel(x, -y);
-                                set_pixel(-x, -y);
-
-                                if p < 0.0 {
-                                    x += 1.0;
-                                    dx = 2.0 * ry * ry * x;
-                                    p += dx + ry * ry;
-
-                                    dy = 2.0 * rx * rx * y;
-                                } else {
-                                    x += 1.0;
-                                    y -= 1.0;
-                                    dx = 2.0 * ry * ry * x;
-                                    dy = 2.0 * rx * rx * y;
-                                    p += dx - dy + ry * ry;
+                                    self.tracker.shape_fill.push_back((start, before, colour));
+                                    //self.tracker.pixel_updates.insert(start, (before, colour));
+                                    /*assets.image.set_pixel(
+                                        start.x as u32,
+                                        start.y as u32,
+                                        colours::RED,
+                                    );*/
+                                    if start.x == end.x && start.y == end.y {
+                                        break;
+                                    }
+                                    let e2 = err;
+                                    if e2 > -dx as f32 {
+                                        err -= dy as f32;
+                                        start.x += sx;
+                                    }
+                                    if e2 < dy as f32 {
+                                        err += dx as f32;
+                                        start.y += sy;
+                                    }
                                 }
                             }
-
-                            p = (x + 0.5) * (x + 0.5) * ry * ry + (y - 1.0) * (y - 1.0) * rx * rx
-                                - rx * rx * ry * ry;
-
-                            while y >= 0.0 {
-                                set_pixel(x, y);
-                                set_pixel(-x, y);
-                                set_pixel(x, -y);
-                                set_pixel(-x, -y);
-
-                                if p > 0.0 {
-                                    y -= 1.0;
-
-                                    dy = 2.0 * (rx * rx) * y;
-                                    p -= dy + (rx * rx);
+                            Shape::Rectangle => {
+                                let mut set_pixel = |x, y| {
+                                    let before = assets.image.get_pixel(x as _, y as _);
+                                    let colour = paint_image.get_pixel(
+                                        x as u32 % PAINT_SIZE as u32,
+                                        y as u32 % PAINT_SIZE as u32,
+                                    );
+                                    self.tracker.shape_fill.push_back((
+                                        pixels::Position::new(x, y),
+                                        before,
+                                        colour,
+                                    ));
+                                    /*self.tracker
+                                    .pixel_updates
+                                    .insert(pixels::Position::new(x, y), (before, colour));*/
+                                };
+                                let start = area.min();
+                                let end = area.max();
+                                if shape_style == ShapeStyle::Filled {
+                                    for y in start.y..=end.y {
+                                        for x in start.x..=end.x {
+                                            set_pixel(x, y);
+                                        }
+                                    }
                                 } else {
-                                    x += 1.0;
-                                    y -= 1.0;
-
-                                    dy -= (2.0 * rx * rx);
-                                    dx += (2.0 * ry * ry);
-                                    p += dx - dy + (rx * rx);
+                                    for y in [start.y, end.y] {
+                                        for x in start.x..=end.x {
+                                            set_pixel(x, y);
+                                        }
+                                    }
+                                    for x in [start.x, end.x] {
+                                        for y in start.y..=end.y {
+                                            set_pixel(x, y);
+                                        }
+                                    }
                                 }
                             }
+                            Shape::Circle => {
+                                let centre: Vec2 = area.centre().into();
+                                let rx = area.half_width();
+                                let ry = area.half_height();
+                                if rx == 0.0 || ry == 0.0 {
+                                    return;
+                                }
+                                let mut recorded_pixels = Vec::new();
+                                let mut p = (ry * ry) - (rx * rx * ry) + (0.25 * rx * rx);
+                                let mut x = 0.0;
+                                let mut y = ry;
+                                let mut dx = 2.0 * (rx * ry) * x;
+                                let mut dy = 2.0 * (rx * rx) * y;
+                                let mut set_pixel = |x: f32, y: f32| {
+                                    let px = centre.x + x;
+                                    let py = centre.y + y;
+                                    // TODO: Also check max
+                                    if px >= 0.0 && py >= 0.0 {
+                                        //assets.image.set_pixel(px as u32, py as u32, colours::RED);
+                                        let before = assets.image.get_pixel(px as _, py as _);
+                                        let colour = paint_image.get_pixel(
+                                            px as u32 % PAINT_SIZE as u32,
+                                            py as u32 % PAINT_SIZE as u32,
+                                        );
+                                        if shape_style != ShapeStyle::Filled {
+                                            self.tracker.shape_fill.push_back((
+                                                pixels::Position::new(px as _, py as _),
+                                                before,
+                                                colour,
+                                            ));
+                                        } else {
+                                            recorded_pixels.push((px as i32, py as i32));
+                                        }
+                                        /*self.tracker.pixel_updates.insert(
+                                            pixels::Position::new(px as _, py as _),
+                                            (before, colour),
+                                        );*/
+                                    }
+                                };
+                                while dy >= dx {
+                                    set_pixel(x, y);
+                                    set_pixel(-x, y);
+                                    set_pixel(x, -y);
+                                    set_pixel(-x, -y);
+
+                                    if p < 0.0 {
+                                        x += 1.0;
+                                        dx = 2.0 * ry * ry * x;
+                                        p += dx + ry * ry;
+
+                                        dy = 2.0 * rx * rx * y;
+                                    } else {
+                                        x += 1.0;
+                                        y -= 1.0;
+                                        dx = 2.0 * ry * ry * x;
+                                        dy = 2.0 * rx * rx * y;
+                                        p += dx - dy + ry * ry;
+                                    }
+                                }
+
+                                p = (x + 0.5) * (x + 0.5) * ry * ry
+                                    + (y - 1.0) * (y - 1.0) * rx * rx
+                                    - rx * rx * ry * ry;
+
+                                while y >= 0.0 {
+                                    set_pixel(x, y);
+                                    set_pixel(-x, y);
+                                    set_pixel(x, -y);
+                                    set_pixel(-x, -y);
+
+                                    if p > 0.0 {
+                                        y -= 1.0;
+
+                                        dy = 2.0 * (rx * rx) * y;
+                                        p -= dy + (rx * rx);
+                                    } else {
+                                        x += 1.0;
+                                        y -= 1.0;
+
+                                        dy -= (2.0 * rx * rx);
+                                        dx += (2.0 * ry * ry);
+                                        p += dx - dy + (rx * rx);
+                                    }
+                                }
+
+                                if shape_style == ShapeStyle::Filled {
+                                    let mut mins: HashMap<i32, i32> = HashMap::new();
+                                    let mut maxes: HashMap<i32, i32> = HashMap::new();
+                                    for (px, py) in recorded_pixels {
+                                        let min_x = mins
+                                            .get(&py)
+                                            .copied()
+                                            .map(|x: i32| x.min(px))
+                                            .unwrap_or(px);
+                                        mins.insert(py, min_x);
+                                        let max_x = maxes
+                                            .get(&py)
+                                            .copied()
+                                            .map(|x: i32| x.max(px))
+                                            .unwrap_or(px);
+                                        maxes.insert(py, max_x);
+                                    }
+
+                                    for hmm in mins.keys().sorted() {
+                                        let start = pixels::Position::new(mins[hmm], *hmm);
+                                        let end = pixels::Position::new(maxes[hmm], *hmm);
+
+                                        for px in start.x..=end.x {
+                                            for py in start.y..=end.y {
+                                                let before =
+                                                    assets.image.get_pixel(px as _, py as _);
+                                                let colour = paint_image.get_pixel(
+                                                    px as u32 % PAINT_SIZE as u32,
+                                                    py as u32 % PAINT_SIZE as u32,
+                                                );
+                                                self.tracker.shape_fill.push_back((
+                                                    pixels::Position::new(px as _, py as _),
+                                                    before,
+                                                    colour,
+                                                ));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        self.tracker.preview_shape = None;
+                    } else {
+                        self.tracker.shape_fill.clear();
+                        if !self.tracker.pixel_updates.is_empty() {
+                            let updates =
+                                std::mem::replace(&mut self.tracker.pixel_updates, HashMap::new());
+                            events_to_apply.push(Event::SetPixels {
+                                updates: Rc::new(updates),
+                                left_to_right: true,
+                            });
                         }
                     }
+                }
 
-                    self.tracker.preview_shape = None;
+                let max_shape_fill_per_frame = match (shape, shape_style) {
+                    (Shape::Line, _) => 2,
+                    (Shape::Rectangle, ShapeStyle::Filled) => 128,
+                    (Shape::Circle, ShapeStyle::Filled) => 128,
+                    (Shape::Rectangle, _) => 4,
+                    (Shape::Circle, _) => 4,
+                };
+                for _ in 0..max_shape_fill_per_frame {
+                    if let Some((position, from, to)) = self.tracker.shape_fill.pop_front() {
+                        self.tracker.pixel_updates.insert(position, (from, to));
+                        assets.image.set_pixel(position.x as _, position.y as _, to);
+
+                        // TODO: Do elsewhere?
+                        assets.texture.update(&assets.image);
+
+                        if self.tracker.shape_fill.is_empty() {
+                            // TODO: Remove clone
+                            events_to_apply.push(Event::SetPixels {
+                                updates: Rc::new(self.tracker.pixel_updates.clone()),
+                                left_to_right: true,
+                            });
+                            self.tracker.pixel_updates = HashMap::new();
+                        }
+                    }
                 }
             }
             DrawMode::Erase => {
@@ -497,6 +635,15 @@ impl DrawTool {
         match draw_mode {
             DrawMode::Bucket => {}
             _ => {
+                if self.tracker.fill.is_some() && !self.tracker.pixel_updates.is_empty() {
+                    // TODO: Remove clone
+                    events_to_apply.push(Event::SetPixels {
+                        updates: Rc::new(self.tracker.pixel_updates.clone()),
+                        left_to_right: true,
+                    });
+                    self.tracker.pixel_updates = HashMap::new();
+                }
+
                 self.tracker.fill = None;
             }
         }
@@ -528,10 +675,21 @@ impl DrawTool {
 
             if fill.pixels.is_empty() {
                 self.tracker.fill = None;
+
+                if !self.tracker.pixel_updates.is_empty() {
+                    // TODO: Remove clone
+                    events_to_apply.push(Event::SetPixels {
+                        updates: Rc::new(self.tracker.pixel_updates.clone()),
+                        left_to_right: true,
+                    });
+                    self.tracker.pixel_updates = HashMap::new();
+                }
             }
         }
 
         if (self.tracker.temp_clear || input.outer.left_button.is_released())
+            && self.tracker.fill.is_none()
+            && self.tracker.shape_fill.is_empty()
             && !self.tracker.pixel_updates.is_empty()
         {
             // TODO: Remove clone
@@ -562,9 +720,11 @@ impl DrawTool {
             while let Some(pos) = fill.pixels.pop_first() {
                 let x = pos.pos.x as u32;
                 let y = pos.pos.y as u32;
+                let before = image.get_pixel(x, y);
                 let colour = self.paint_choices[fill.applied_colour_index]
                     .image
                     .get_pixel(x % PAINT_SIZE as u32, y % PAINT_SIZE as u32);
+                self.tracker.pixel_updates.insert(pos.pos, (before, colour));
                 image.set_pixel(x, y, colour);
 
                 for (x, y) in [(-1, 0), (0, -1), (1, 0), (0, 1)] {
@@ -601,7 +761,7 @@ impl DrawTool {
                 }
 
                 i += 1;
-                if i > PAINT_SPEED {
+                if i >= PAINT_SPEED {
                     break;
                 }
             }

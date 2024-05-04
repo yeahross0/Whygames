@@ -3475,7 +3475,7 @@
       ]
     },
     {
-      "name": "Lined92",
+      "name": "Line Circle",
       "position": {
         "y": 116,
         "x": 11
@@ -3512,6 +3512,12 @@
                 "name": "Shape",
                 "value": "Circle"
               }
+            },
+            {
+              "SetVariable": {
+                "name": "Shape Style",
+                "value": "Lined"
+              }
             }
           ]
         },
@@ -3534,6 +3540,12 @@
               "IsVariableSetTo": {
                 "name": "Shape",
                 "value": "Circle"
+              }
+            },
+            {
+              "IsVariableSetTo": {
+                "name": "Shape Style",
+                "value": "Lined"
               }
             }
           ],
@@ -3558,7 +3570,7 @@
             {
               "Motion": {
                 "AttachFromPositions": {
-                  "name": "Sprawl33"
+                  "name": "Shape Line"
                 }
               }
             }
@@ -3567,7 +3579,7 @@
       ]
     },
     {
-      "name": "Random94",
+      "name": "Line Rect",
       "position": {
         "y": 94,
         "x": 11
@@ -3604,6 +3616,12 @@
                 "name": "Shape",
                 "value": "Rectangle"
               }
+            },
+            {
+              "SetVariable": {
+                "name": "Shape Style",
+                "value": "Lined"
+              }
             }
           ]
         },
@@ -3626,6 +3644,12 @@
               "IsVariableSetTo": {
                 "name": "Shape",
                 "value": "Rectangle"
+              }
+            },
+            {
+              "IsVariableSetTo": {
+                "name": "Shape Style",
+                "value": "Lined"
               }
             }
           ],
@@ -3650,7 +3674,7 @@
             {
               "Motion": {
                 "AttachFromPositions": {
-                  "name": "Sprawl33"
+                  "name": "Shape Line"
                 }
               }
             }
@@ -3659,7 +3683,215 @@
       ]
     },
     {
-      "name": "Sprawl33",
+      "name": "Fill Circle",
+      "position": {
+        "y": 166,
+        "x": 11
+      },
+      "sprite": {
+        "index": 178,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Shape",
+                "value": "Circle"
+              }
+            },
+            {
+              "SetVariable": {
+                "name": "Shape Style",
+                "value": "Filled"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 178,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Shape",
+                "value": "Circle"
+              }
+            },
+            {
+              "IsVariableSetTo": {
+                "name": "Shape Style",
+                "value": "Filled"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 140,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "AttachFromPositions": {
+                  "name": "Shape Line"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fill Rect",
+      "position": {
+        "y": 144,
+        "x": 11
+      },
+      "sprite": {
+        "index": 153,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariable": {
+                "name": "Shape",
+                "value": "Rectangle"
+              }
+            },
+            {
+              "SetVariable": {
+                "name": "Shape Style",
+                "value": "Filled"
+              }
+            }
+          ]
+        },
+        {
+          "questions": [],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 153,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsVariableSetTo": {
+                "name": "Shape",
+                "value": "Rectangle"
+              }
+            },
+            {
+              "IsVariableSetTo": {
+                "name": "Shape Style",
+                "value": "Filled"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetSprite": {
+                "index": 137,
+                "size": {
+                  "Square": 32
+                }
+              }
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsTimeAt": "Start"
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "AttachFromPositions": {
+                  "name": "Shape Line"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shape Line",
       "position": {
         "y": 71,
         "x": 11

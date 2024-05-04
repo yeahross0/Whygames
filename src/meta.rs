@@ -276,9 +276,13 @@ pub async fn update_metagame(
             SoundQueue::Ready { sounds } => {
                 // TODO: !
                 for sound in sounds {
+                    #[cfg(not(target_arch = "wasm32"))]
                     let data = macroquad::file::load_file(&format!("sounds/{}.ogg", sound))
                         .await
                         .unwrap();
+                    #[cfg(target_arch = "wasm32")]
+                    let data = sink_player.temp_loaded_sounds[&sound].clone();
+
                     let cursor = io::Cursor::new(data);
                     let source = Decoder::new(cursor).unwrap();
                     match Sink::try_new(&sink_player.stream_handle) {
@@ -527,15 +531,17 @@ pub async fn update_metagame(
         let is_ctrl_z_pressed = input.chars_pressed.contains(&CTRL_Z_CHAR);
         #[cfg(target_arch = "wasm32")]
         let is_ctrl_z_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
-            && keyboard[&KeyCode::Z].is_repeated;
+            && input.keyboard[&KeyCode::Z].is_repeated;
         let is_ctrl_y_pressed = input.chars_pressed.contains(&CTRL_Y_CHAR);
         #[cfg(target_arch = "wasm32")]
         let is_ctrl_y_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
-            && keyboard[&KeyCode::Y].is_repeated;
+            && input.keyboard[&KeyCode::Y].is_repeated;
         let is_shift_pressed = macroquad::input::is_key_down(KeyCode::LeftShift)
             || macroquad::input::is_key_down(KeyCode::RightShift);
 
-        if is_ctrl_y_pressed || (is_ctrl_z_pressed && is_shift_pressed) {
+        if is_ctrl_y_pressed
+        /*|| (is_ctrl_z_pressed && is_shift_pressed)*/
+        {
             log::debug!("REDO");
             HistoryAction::Redo
         } else if is_ctrl_z_pressed {

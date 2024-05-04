@@ -3,7 +3,7 @@ use crate::anim::animation_time_from_speed;
 use crate::art::{Sprite, SpriteSize};
 use crate::aud::AudioPlayer;
 use crate::colours;
-use crate::doodle::{DrawTool, PreviewShape, Shape};
+use crate::doodle::{DrawTool, PreviewShape, Shape, ShapeStyle};
 use crate::drawer::{
     drawn_from_top_left, drawn_rect, drawn_sized_rect, drawn_source_rect, drawn_square,
     page_width_for_sprite, sheet_source_rect, sprite_size_in_pixels, Camera, DrawParams, Drawer,
@@ -73,7 +73,7 @@ impl WhyDrawer {
             play::BitmapFont::new(texture)
         };
 
-        let box_texture = system_texture("eyes.png").await.unwrap();
+        let box_texture = system_texture("blueeyes.png").await.unwrap();
         let base_texture = system_texture("base.png").await.unwrap();
         let music_texture = system_texture("music-texture.png").await.unwrap();
         let ins_texture = system_texture("ins1.png").await.unwrap();
@@ -419,6 +419,7 @@ impl WhyDrawer {
                 match draw_tool.tracker.preview_shape {
                     Some(PreviewShape {
                         shape: Shape::Line,
+                        style: _style,
                         area,
                     }) => self.drawer.draw_line(
                         inner_camera,
@@ -428,16 +429,53 @@ impl WhyDrawer {
                     ),
                     Some(PreviewShape {
                         shape: Shape::Rectangle,
+                        style:
+                            ShapeStyle::Lined {
+                                thickness: _thickness,
+                            },
                         area,
-                    }) => self
+                    }) => {
+                        /*self
                         .drawer
-                        .draw_rectangle_lines(inner_camera, area, colours::GREY),
+                        .draw_rectangle_lines(inner_camera, area, quad_colours::LIGHTGRAY)*/
+                        let colour = quad_colours::LIGHTGRAY;
+                        self.drawer
+                            .draw_line(inner_camera, area.min(), area.top_right(), colour);
+                        self.drawer
+                            .draw_line(inner_camera, area.min(), area.bottom_left(), colour);
+                        self.drawer
+                            .draw_line(inner_camera, area.top_right(), area.max(), colour);
+                        self.drawer
+                            .draw_line(inner_camera, area.bottom_left(), area.max(), colour);
+                    }
                     Some(PreviewShape {
                         shape: Shape::Circle,
+                        style:
+                            ShapeStyle::Lined {
+                                thickness: _thickness,
+                            },
+                        area,
+                    }) => self.drawer.draw_ellipse_lines(
+                        inner_camera,
+                        area,
+                        quad_colours::LIGHTGRAY,
+                        false,
+                    ),
+                    Some(PreviewShape {
+                        shape: Shape::Rectangle,
+                        style: ShapeStyle::Filled,
                         area,
                     }) => self
                         .drawer
-                        .draw_ellipse_lines(inner_camera, area, colours::GREY),
+                        .draw_rectangle(inner_camera, area, quad_colours::LIGHTGRAY),
+                    Some(PreviewShape {
+                        shape: Shape::Circle,
+                        style: ShapeStyle::Filled,
+                        area,
+                    }) => self
+                        .drawer
+                        .draw_ellipse_lines(inner_camera, area, colours::GREY, true),
+
                     _ => {}
                 }
             }

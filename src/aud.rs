@@ -10,6 +10,7 @@ use rodio::{Decoder, OutputStream, OutputStreamHandle, Sink};
 use rustysynth::{MidiFile, MidiFileSequencer, SoundFont, Synthesizer, SynthesizerSettings};
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::HashMap,
     io,
     path::Path,
     sync::{Arc, Mutex},
@@ -62,17 +63,29 @@ pub struct AudioPlayer {
 }
 
 impl AudioPlayer {
-    pub fn init(params: AudioParameters, sf2_data: Vec<u8>) -> WhyResult<AudioPlayer> {
+    pub async fn init(params: AudioParameters, sf2_data: Vec<u8>) -> WhyResult<AudioPlayer> {
         let sink_player = match OutputStream::try_default() {
             Ok((_stream, stream_handle)) => {
                 let sink_music = Sink::try_new(&stream_handle)?;
                 log::debug!("WORKED HERE?");
+
+                // TODO: !!!
+                let mut temp_loaded_sounds = HashMap::new();
+                let data = macroquad::file::load_file("sounds/WhaleShort.ogg")
+                    .await
+                    .unwrap();
+                temp_loaded_sounds.insert("WhaleShort".to_owned(), data);
+                let data = macroquad::file::load_file("sounds/Whale3.ogg")
+                    .await
+                    .unwrap();
+                temp_loaded_sounds.insert("Whale3".to_owned(), data);
 
                 Some(SinkPlayer {
                     music_sink: sink_music,
                     sfx_sinks: Vec::new(),
                     stream_handle,
                     _stream,
+                    temp_loaded_sounds,
                 })
             }
             Err(e) => {
@@ -345,6 +358,7 @@ pub struct SinkPlayer {
     pub sfx_sinks: Vec<Sink>,
     pub stream_handle: OutputStreamHandle,
     pub _stream: OutputStream,
+    pub temp_loaded_sounds: HashMap<String, Vec<u8>>,
 }
 
 #[derive(Serialize, Deserialize)]

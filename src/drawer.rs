@@ -164,7 +164,14 @@ impl Drawer {
         }
     }
 
-    pub fn draw_ellipse_lines(&mut self, camera: Camera, area: pixels::Rect, colour: Colour) {
+    // TODO: Remove filled parameter, and separate function
+    pub fn draw_ellipse_lines(
+        &mut self,
+        camera: Camera,
+        area: pixels::Rect,
+        colour: Colour,
+        is_filled: bool,
+    ) {
         self.set_camera(camera);
         let thickness = 1.0;
         let centre: Vec2 = area.centre().into();
@@ -178,14 +185,14 @@ impl Drawer {
         let mut y = ry;
         let mut dx = 2.0 * (rx * ry) * x;
         let mut dy = 2.0 * (rx * rx) * y;
-        let mut zoo = Vec::new();
+        let mut recorded_pixels = Vec::new();
         let mut set_pixel = |x: f32, y: f32| {
             let px = centre.x + x;
             let py = centre.y + y;
             // TODO: Also check max
             if px >= 0.0 && py >= 0.0 {
                 draw_rectangle(px as _, py as _, 1.0, 1.0, colour);
-                zoo.push((px as i32, py as i32));
+                recorded_pixels.push((px as i32, py as i32));
             }
         };
         while dy >= dx {
@@ -232,24 +239,26 @@ impl Drawer {
             }
         }
 
-        /*let mut mins: HashMap<i32, i32> = HashMap::new();
-        let mut maxes: HashMap<i32, i32> = HashMap::new();
-        for (px, py) in zoo {
-            let min_x = mins.get(&py).copied().map(|x: i32| x.min(px)).unwrap_or(px);
-            mins.insert(py, min_x);
-            let max_x = maxes
-                .get(&py)
-                .copied()
-                .map(|x: i32| x.max(px))
-                .unwrap_or(px);
-            maxes.insert(py, max_x);
-        }
+        if is_filled {
+            let mut mins: HashMap<i32, i32> = HashMap::new();
+            let mut maxes: HashMap<i32, i32> = HashMap::new();
+            for (px, py) in recorded_pixels {
+                let min_x = mins.get(&py).copied().map(|x: i32| x.min(px)).unwrap_or(px);
+                mins.insert(py, min_x);
+                let max_x = maxes
+                    .get(&py)
+                    .copied()
+                    .map(|x: i32| x.max(px))
+                    .unwrap_or(px);
+                maxes.insert(py, max_x);
+            }
 
-        for hmm in mins.keys() {
-            let start = pixels::Position::new(mins[hmm], *hmm);
-            let end = pixels::Position::new(maxes[hmm], *hmm);
-            self.draw_line(camera, start, end, colour);
-        }*/
+            for hmm in mins.keys() {
+                let start = pixels::Position::new(mins[hmm], *hmm);
+                let end = pixels::Position::new(maxes[hmm], *hmm);
+                self.draw_line(camera, start, end, colour);
+            }
+        }
     }
 
     pub fn draw_debug_circle_lines(

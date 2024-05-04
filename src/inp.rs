@@ -131,7 +131,7 @@ pub struct Input {
 }
 
 impl Input {
-    pub fn update(&mut self, inner_camera: Camera) {
+    pub fn update(&mut self, inner_camera: Camera, temp_save: &mut bool) {
         self.chars_pressed = pressed_chars();
         self.keyboard
             .get_mut(&KeyCode::Z)
@@ -149,21 +149,21 @@ impl Input {
         };
         let outer_position = position_in_world(mouse_position, Camera::Outer);
         let inner_position = position_in_world(mouse_position, inner_camera);
-        let is_left_down =
+        let mut is_left_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Left);
         let is_middle_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Middle);
         let is_right_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Right);
 
-        /*  TODO:
-        if draw_tool.tracker.temp_save
+        /*  TODO: */
+        if *temp_save
             && !macroquad::input::is_mouse_button_pressed(macroquad::input::MouseButton::Left)
         {
             is_left_down = false;
         } else {
-            draw_tool.tracker.temp_save = false;
-        }*/
+            *temp_save = false;
+        }
 
         self.outer
             .update(outer_position, is_left_down, is_middle_down, is_right_down);

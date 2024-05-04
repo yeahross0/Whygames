@@ -1516,9 +1516,9 @@ pub fn update_game(
                             )
                             .unwrap();
                             let s = BaseEncoder.encode(&buff);
-                            let data = JsObject::string(&s);
-                            hi_from_wasm(data);
-                            draw_tool.temp_save = true;
+                            let data = crate::JsObject::string(&s);
+                            crate::hi_from_wasm(data);
+                            draw_tool.tracker.temp_save = true;
                         }
                     }
                 }

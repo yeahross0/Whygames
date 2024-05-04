@@ -50,6 +50,14 @@ impl Rect {
         Position::new(self.min.x.max(self.max.x), self.min.y.max(self.max.y))
     }
 
+    pub fn bottom_left(self) -> Position {
+        Position::new(self.min().x, self.max().y)
+    }
+
+    pub fn top_right(self) -> Position {
+        Position::new(self.max().x, self.min().y)
+    }
+
     /*pub const fn from_aabb(ax: i32, ay: i32, bx: i32, by: i32) -> Rect {
         let w = bx - ax;
         let h = by - ay;

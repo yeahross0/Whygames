@@ -4,7 +4,7 @@
   "IGNORED_music_filename": "music-texture.png",
   "initial_game": {
     "collection": "Green",
-    "game": "Draw"
+    "game": "Music"
   },
   "initial_subgame": {
     "collection": "Green",

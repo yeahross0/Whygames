@@ -4,6 +4,7 @@
 const TEMP_TESTING_INTRO_TEXT: bool = false;
 
 // TODO: EACH NEW GAME IS LIKE A COMPLETE CARTRIDGE RESET
+// TODO: Download mq js bundle and store it locally
 // TODO: ResetQueue when doing this stuff?
 // TODO: .png at end of Image?
 // TODO: Fade in/out should take N ticks not an uneven number
@@ -271,6 +272,7 @@ async fn main() -> WhyResult<()> {
             rng: rng_from_time(),
         }
     };
+
     let boot_info: BootInfo = {
         let s = macroquad::file::load_string("system/conf.json").await?;
         serde_json::from_str(&s)?
@@ -288,10 +290,15 @@ async fn main() -> WhyResult<()> {
     // TODO: Careful when actually running on wasm
     #[cfg(target_arch = "wasm32")]
     {
-        subgame.assets.image =
-            Image::gen_image_color(INNER_WIDTH as u16, INNER_HEIGHT as u16, colours::WHITE);
+        subgame.assets.image = Image::gen_image_color(
+            meta::INNER_WIDTH as u16,
+            meta::INNER_HEIGHT as u16,
+            colours::WHITE,
+        );
 
-        subgame.assets.texture.update(&subgame.assets.image);
+        //subgame.assets.texture.update(&subgame.assets.image);
+        subgame.assets.texture = macroquad::texture::Texture2D::from_image(&subgame.assets.image);
+        subgame.assets.texture.set_filter(FilterMode::Nearest);
     }
 
     let mut inner_camera = match subgame.size {
@@ -361,7 +368,7 @@ async fn main() -> WhyResult<()> {
     let mut audio_player = {
         let audio_params = AudioParameters::load("system/audio_params.json").await?;
 
-        AudioPlayer::init(audio_params, sf2_data)?
+        AudioPlayer::init(audio_params, sf2_data).await?
     };
 
     audio_player.play_music(game.assets.music_data.clone())?;
@@ -493,7 +500,7 @@ async fn main() -> WhyResult<()> {
         music_maker.update_note_length(&mut environment, input.mouse_scroll);
 
         'multi_loop: while time_keeping.has_more_frames_to_play(game.frame_number) {
-            input.update(inner_camera);
+            input.update(inner_camera, &mut draw_tool.tracker.temp_save);
 
             let outcome = update_metagame(
                 &mut environment,

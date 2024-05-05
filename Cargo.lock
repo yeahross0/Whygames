@@ -927,6 +927,7 @@ checksum = "7ffc183a10b4478d04cbbbfc96d0873219d962dd5accaff2ffbd4ceb7df837f4"
 [[package]]
 name = "rustysynth"
 version = "1.3.1"
+source = "git+https://github.com/yeahross0/rustysynth?rev=60ab772#60ab772c59fadc13735555695a92d7c120813919"
 
 [[package]]
 name = "ryu"

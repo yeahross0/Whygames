@@ -73,7 +73,7 @@ impl WhyDrawer {
             play::BitmapFont::new(texture)
         };
 
-        let box_texture = system_texture("blueeyes.png").await.unwrap();
+        let box_texture = system_texture("eyes.png").await.unwrap();
         let base_texture = system_texture("base.png").await.unwrap();
         let music_texture = system_texture("music-texture.png").await.unwrap();
         let ins_texture = system_texture("ins1.png").await.unwrap();

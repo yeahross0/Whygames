@@ -2000,6 +2000,7 @@ fn do_members_collide(a: &Member, b: &Member, image: &Image, font: &BitmapFont) 
                     section: b_source,
                     grid: image,
                 };
+
                 a_obj.collides_with_other(b_obj)
             }
         },

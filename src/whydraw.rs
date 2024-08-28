@@ -2,6 +2,7 @@ use super::images_texture;
 use crate::anim::animation_time_from_speed;
 use crate::art::{Sprite, SpriteSize};
 use crate::aud::AudioPlayer;
+use crate::coll::CollisionObject;
 use crate::colours;
 use crate::doodle::{DrawTool, PreviewShape, Shape, ShapeStyle};
 use crate::drawer::{
@@ -31,7 +32,7 @@ use crate::meta::{
     is_screen_member_name, Environment, Transition, CHOOSE_AREA_NAME, CHOOSE_POINT_NAME,
     EDITABLE_SCREEN_NAME, FADE_LEN, INNER_HEIGHT, INNER_WIDTH, MUSIC_MAKER_NAME, OUTER_CENTRE,
 };
-use crate::pixels;
+use crate::pixels::{self, Position};
 use crate::play::{self, is_position_in_sprite_sheet_image};
 use crate::serial::IntroText;
 use crate::TEMP_TESTING_INTRO_TEXT;
@@ -73,7 +74,7 @@ impl WhyDrawer {
             play::BitmapFont::new(texture)
         };
 
-        let box_texture = system_texture("eyes.png").await.unwrap();
+        let box_texture = system_texture("pinkeyes.png").await.unwrap();
         let base_texture = system_texture("base.png").await.unwrap();
         let music_texture = system_texture("music-texture.png").await.unwrap();
         let ins_texture = system_texture("ins1.png").await.unwrap();
@@ -645,6 +646,28 @@ impl WhyDrawer {
                         &subgame.assets.texture,
                         params,
                     );
+                    /*if member.name == "Plum" || member.name == "gdr" {
+                        let a_source = sheet_source_rect(member.sprite);
+                        let a_obj = CollisionObject {
+                            position: member.position.into(),
+                            section: a_source,
+                            grid: &subgame.assets.image,
+                        };
+                        for i in 0..200 {
+                            for j in 0..200 {
+                                let position = Position::new(i, j);
+                                if a_obj.is_square_active(position) {
+                                    macroquad::prelude::draw_rectangle(
+                                        i as f32,
+                                        j as f32,
+                                        1.0,
+                                        1.0,
+                                        macroquad::prelude::BLUE,
+                                    );
+                                }
+                            }
+                        }
+                    }*/
 
                     if member.text.contents.starts_with("{Image File") {
                         let max_per_page = max_var_per_page(&game.members, "Image File");

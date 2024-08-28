@@ -82,7 +82,7 @@ HTML=$(cat <<- END
 </head>
 <body oncontextmenu="return false;" style="margin: 0; padding: 0; height: 100vh; width: 100vw;">
     <canvas id="glcanvas" tabindex='1'></canvas>
-    <script src="https://not-fl3.github.io/miniquad-samples/mq_js_bundle.js"></script>
+    <script src="mq_js_bundle.js"></script>
     <script src="sapp_jsutils.js"></script>
     <script src="quad-storage.js"></script>
     <script src="plugin.js"></script>

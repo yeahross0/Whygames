@@ -1131,6 +1131,27 @@
     {
       "name": "",
       "position": {
+        "y": 32,
+        "x": 338
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "{Instrument Pic}",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": []
+    },
+    {
+      "name": "",
+      "position": {
         "y": 7,
         "x": 319
       },

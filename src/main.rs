@@ -288,7 +288,7 @@ async fn main() -> WhyResult<()> {
     let mut navigation = Navigation::new(boot_info.initial_game);
 
     // TODO: Careful when actually running on wasm
-    #[cfg(target_arch = "wasm32")]
+    /*#[cfg(target_arch = "wasm32")]
     {
         subgame.assets.image = Image::gen_image_color(
             meta::INNER_WIDTH as u16,
@@ -299,7 +299,7 @@ async fn main() -> WhyResult<()> {
         //subgame.assets.texture.update(&subgame.assets.image);
         subgame.assets.texture = macroquad::texture::Texture2D::from_image(&subgame.assets.image);
         subgame.assets.texture.set_filter(FilterMode::Nearest);
-    }
+    }*/
 
     let mut inner_camera = match subgame.size {
         play::Size::Small => Camera::Inner {

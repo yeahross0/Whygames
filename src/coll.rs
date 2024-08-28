@@ -83,9 +83,7 @@ impl<'a, G: Grid> Grid for GridSection<'a, G> {
 
     fn get_square_bit(&self, position: Position) -> bool {
         let pos = position - self.section.min;
-        self.grid.get_square_bit(
-            pos
-        )
+        self.grid.get_square_bit(pos)
     }
 }
 
@@ -123,7 +121,10 @@ impl<'a, G: Grid> CollisionObject<'a, G> {
         );
         for x in region_to_check.min.x..region_to_check.max.x {
             for y in region_to_check.min.y..region_to_check.max.y {
-                if obj.is_square_active(Position::new(x, y)) {
+                let position = Position::new(x, y);
+                if self.is_square_active(position)
+                    && obj.is_square_active(position)
+                {
                     return true;
                 }
             }
@@ -169,18 +170,26 @@ mod tests {
         #[rustfmt::skip]
         
         let section = Rect::aabb(1, 1, 3, 3);
-        assert!(
-            !_is_subsection_square_active(&GRID, Position::new(0, 0), section)
-        );
-        assert!(
-            _is_subsection_square_active(&GRID, Position::new(1, 0), section)
-        );
-        assert!(
-            _is_subsection_square_active(&GRID, Position::new(0, 1), section)
-        );
-        assert!(
-            !_is_subsection_square_active(&GRID, Position::new(1, 1), section)
-        );
+        assert!(!_is_subsection_square_active(
+            &GRID,
+            Position::new(0, 0),
+            section
+        ));
+        assert!(_is_subsection_square_active(
+            &GRID,
+            Position::new(1, 0),
+            section
+        ));
+        assert!(_is_subsection_square_active(
+            &GRID,
+            Position::new(0, 1),
+            section
+        ));
+        assert!(!_is_subsection_square_active(
+            &GRID,
+            Position::new(1, 1),
+            section
+        ));
     }
 
     #[test]
@@ -189,11 +198,17 @@ mod tests {
         
         let section = Rect::aabb(1, 1, 3, 3);
         let adjustment = Position::new(2, 2);
-        assert!(
-            !is_adjusted_subsection_square_active(&GRID, Position::new(1, 1), adjustment, section)
-        );
-        assert!(
-            is_adjusted_subsection_square_active(&GRID, Position::new(2, 1), adjustment, section)
-        );
+        assert!(!is_adjusted_subsection_square_active(
+            &GRID,
+            Position::new(1, 1),
+            adjustment,
+            section
+        ));
+        assert!(is_adjusted_subsection_square_active(
+            &GRID,
+            Position::new(2, 1),
+            adjustment,
+            section
+        ));
     }
 }

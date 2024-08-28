@@ -326,7 +326,7 @@
       ]
     },
     {
-      "name": "",
+      "name": "Plum",
       "position": {
         "y": 64,
         "x": 116
@@ -431,11 +431,34 @@
               }
             }
           ]
+        },
+        {
+          "questions": [
+            {
+              "IsCollidingWith": {
+                "Member": {
+                  "name": "gdr"
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Motion": {
+                "Go": {
+                  "direction": [
+                    "South"
+                  ],
+                  "speed": "Fast"
+                }
+              }
+            }
+          ]
         }
       ]
     },
     {
-      "name": "",
+      "name": "gdr",
       "position": {
         "y": 68,
         "x": 169

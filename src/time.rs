@@ -6,6 +6,8 @@ const EXPECTED_DELTA: f64 = 1.0 / EXPECTED_FPS;
 pub struct TimeKeeping {
     pub total_elapsed: f64,
     last_timestamp: f64,
+    // TODO: Handling this ok?
+    //playback_rate: f64,
 }
 
 impl TimeKeeping {
@@ -13,12 +15,14 @@ impl TimeKeeping {
         TimeKeeping {
             total_elapsed: 0.0,
             last_timestamp: time,
+            //playback_rate: 1.0,
         }
     }
 
-    pub fn update(&mut self, time: f64) {
+    pub fn update(&mut self, time: f64, playback_rate: f64) {
         let elapsed = time - self.last_timestamp;
-        let capped_elapsed = elapsed.min(MAX_FRAME_TIME);
+        // TODO: Multiplication by rate happen on line 1 or 2?
+        let capped_elapsed = elapsed.min(MAX_FRAME_TIME) * playback_rate;
         self.total_elapsed += capped_elapsed;
         self.last_timestamp = time;
     }

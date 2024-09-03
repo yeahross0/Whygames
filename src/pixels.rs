@@ -25,6 +25,12 @@ impl Rect {
         Rect::from_half_size([x, y], half_width, half_height)
     }
 
+    pub fn tlwh(x: i32, y: i32, w: u32, h: u32) -> Rect {
+        let top_left = Position::new(x, y);
+        let size = Size::new(w, h);
+        Rect::new(top_left, top_left + size)
+    }
+
     pub fn from_top_left(top_left: Position, size: Size) -> Rect {
         Rect::new(top_left, top_left + size)
     }

@@ -25,7 +25,11 @@ const TEMP_TESTING_INTRO_TEXT: bool = false;
 // TODO: Art animate -> starts off with no entries, if click add looks like nothing was added
 // TODO: Save before crashing
 // TODO: Make it so animation has to have at least 1 frame, and stop deleting last frame
+// TOOD: Will need to check what Questions/Demands are missing from editor section at some point
 
+use art::SpriteSize;
+use drawer::sheet_source_rect;
+use edit::sprite_from_context;
 use macroquad::{
     color::{colors as quad_colours, Color as Colour},
     experimental::coroutines::{start_coroutine, Coroutine},
@@ -268,6 +272,7 @@ async fn main() -> WhyResult<()> {
         Environment {
             score: 0,
             difficulty_level: DifficultyLevel::default(),
+            playback_rate: 1.0,
             context,
             rng: rng_from_time(),
         }
@@ -467,7 +472,7 @@ async fn main() -> WhyResult<()> {
             );
         }
 
-        time_keeping.update(macroquad::time::get_time());
+        time_keeping.update(macroquad::time::get_time(), environment.playback_rate);
 
         inner_camera = match subgame.size {
             play::Size::Small => Camera::Inner {
@@ -488,6 +493,29 @@ async fn main() -> WhyResult<()> {
                 }
             }
         };
+        {
+            let sprite = sprite_from_context(&environment.context);
+
+            fn has_editable_sprite(members: &[play::Member]) -> bool {
+                // TODO: ?
+                members.iter().any(|m| m.text.contents == "{Edit Sprite}")
+            }
+
+            if has_editable_sprite(&game.members) {
+                match sprite.size {
+                    SpriteSize::OuterBg => {
+                        inner_camera = Camera::EditedOuter {
+                            position: game.screen_position(),
+                        }
+                    }
+                    _ => {
+                        inner_camera = Camera::Inner {
+                            position: game.screen_position(),
+                        }
+                    }
+                }
+            }
+        }
 
         // TODO: Unoptimised, maybe don't worry
         environment.update_var(
@@ -500,7 +528,11 @@ async fn main() -> WhyResult<()> {
         music_maker.update_note_length(&mut environment, input.mouse_scroll);
 
         'multi_loop: while time_keeping.has_more_frames_to_play(game.frame_number) {
-            input.update(inner_camera, &mut draw_tool.tracker.temp_save);
+            input.update(
+                inner_camera,
+                game.screen_position(),
+                &mut draw_tool.tracker.temp_save,
+            );
 
             let outcome = update_metagame(
                 &mut environment,
@@ -517,19 +549,20 @@ async fn main() -> WhyResult<()> {
             )
             .await?;
 
-            if game.music_maker_member().is_some() {
-                music_maker
-                    .handle_actions(
-                        &mut midi_file_container,
-                        &mut smf,
-                        &mut audio_player,
-                        &game,
-                        &drawer.music_image,
-                        &input,
-                    )
-                    .ok();
-                // ok() for now
-            }
+            // TODO: Removed important if stmt, or...
+            //if game.music_maker_member().is_some() {
+            music_maker
+                .handle_actions(
+                    &mut midi_file_container,
+                    &mut smf,
+                    &mut audio_player,
+                    &game,
+                    &drawer.music_image,
+                    &input,
+                )
+                .ok();
+            // TODO: ok() for now
+            //}
 
             if let MenuOutcome::Quit = outcome {
                 break 'main_loop;

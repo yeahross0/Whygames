@@ -1,0 +1,56 @@
+Layers tab
+Button to change draw sprite in Drawer
+        Play music when playing
+Stop music when stopped/paused
+add standard sfx
+Add Enter shortcut to some screens (just the ones that take text I suppose)
+
+--- Buttons/Style
+Member button look nicer
+Fit all buttons in looking ok in Maker
+Grey out whatevers not in initial demo
+
+--- Fix too long chores/qs/ds
+Fix circumstances where text len is too big
+
+--- Add member setup
+Made Add/Clone work ok when you want to backout
+Force member names to be unique
+
+--- Member screen
+Add move up/down/delete/whatever to ChooseMember screen
+Only add member after finishing screens
+
+
+
+--- Show/hide out of shot sprites
+add button to show/hide
+        add choose member button in Maker
+
+--- Outside clicks
+        Only detect clicks in Maker when they are inside inner screen
+Check if this breaks everything
+
+--- Add EU characters
+Add to pixollota.png in fonts and system
+Search and replace for that char string
+
+        --- Fix Queues
+        Fix back/forth bug...
+        ...
+        Make Up and Down buttons work in DemandChooser
+
+
+        Change art background colour
+        Make turtoise/hare work
+        Make pause button work
+        Have set name and sprite page for Add button
+        Have set name for CLone button
+        Remove 8 option in choosesprite
+        Choose member name for Clone
+        Add title to rename member
+        Make any part of Todos clickable
+
+        --- Draw BIG games
+        Make borders work in Big games
+        Make mouse position work in big games   

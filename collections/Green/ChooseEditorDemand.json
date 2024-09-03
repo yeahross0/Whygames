@@ -1399,6 +1399,186 @@
           ]
         }
       ]
+    },
+    {
+      "name": "UpQ",
+      "position": {
+        "y": 193,
+        "x": 200
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "Move Question Up",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariableFromText": {
+                "name": "Demand"
+              }
+            },
+            {
+              "MoveToGame": {
+                "name": "FinishDemand"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DownQ",
+      "position": {
+        "y": 207,
+        "x": 200
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "Move Question Down",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariableFromText": {
+                "name": "Demand"
+              }
+            },
+            {
+              "MoveToGame": {
+                "name": "FinishDemand"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UpD",
+      "position": {
+        "y": 112,
+        "x": 315
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "Move Demand Up",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariableFromText": {
+                "name": "Demand"
+              }
+            },
+            {
+              "MoveToGame": {
+                "name": "FinishDemand"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DownD",
+      "position": {
+        "y": 125,
+        "x": 313
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "Move Demand Down",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariableFromText": {
+                "name": "Demand"
+              }
+            },
+            {
+              "MoveToGame": {
+                "name": "FinishDemand"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "published": true,

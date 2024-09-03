@@ -1,12 +1,17 @@
 use super::pixels;
 use super::seeded_rng::{RandomRange, SeededRng};
+use crate::art::{Sprite, SpriteSize};
 use crate::colours;
+// TODO: Make this an available method of Sprite?
+use crate::drawer::sheet_source_rect;
+use crate::edit::sprite_from_context;
 use crate::history::{Event, Step, StepDirection};
 use crate::inp::Input;
-use crate::meta::{self, Environment};
-use crate::play::{self, is_position_in_sized_area, Assets};
+use crate::meta::{self, Environment, INNER_HEIGHT, INNER_WIDTH, OUTER_HEIGHT, OUTER_WIDTH};
+use crate::play::{self, is_position_in_sized_area, Assets, Size};
 use crate::rend::{Image, Texture};
 use itertools::Itertools;
+use macroquad::ui::{self, hash};
 use macroquad::{
     color::{colors as quad_colours, Color as Colour},
     logging as log,
@@ -24,6 +29,8 @@ use strum_macros::EnumString;
 
 pub const PAINT_SIZE: u16 = 16;
 const PAINT_SPEED: i32 = 256;
+
+//static mut THING: String = String::new();
 
 #[derive(Clone, Debug, PartialEq, EnumString, Default)]
 pub enum DrawMode {
@@ -78,6 +85,7 @@ pub fn draw_using_brush(
     mouse_position: pixels::Position,
     movement: Vec2,
     updates: &mut HashMap<pixels::Position, (Colour, Colour)>,
+    sprite_rect: pixels::Rect,
 ) {
     for row in 0..brush.len() {
         for column in 0..brush[row].len() {
@@ -87,7 +95,11 @@ pub fn draw_using_brush(
                 let x = (mouse_position.x as f32 - movement.x + x_offset) as u32;
                 let y = (mouse_position.y as f32 - movement.y + y_offset) as u32;
                 let colour = paint_image.get_pixel(x % PAINT_SIZE as u32, y % PAINT_SIZE as u32);
-                if x < image.width as u32 && y < image.height as u32 {
+                if x >= sprite_rect.min.x as u32
+                    && y >= sprite_rect.min.y as u32
+                    && x < sprite_rect.max.x as u32
+                    && y < sprite_rect.max.y as u32
+                {
                     let pos = pixels::Position::new(x as i32, y as i32);
                     let before = image.get_pixel(x, y);
                     image.set_pixel(x, y, colour);
@@ -212,6 +224,7 @@ pub struct Tracker {
     pub temp_save: bool,
     pub pixel_updates: HashMap<pixels::Position, (Colour, Colour)>,
     pub preview_shape: Option<PreviewShape>,
+    pub previous_position: pixels::Position,
 }
 
 #[derive(Debug)]
@@ -239,6 +252,7 @@ impl DrawTool {
         tool_position: Vec2,
         assets: &mut Assets,
         events_to_apply: &mut Vec<Event>,
+        subgame_size: play::Size,
     ) {
         let draw_mode: DrawMode = environment.get_typed_var("Draw Mode").unwrap();
 
@@ -250,23 +264,102 @@ impl DrawTool {
             &self.paint_choices[self.tracker.paint_index].image
         };
 
+        let sprite = sprite_from_context(&environment.context);
+
+        let sprite_rect = sheet_source_rect(sprite);
+
+        /*let subgame_width = if subgame_size == play::Size::Small {
+            INNER_WIDTH
+        } else {
+            OUTER_WIDTH
+        };
+        let subgame_height = if subgame_size == play::Size::Small {
+            INNER_HEIGHT
+        } else {
+            OUTER_HEIGHT
+        };*/
+        let subgame_width = if sprite.size == SpriteSize::OuterBg {
+            OUTER_WIDTH
+        } else {
+            INNER_WIDTH
+        };
+        let subgame_height = if sprite.size == SpriteSize::OuterBg {
+            OUTER_HEIGHT
+        } else {
+            INNER_WIDTH
+        };
+
+        let constrained_input_position = pixels::Position::new(
+            input.inner.position.x.max(0).min(subgame_width as i32 - 1),
+            input.inner.position.y.max(0).min(subgame_height as i32 - 1),
+        );
+
+        let mut moose_position = constrained_input_position;
+
+        if let SpriteSize::Square(size) = sprite.size {
+            /*let mut diffazoid = 0.5;
+
+            unsafe {
+                ui::root_ui().input_text(hash!(), "<- input text 1", &mut THING);
+
+                diffazoid = THING.parse().unwrap_or(0.5);
+            }*/
+
+            // TODO: I've made mistakes in the calculations so adding chosen numbers here
+            let mystery_bonus = match size {
+                8 => -2.0,
+                16 => 7.0,
+                32 => 7.0,
+                64 => 7.25,
+                128 => 7.25,
+                _ => 0.0,
+            };
+
+            let temp = (mystery_bonus + moose_position.x as f32) / INNER_HEIGHT as f32
+                * sprite_rect.width() as f32;
+            //+ mystery_bonus);
+            //log::debug!("MP: {:?}", temp);
+            moose_position.x = temp as i32; // * -0.5) as i32;
+
+            moose_position.y = (moose_position.y as f32 / INNER_HEIGHT as f32
+                * sprite_rect.height() as f32) as i32;
+            moose_position += sprite_rect.min;
+            //moose_position.x -= 6;
+            //moose_position.x -= 12;
+            let adjust = size as f32 / 128.0;
+            let border_width = 56.0;
+            moose_position.x -= (border_width * adjust) as i32;
+            //moose_position.x -= 26;
+            //moose_position.x -= 25; // Why not 26?
+            //moose_position.x -= diff2;
+        } else {
+            moose_position += sprite_rect.min;
+        }
+
         // TODO: Outer mouse?
         if input.inner.left_button.is_down()
             && Self::is_mouse_hovering(tool_position, input.outer.position)
         {
-            let mut movement: Vec2 = input.inner.drag.into();
+            //let mut movement: Vec2 = input.inner.drag.into();
+            let mut movement: Vec2 = (moose_position - self.tracker.previous_position).into();
 
             if input.inner.left_button.is_pressed() {
                 movement = Vec2::ZERO;
             }
 
+            //movement.x = movement.x / INNER_HEIGHT as f32 * sprite_rect.width() as f32;
+            //movement.y = movement.y / INNER_HEIGHT as f32 * sprite_rect.height() as f32;
+
+            //log::debug!("mp {:?}", moose_position);
+
             draw_using_brush(
                 &brush,
                 &mut assets.image,
                 paint_image,
-                input.inner.position,
+                moose_position,
                 movement,
                 &mut self.tracker.pixel_updates,
+                sprite_rect,
             );
 
             while (movement.x != 0.0 || movement.y != 0.0) && draw_mode != DrawMode::Spray {
@@ -274,9 +367,10 @@ impl DrawTool {
                     &brush,
                     &mut assets.image,
                     paint_image,
-                    input.inner.position,
+                    moose_position,
                     movement,
                     &mut self.tracker.pixel_updates,
+                    sprite_rect,
                 );
                 if movement.x.abs() < 1.0 {
                     movement.x = 0.0;
@@ -291,20 +385,7 @@ impl DrawTool {
             assets.texture.update(&assets.image);
         }
 
-        let constrained_input_position = pixels::Position::new(
-            input
-                .inner
-                .position
-                .x
-                .max(0)
-                .min(meta::INNER_WIDTH as i32 - 1),
-            input
-                .inner
-                .position
-                .y
-                .max(0)
-                .min(meta::INNER_HEIGHT as i32 - 1),
-        );
+        self.tracker.previous_position = moose_position;
 
         match draw_mode {
             DrawMode::Bucket => {
@@ -316,7 +397,7 @@ impl DrawTool {
                         let fill_order = environment.get_typed_var("Bucket").unwrap();
                         self.tracker.fill = Some(Fill::new(
                             &assets.image,
-                            constrained_input_position,
+                            moose_position,
                             self.tracker.paint_index,
                             fill_order,
                         ));
@@ -341,13 +422,15 @@ impl DrawTool {
                     .unwrap();
 
                 // TODO: Tracker var instead of environment::MinX|Y?
-                if input.outer.left_button.is_pressed() {
+                if input.outer.left_button.is_pressed()
+                    && Self::is_mouse_hovering(tool_position, input.outer.position)
+                {
                     self.tracker.preview_shape = Some(PreviewShape {
                         shape,
                         style: shape_style,
                         area: pixels::Rect {
-                            min: constrained_input_position,
-                            max: constrained_input_position,
+                            min: moose_position,
+                            max: moose_position,
                         },
                     });
                 }
@@ -359,24 +442,30 @@ impl DrawTool {
                             style: style,
                             area: pixels::Rect {
                                 min: area.min,
-                                max: constrained_input_position,
+                                max: moose_position,
                             },
                         }),
-                        _ => Some(PreviewShape {
-                            shape,
-                            style: shape_style,
-                            area: pixels::Rect {
-                                min: constrained_input_position,
-                                max: constrained_input_position,
-                            },
-                        }),
+                        _ => {
+                            if Self::is_mouse_hovering(tool_position, input.outer.position) {
+                                Some(PreviewShape {
+                                    shape,
+                                    style: shape_style,
+                                    area: pixels::Rect {
+                                        min: moose_position,
+                                        max: moose_position,
+                                    },
+                                })
+                            } else {
+                                None
+                            }
+                        }
                     };
                 }
 
                 if input.outer.left_button.is_released()
                 /*&& Self::is_mouse_hovering(tool_position, input.outer.position)*/
                 {
-                    if self.tracker.shape_fill.is_empty() {
+                    if self.tracker.shape_fill.is_empty() && self.tracker.preview_shape.is_some() {
                         let area = self.tracker.preview_shape.as_ref().map(|s| s.area).unwrap();
                         match shape {
                             Shape::Line => {
@@ -432,7 +521,15 @@ impl DrawTool {
                                     .insert(pixels::Position::new(x, y), (before, colour));*/
                                 };
                                 let start = area.min();
+                                let start = pixels::Position::new(
+                                    start.x.max(sprite_rect.min.x),
+                                    start.y.max(sprite_rect.min.y),
+                                );
                                 let end = area.max();
+                                let end = pixels::Position::new(
+                                    end.x.min(sprite_rect.max.x - 1),
+                                    end.y.min(sprite_rect.max.y - 1),
+                                );
                                 if shape_style == ShapeStyle::Filled {
                                     for y in start.y..=end.y {
                                         for x in start.x..=end.x {
@@ -468,8 +565,11 @@ impl DrawTool {
                                 let mut set_pixel = |x: f32, y: f32| {
                                     let px = centre.x + x;
                                     let py = centre.y + y;
-                                    // TODO: Also check max
-                                    if px >= 0.0 && py >= 0.0 {
+                                    if px >= sprite_rect.min.x as f32
+                                        && py >= sprite_rect.min.y as f32
+                                        && px < sprite_rect.max.x as f32
+                                        && py < sprite_rect.max.y as f32
+                                    {
                                         //assets.image.set_pixel(px as u32, py as u32, colours::RED);
                                         let before = assets.image.get_pixel(px as _, py as _);
                                         let colour = paint_image.get_pixel(
@@ -668,7 +768,7 @@ impl DrawTool {
             assets.texture.update(&assets.image);
         }
 
-        self.fill_in(&mut assets.image);
+        self.fill_in(&mut assets.image, sprite_rect);
 
         if let Some(fill) = &self.tracker.fill {
             assets.texture.update(&assets.image);
@@ -713,7 +813,7 @@ impl DrawTool {
         rect.contains_point(mouse_position)
     }
 
-    pub fn fill_in(&mut self, image: &mut Image) {
+    pub fn fill_in(&mut self, image: &mut Image, sprite_rect: pixels::Rect) {
         if let Some(fill) = &mut self.tracker.fill {
             // TODO: Proper lopp?
             let mut i = 0;
@@ -729,10 +829,10 @@ impl DrawTool {
 
                 for (x, y) in [(-1, 0), (0, -1), (1, 0), (0, 1)] {
                     let pos = pos.pos + pixels::Position::new(x, y);
-                    if pos.x >= 0
-                        && pos.y >= 0
-                        && pos.x < image.width as i32
-                        && pos.y < image.height as i32
+                    if pos.x >= sprite_rect.min.x
+                        && pos.y >= sprite_rect.min.y
+                        && pos.x < sprite_rect.max.x //image.width as i32
+                        && pos.y < sprite_rect.max.y //image.height as i32
                         && image.get_pixel(pos.x as u32, pos.y as u32) == fill.original_colour
                     {
                         let dist: u64 = match fill.order {

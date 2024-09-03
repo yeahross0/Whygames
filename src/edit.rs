@@ -39,6 +39,7 @@ pub struct Editor {
     pub undo_stack: Vec<history::Step>,
     pub redo_stack: Vec<history::Step>,
     pub inner_copy: Option<play::Game>,
+    pub paused_copy: Option<play::Game>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -554,6 +555,15 @@ impl Fancy for String {
     }
 }
 
+fn shorten(s: &str, limit: usize) -> String {
+    let real_limit = limit.max(3).min(s.len());
+    let mut out = s[..real_limit].to_string();
+    if out.len() < s.len() {
+        out.push_str("..")
+    }
+    out
+}
+
 trait ToText {
     fn to_text(&self) -> Text;
 
@@ -955,7 +965,10 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
             vec!["Has Collided With ".plain(), FancyText::Area(*area)]
         }
         Question::IsCollidingWith(CollisionWith::Member { name }) => {
-            vec!["Has Collided With ".plain(), name.in_colour(colours::RED)]
+            vec![
+                "Has Collided With ".plain(),
+                shorten(name, 9).in_colour(colours::RED),
+            ]
         }
         Question::IsAnimationFinished => simple_text("Has Animation Finished"),
         Question::IsPagedVariableValid { name, value } => {
@@ -1207,6 +1220,7 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
         Demand::UpdateScratchFromMember => simple_text("Set variables from member values"),
         Demand::UpdateScratchFromQuestion => simple_text("Set variables from question values"),
         Demand::UpdateScratchFromDemand => simple_text("Set variables from demand values"),
+        Demand::SwitchMember => simple_text("Switch member"),
         Demand::AddMember => simple_text("Add a member"),
         Demand::RemoveMember => simple_text("Remove the member"),
         Demand::CloneMember => simple_text("Clone the member"),
@@ -1214,12 +1228,17 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
         Demand::RemoveChore => simple_text("Remove the chore"),
         Demand::MoveChoreUp => simple_text("Move the chore up"),
         Demand::MoveChoreDown => simple_text("Move the chore down"),
+        Demand::MoveQuestionUp => simple_text("Move the question up"),
+        Demand::MoveQuestionDown => simple_text("Move the question down"),
+        Demand::MoveDemandUp => simple_text("Move the demand up"),
+        Demand::MoveDemandDown => simple_text("Move the demand down"),
         Demand::UpdateQuestion => simple_text("Update the question"),
         Demand::UpdateDemand => simple_text("Update the demand"),
         Demand::SetStartSprite => simple_text("Set the starting sprite"),
         Demand::Quit => simple_text("Quit the game"),
         Demand::Stop => simple_text("Stop the game"),
         Demand::Play => simple_text("Play the game"),
+        Demand::Pause => simple_text("Pause the game"),
         Demand::MoveToGame { name } => {
             vec![
                 "Switch to ".plain(),

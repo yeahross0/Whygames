@@ -1,5 +1,6 @@
 pub enum Action {
     Play,
+    Pause,
     Stop,
     Quit,
     MoveToGame { name: String },

@@ -78,6 +78,7 @@ impl Transition {
 pub struct Environment {
     pub score: i32,
     pub difficulty_level: DifficultyLevel,
+    pub playback_rate: f64,
     pub context: HashMap<String, String>,
     pub rng: SeededRng,
 }
@@ -253,6 +254,7 @@ pub async fn update_metagame(
     if environment.context["Difficulty"] == "Tough" {
         environment.difficulty_level = DifficultyLevel::Tough;
     }
+    environment.playback_rate = environment.get_typed_var("Playback Rate").unwrap_or(1.0);
 
     events_to_apply.append(&mut new_events);
 
@@ -500,6 +502,7 @@ pub async fn update_metagame(
                 member.position,
                 &mut subgame.assets,
                 &mut events_to_apply,
+                subgame.size,
             );
         }
 
@@ -713,6 +716,51 @@ pub fn apply_event(
                 true
             }
         }
+        Event::MoveQuestionUp { id } => {
+            if id.question == 0 {
+                false
+            } else {
+                members[id.member].todo_list[id.chore]
+                    .questions
+                    .swap(id.question, id.question - 1);
+                context_variables.insert("Question Index".to_owned(), (id.question).to_string());
+                true
+            }
+        }
+        Event::MoveQuestionDown { id } => {
+            if id.question == serial::QUESTION_COUNT - 1 {
+                false
+            } else {
+                members[id.member].todo_list[id.chore]
+                    .questions
+                    .swap(id.question, id.question + 1);
+                context_variables
+                    .insert("Question Index".to_owned(), (id.question + 2).to_string());
+                true
+            }
+        }
+        Event::MoveDemandUp { id } => {
+            if id.demand == 0 {
+                false
+            } else {
+                members[id.member].todo_list[id.chore]
+                    .demands
+                    .swap(id.demand, id.demand - 1);
+                context_variables.insert("Demand Index".to_owned(), (id.demand).to_string());
+                true
+            }
+        }
+        Event::MoveDemandDown { id } => {
+            if id.demand == serial::DEMAND_COUNT - 1 {
+                false
+            } else {
+                members[id.member].todo_list[id.chore]
+                    .demands
+                    .swap(id.demand, id.demand + 1);
+                context_variables.insert("Demand Index".to_owned(), (id.demand + 2).to_string());
+                true
+            }
+        }
         Event::UpdateQuestion { id, question } => {
             members[id.member].todo_list[id.chore].questions[id.question] = question.clone();
             true
@@ -888,6 +936,10 @@ pub fn handle_events(
             },
             Event::MoveChoreUp { id } => Event::MoveChoreDown { id: *id },
             Event::MoveChoreDown { id } => Event::MoveChoreUp { id: *id },
+            Event::MoveQuestionUp { id } => Event::MoveQuestionDown { id: *id },
+            Event::MoveQuestionDown { id } => Event::MoveQuestionUp { id: *id },
+            Event::MoveDemandUp { id } => Event::MoveDemandDown { id: *id },
+            Event::MoveDemandDown { id } => Event::MoveDemandUp { id: *id },
             Event::UpdateQuestion { id, .. } => Event::UpdateQuestion {
                 id: *id,
                 question: subgame.members[id.member].todo_list[id.chore].questions[id.question]
@@ -1086,8 +1138,12 @@ async fn apply_menu_actions(
     // TODO: Use hashset? But then don't know order, except imposed order
     for menu_action in menu_actions {
         match menu_action {
+            // TODO: These these Play/Pause/Stop up with a nice interface
             menu::Action::Play => {
-                if let Some(inner_game) = editor.inner_copy.take() {
+                if let Some(inner_game) = editor.paused_copy.take() {
+                    // *subgame = inner_game;
+                    editor.inner_copy = Some(inner_game.clone());
+                } else if let Some(inner_game) = editor.inner_copy.take() {
                     *subgame = inner_game;
                     editor.inner_copy = Some(subgame.clone());
                 } else {
@@ -1097,8 +1153,24 @@ async fn apply_menu_actions(
                 log::debug!("Play!");
                 audio_player.play_music(subgame.assets.music_data.clone())?;
             }
-            menu::Action::Stop => {
+            menu::Action::Pause => {
+                /*if let Some(inner_game) = editor.inner_copy.take() {
+                    *subgame = inner_game;
+                }*/
                 if let Some(inner_game) = editor.inner_copy.take() {
+                    editor.paused_copy = Some(inner_game.clone());
+                    //editor.inner_copy = Some(inner_game.clone());
+                }
+                if let Some(sink_player) = &mut audio_player.sink_player {
+                    sink_player.music_sink.pause();
+                    sink_player.sfx_sinks.clear();
+                }
+                log::debug!("Stop!");
+            }
+            menu::Action::Stop => {
+                if let Some(inner_game) = editor.paused_copy.take() {
+                    *subgame = inner_game;
+                } else if let Some(inner_game) = editor.inner_copy.take() {
                     *subgame = inner_game;
                 }
                 if let Some(sink_player) = &mut audio_player.sink_player {
@@ -1189,6 +1261,11 @@ async fn apply_menu_actions(
             menu::Action::NextInQueue => {
                 // TODO: Check bounds
                 navigation.queue.index += 1;
+                if navigation.queue.index >= navigation.queue.links.len() {
+                    log::warn!("Looping back around queue index");
+                    navigation.queue.index = 0;
+                    navigation.queue.links.truncate(1);
+                }
                 let name = &navigation.queue.links[navigation.queue.index].game;
                 // TODO: Frame number and stuff, resetting everything
                 log::debug!("NEXT IN QUEUE: {:?}", name);

@@ -14,6 +14,14 @@ impl Sprite {
             size: SpriteSize::Empty,
         }
     }
+
+    pub fn is_square(&self) -> bool {
+        if let SpriteSize::Square(_) = self.size {
+            true
+        } else {
+            false
+        }
+    }
 }
 
 use strum_macros::Display;

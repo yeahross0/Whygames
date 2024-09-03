@@ -304,6 +304,29 @@ impl Drawer {
         );
     }
 
+    // TODO: Tidy up greatly
+    pub fn draw_grid(
+        &mut self,
+        camera: Camera,
+        screen_rect: pixels::Rect,
+        grid_cols: i32,
+        grid_rows: i32,
+    ) {
+        self.set_camera(camera);
+        let stepx = screen_rect.width() as f32 / grid_cols as f32;
+        let stepy = screen_rect.height() as f32 / grid_rows as f32;
+        const LIGHTGRAY: Colour = Colour::new(0.65, 0.65, 0.65, 1.00);
+        const GRAY: Colour = Colour::new(0.55, 0.55, 0.55, 1.00);
+        for i in 0..grid_cols {
+            for j in 0..grid_rows {
+                let x = screen_rect.min.x as f32 + i as f32 * stepx;
+                let y = screen_rect.min.y as f32 + j as f32 * stepy;
+                let col = if i % 2 == j % 2 { LIGHTGRAY } else { GRAY };
+                draw_rectangle(x, y, stepx, stepy, col);
+            }
+        }
+    }
+
     pub fn draw_rectangle_lines(
         &mut self,
         camera: Camera,

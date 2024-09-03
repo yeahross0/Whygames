@@ -234,6 +234,7 @@
                 "name": "Motion"
               }
             },
+            "ResetQueue",
             {
               "AddToQueue": {
                 "name": "ChooseMember"
@@ -334,6 +335,7 @@
                 "name": "Motion"
               }
             },
+            "ResetQueue",
             {
               "AddToQueue": {
                 "name": "ChooseArea"
@@ -388,6 +390,7 @@
                 "value": "AttachFromPositions"
               }
             },
+            "ResetQueue",
             {
               "AddToQueue": {
                 "name": "ChooseMember"

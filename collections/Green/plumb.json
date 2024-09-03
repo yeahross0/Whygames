@@ -403,6 +403,22 @@
         {
           "questions": [
             {
+              "IsCollidingWith": {
+                "Member": {
+                  "name": "85"
+                }
+              }
+            }
+          ],
+          "demands": [
+            {
+              "Motion": "Stop"
+            }
+          ]
+        },
+        {
+          "questions": [
+            {
               "IsMouseInteracting": {
                 "which": "Left",
                 "state": "Press",
@@ -440,6 +456,16 @@
                   "name": "gdr"
                 }
               }
+            }
+          ],
+          "demands": [
+            "Lose"
+          ]
+        },
+        {
+          "questions": [
+            {
+              "IsWinStatusSetTo": "Lost"
             }
           ],
           "demands": [

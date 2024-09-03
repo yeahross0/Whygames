@@ -43,6 +43,18 @@ pub enum Event {
     MoveChoreDown {
         id: ChoreId,
     },
+    MoveQuestionUp {
+        id: QuestionId,
+    },
+    MoveQuestionDown {
+        id: QuestionId,
+    },
+    MoveDemandUp {
+        id: DemandId,
+    },
+    MoveDemandDown {
+        id: DemandId,
+    },
     UpdateQuestion {
         id: QuestionId,
         question: Question,

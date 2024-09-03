@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::{drawer::Camera, play::position_in_world};
+use crate::{drawer::Camera, meta, play::position_in_world};
 
 use super::pixels;
 use macroquad::input::KeyCode;
@@ -131,7 +131,12 @@ pub struct Input {
 }
 
 impl Input {
-    pub fn update(&mut self, inner_camera: Camera, temp_save: &mut bool) {
+    pub fn update(
+        &mut self,
+        inner_camera: Camera,
+        inner_centre: pixels::Position,
+        temp_save: &mut bool,
+    ) {
         self.chars_pressed = pressed_chars();
         self.keyboard
             .get_mut(&KeyCode::Z)
@@ -151,9 +156,9 @@ impl Input {
         let inner_position = position_in_world(mouse_position, inner_camera);
         let mut is_left_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Left);
-        let is_middle_down =
+        let mut is_middle_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Middle);
-        let is_right_down =
+        let mut is_right_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Right);
 
         /*  TODO: */
@@ -167,6 +172,18 @@ impl Input {
 
         self.outer
             .update(outer_position, is_left_down, is_middle_down, is_right_down);
+        // TODO: Added this, need to think
+        if !is_mouse_hovering(inner_centre, outer_position) {
+            if !self.inner.left_button.is_held_down() {
+                is_left_down = false;
+            }
+            if !self.inner.middle_button.is_held_down() {
+                is_middle_down = false;
+            }
+            if !self.inner.right_button.is_held_down() {
+                is_right_down = false;
+            }
+        }
         self.inner
             .update(inner_position, is_left_down, is_middle_down, is_right_down);
 
@@ -176,6 +193,17 @@ impl Input {
             self.rmb_held_down_for = 0;
         }
     }
+}
+
+// TODO: Repeated
+fn is_mouse_hovering(tool_position: pixels::Position, mouse_position: pixels::Position) -> bool {
+    const DRAW_TOOL_WIDTH: u32 = meta::INNER_WIDTH;
+    const DRAW_TOOL_HEIGHT: u32 = meta::INNER_HEIGHT;
+    let rect = pixels::Rect::from_centre(
+        [tool_position.x as _, tool_position.y as _],
+        pixels::Size::new(DRAW_TOOL_WIDTH, DRAW_TOOL_HEIGHT),
+    );
+    rect.contains_point(mouse_position)
 }
 
 pub const BACKSPACE_CODE: u32 = 8;

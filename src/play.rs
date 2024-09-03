@@ -517,8 +517,8 @@ pub fn update_game(
                                 WhichButton::Left => mouse.left_button,
                                 WhichButton::Middle => mouse.middle_button,
                                 WhichButton::Right => {
-                                    //mouse.right_button
-                                    unreachable!();
+                                    mouse.right_button
+                                    //unreachable!();
                                 }
                             };
                             constraint
@@ -1272,18 +1272,41 @@ pub fn update_game(
                         }
                     }
                 }
+                Demand::SwitchMember => {
+                    let to_name = &environment.context["Member Name"];
+                    if let Some(subgame) = subgame {
+                        let maybe_index = subgame
+                            .members
+                            .iter()
+                            .enumerate()
+                            .find(|(_, member)| member.name == *to_name)
+                            .map(|(index, _)| index);
+                        if let Some(other_index) = maybe_index {
+                            editor.selected_index = other_index;
+                        }
+                    }
+                }
                 // Events
                 Demand::AddMember => {
                     let position = Vec2::new(
                         game.rng.number_in_range(0.0, 200.0).floor(),
                         game.rng.number_in_range(0.0, 100.0).floor(),
                     );
+                    // TODO: More robust solution
+                    let mut valid_numbers: Vec<i32> = Vec::new();
+                    for member in &subgame.unwrap().members {
+                        if let Ok(num) = member.name.parse() {
+                            valid_numbers.push(num);
+                        }
+                    }
+                    valid_numbers.sort();
+                    let name = valid_numbers.last().unwrap_or(&0).to_string();
                     events_to_apply.push(Event::AddMember {
                         index: None,
                         member: Member {
-                            name: "".to_string(),
+                            name,
                             position,
-                            text: Text::from_str("DEBUG"),
+                            text: Text::from_str(""), // "DEBUG"
                             switch: Switch::Off,
                             sprite: Sprite::none(),
                             animation: Animation::None,
@@ -1366,6 +1389,38 @@ pub fn update_game(
 
                     events_to_apply.push(Event::MoveChoreDown {
                         id: ChoreId::new(editor.selected_index, chore_index),
+                    });
+                }
+                Demand::MoveQuestionUp => {
+                    let chore_index = chore_index_from_context(&environment.context);
+                    let question_index = question_index_from_context(&environment.context);
+
+                    events_to_apply.push(Event::MoveQuestionUp {
+                        id: QuestionId::new(editor.selected_index, chore_index, question_index),
+                    });
+                }
+                Demand::MoveQuestionDown => {
+                    let chore_index = chore_index_from_context(&environment.context);
+                    let question_index = question_index_from_context(&environment.context);
+
+                    events_to_apply.push(Event::MoveQuestionDown {
+                        id: QuestionId::new(editor.selected_index, chore_index, question_index),
+                    });
+                }
+                Demand::MoveDemandUp => {
+                    let chore_index = chore_index_from_context(&environment.context);
+                    let demand_index = demand_index_from_context(&environment.context);
+
+                    events_to_apply.push(Event::MoveDemandUp {
+                        id: DemandId::new(editor.selected_index, chore_index, demand_index),
+                    });
+                }
+                Demand::MoveDemandDown => {
+                    let chore_index = chore_index_from_context(&environment.context);
+                    let demand_index = demand_index_from_context(&environment.context);
+
+                    events_to_apply.push(Event::MoveDemandDown {
+                        id: DemandId::new(editor.selected_index, chore_index, demand_index),
                     });
                 }
                 Demand::UpdateDemand => {
@@ -1470,6 +1525,10 @@ pub fn update_game(
                 }
                 Demand::Play => {
                     menu_actions.push(menu::Action::Play);
+                    music_maker.actions.insert(music::Action::PlayPhrase);
+                }
+                Demand::Pause => {
+                    menu_actions.push(menu::Action::Pause);
                 }
                 Demand::Stop => {
                     menu_actions.push(menu::Action::Stop);

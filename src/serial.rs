@@ -249,6 +249,7 @@ pub enum Demand {
     UpdateScratchFromMember,
     UpdateScratchFromQuestion,
     UpdateScratchFromDemand,
+    SwitchMember,
     // Events
     AddMember,
     RemoveMember,
@@ -257,6 +258,10 @@ pub enum Demand {
     RemoveChore,
     MoveChoreUp,
     MoveChoreDown,
+    MoveQuestionUp,
+    MoveQuestionDown,
+    MoveDemandUp,
+    MoveDemandDown,
     UpdateQuestion,
     UpdateDemand,
     SetStartSprite,
@@ -264,6 +269,7 @@ pub enum Demand {
     Quit,
     Stop,
     Play,
+    Pause,
     MoveToGame {
         name: String,
     },

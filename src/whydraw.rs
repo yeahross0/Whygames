@@ -74,7 +74,7 @@ impl WhyDrawer {
             play::BitmapFont::new(texture)
         };
 
-        let box_texture = system_texture("pinkeyes.png").await.unwrap();
+        let box_texture = system_texture("eyes.png").await.unwrap();
         let base_texture = system_texture("base.png").await.unwrap();
         let music_texture = system_texture("music-texture.png").await.unwrap();
         let ins_texture = system_texture("ins1.png").await.unwrap();
@@ -393,17 +393,66 @@ impl WhyDrawer {
             if member.text.contents == "{Edit Sprite}" {
                 should_disregard_text = true;
 
-                let sprite = Sprite {
-                    index: 0,
-                    size: if subgame.size == play::Size::Big {
-                        SpriteSize::OuterBg
-                    } else {
-                        SpriteSize::InnerBg
-                    },
+                for i in 0..64 {
+                    for j in 0..36 {
+                        let quart_width = INNER_WIDTH as i32 / 64;
+                        let quart_height = INNER_HEIGHT as i32 / 36;
+                        let col = if i % 2 == j % 2 {
+                            quad_colours::LIGHTGRAY
+                        } else {
+                            quad_colours::GRAY
+                        };
+
+                        self.drawer.draw_rectangle(
+                            inner_camera,
+                            pixels::Rect::from_top_left(
+                                pixels::Position::new(i * quart_width, j * quart_height),
+                                pixels::Size::new(quart_width as u32, quart_height as u32),
+                            ),
+                            col,
+                        );
+                    }
+                }
+
+                let sprite = sprite_from_context(&environment.context);
+
+                if sprite.is_square() {
+                    let dest_rect = pixels::Rect::tlwh(56, 0, INNER_HEIGHT, INNER_HEIGHT);
+                    self.drawer.draw_grid(inner_camera, dest_rect, 8, 8);
+                } else {
+                    let dest_rect = pixels::Rect::tlwh(0, 0, INNER_WIDTH, INNER_HEIGHT);
+                    self.drawer.draw_grid(inner_camera, dest_rect, 16, 9);
                 };
 
+                //self.drawer.clear(inner_camera, quad_colours::BLACK);
+                if sprite.is_square() {
+                    // TODO: OUTER CAMERA INSTEAD?
+
+                    // Draw border
+                    self.drawer.draw_rectangle(
+                        inner_camera,
+                        pixels::Rect::aabb(0, 0, 56 as i32, INNER_HEIGHT as i32),
+                        quad_colours::BLACK,
+                    );
+                    self.drawer.draw_rectangle(
+                        inner_camera,
+                        pixels::Rect::aabb(
+                            INNER_WIDTH as i32 - 56,
+                            0,
+                            INNER_WIDTH as i32,
+                            INNER_HEIGHT as i32,
+                        ),
+                        quad_colours::BLACK,
+                    );
+                }
+
                 if sprite.size != SpriteSize::Empty {
-                    let dest_size = pixels::Size::new(INNER_WIDTH, INNER_HEIGHT);
+                    //let dest_size = pixels::Size::new(INNER_WIDTH, INNER_HEIGHT);
+                    let dest_size = if sprite.is_square() {
+                        pixels::Size::new(INNER_HEIGHT, INNER_HEIGHT)
+                    } else {
+                        pixels::Size::new(INNER_WIDTH, INNER_HEIGHT)
+                    };
                     let params = DrawParams {
                         source: Some(sheet_source_rect(sprite)),
                         ..Default::default()
@@ -439,6 +488,7 @@ impl WhyDrawer {
                         /*self
                         .drawer
                         .draw_rectangle_lines(inner_camera, area, quad_colours::LIGHTGRAY)*/
+
                         let colour = quad_colours::LIGHTGRAY;
                         self.drawer
                             .draw_line(inner_camera, area.min(), area.top_right(), colour);

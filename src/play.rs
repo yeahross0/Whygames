@@ -46,6 +46,7 @@ pub struct BitmapFont {
     pub texture: Texture2D,
     pub source_rects: Vec<pixels::Rect>,
     pub char_height: u32,
+    conversion_map: HashMap<char, usize>,
 }
 
 impl BitmapFont {
@@ -127,6 +128,7 @@ impl BitmapFont {
             texture: font_texture,
             source_rects: font_source_rects,
             char_height: char_height as u32,
+            conversion_map: Self::create_conversion_map(),
         }
     }
 
@@ -149,6 +151,10 @@ impl BitmapFont {
 
     pub fn index_from_letter(&self, letter: char) -> usize {
         let index = (letter as u32 - 32) as usize;
+        if let Some(index) = self.conversion_map.get(&letter) {
+            return *index;
+        }
+
         if index < self.source_rects.len() {
             index
         } else if 95 >= self.source_rects.len() {
@@ -156,6 +162,62 @@ impl BitmapFont {
         } else {
             95
         }
+    }
+
+    fn create_conversion_map() -> HashMap<char, usize> {
+        let mut conversion_map: HashMap<char, usize> = HashMap::new();
+        let offset = 32;
+        conversion_map.insert('À', 96);
+        conversion_map.insert('Á', 97);
+        conversion_map.insert('Â', 98);
+        conversion_map.insert('Ä', 99);
+        conversion_map.insert('È', 132 - offset);
+        conversion_map.insert('É', 133 - offset);
+        conversion_map.insert('Ê', 134 - offset);
+        conversion_map.insert('Ë', 135 - offset);
+        conversion_map.insert('Ì', 136 - offset);
+        conversion_map.insert('Í', 137 - offset);
+        conversion_map.insert('Î', 138 - offset);
+        conversion_map.insert('Ï', 139 - offset);
+        conversion_map.insert('Ò', 140 - offset);
+        conversion_map.insert('Ó', 141 - offset);
+        conversion_map.insert('Ô', 142 - offset);
+        conversion_map.insert('Ö', 143 - offset);
+        conversion_map.insert('Œ', 144 - offset);
+        conversion_map.insert('Ù', 145 - offset);
+        conversion_map.insert('Ú', 146 - offset);
+        conversion_map.insert('Û', 147 - offset);
+        conversion_map.insert('Ü', 148 - offset);
+        conversion_map.insert('Ç', 149 - offset);
+        conversion_map.insert('Ñ', 150 - offset);
+        conversion_map.insert('à', 151 - offset);
+        conversion_map.insert('á', 152 - offset);
+        conversion_map.insert('â', 153 - offset);
+        conversion_map.insert('ä', 154 - offset);
+        conversion_map.insert('è', 155 - offset);
+        conversion_map.insert('é', 156 - offset);
+        conversion_map.insert('ê', 157 - offset);
+        conversion_map.insert('ë', 158 - offset);
+        conversion_map.insert('ì', 159 - offset);
+        conversion_map.insert('í', 160 - offset);
+        conversion_map.insert('î', 161 - offset);
+        conversion_map.insert('ï', 162 - offset);
+        conversion_map.insert('ò', 163 - offset);
+        conversion_map.insert('ó', 164 - offset);
+        conversion_map.insert('ô', 165 - offset);
+        conversion_map.insert('ö', 166 - offset);
+        conversion_map.insert('œ', 167 - offset);
+        conversion_map.insert('ù', 168 - offset);
+        conversion_map.insert('ú', 169 - offset);
+        conversion_map.insert('û', 170 - offset);
+        conversion_map.insert('ü', 171 - offset);
+        conversion_map.insert('ç', 172 - offset);
+        conversion_map.insert('ñ', 173 - offset);
+        conversion_map.insert('ß', 174 - offset);
+        conversion_map.insert('£', 175 - offset);
+        conversion_map.insert('€', 176 - offset);
+
+        return conversion_map;
     }
 }
 

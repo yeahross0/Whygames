@@ -23,7 +23,9 @@ use crate::err::WhyResult;
 use crate::history::Event;
 use crate::inp::{Button, Mouse};
 use crate::menu;
-use crate::meta::{Environment, MUSIC_MAKER_NAME, OUTER_CENTRE, PLAY_SCREEN_NAME};
+use crate::meta::{
+    Environment, EDITABLE_SCREEN_NAME, MUSIC_MAKER_NAME, OUTER_CENTRE, PLAY_SCREEN_NAME,
+};
 use crate::music::{self, MusicMaker};
 use crate::nav::{Link, Navigation};
 use crate::seeded_rng::SeededRng;
@@ -325,7 +327,10 @@ impl Game {
     pub fn screen_position(&self) -> pixels::Position {
         self.members
             .iter()
-            .find(|member| member.text.contents == PLAY_SCREEN_NAME)
+            .find(|member| {
+                member.text.contents == PLAY_SCREEN_NAME
+                    || member.text.contents == EDITABLE_SCREEN_NAME
+            })
             .map(|member| member.position.into())
             .unwrap_or(OUTER_CENTRE)
     }
@@ -334,7 +339,10 @@ impl Game {
     pub fn screen_position_option(&self) -> Option<pixels::Position> {
         self.members
             .iter()
-            .find(|member| member.text.contents == PLAY_SCREEN_NAME)
+            .find(|member| {
+                member.text.contents == PLAY_SCREEN_NAME
+                    || member.text.contents == EDITABLE_SCREEN_NAME
+            })
             .map(|member| member.position.into())
     }
 

@@ -40,7 +40,7 @@ pub const INNER_WIDTH: u32 = 256;
 pub const INNER_HEIGHT: u32 = 144;
 pub const INNER_SIZE: pixels::Size = pixels::Size::new(INNER_WIDTH, INNER_HEIGHT);
 pub const INNER_CENTRE: pixels::Position = INNER_SIZE.centre();
-pub const INITIAL_SCALE: f32 = 4.0;
+pub const INITIAL_SCALE: f32 = 2.0;
 
 pub const EDITABLE_SCREEN_NAME: &str = "{Screen}";
 pub const SCREEN_NAME: &str = "{Screen}";
@@ -269,18 +269,22 @@ pub async fn update_metagame(
     events_to_apply.append(&mut new_events);
 
     if editor.inner_copy.is_some() {
-        update_game(
-            subgame,
-            input.inner,
-            &mut sounds_to_play,
-            dummy_editor,
-            environment,
-            navigation,
-            draw_tool,
-            music_maker,
-            None,
-            &shortcuts,
-        );
+        if !has_playable_screen(&game.members) {
+            menu_actions.push(menu::Action::Stop);
+        } else {
+            update_game(
+                subgame,
+                input.inner,
+                &mut sounds_to_play,
+                dummy_editor,
+                environment,
+                navigation,
+                draw_tool,
+                music_maker,
+                None,
+                &shortcuts,
+            );
+        }
     }
 
     // TODO: Sort this out
@@ -519,18 +523,22 @@ pub async fn update_metagame(
         }
 
         if member.text.contents == CHOOSE_AREA_NAME {
-            if input.outer.middle_button.is_pressed() {
-                environment.update_var("MinX", input.inner.position.x.to_string());
-                environment.update_var("MinY", input.inner.position.y.to_string());
-            }
-            if input.outer.middle_button.is_down() {
-                environment.update_var("MaxX", input.inner.position.x.to_string());
-                environment.update_var("MaxY", input.inner.position.y.to_string());
+            if environment.get_var_for_text("Ready").unwrap_or_default() == "False" {
+                if input.outer.left_button.is_pressed() {
+                    environment.update_var("MinX", input.inner.position.x.to_string());
+                    environment.update_var("MinY", input.inner.position.y.to_string());
+                }
+                if input.outer.left_button.is_down() {
+                    environment.update_var("MaxX", input.inner.position.x.to_string());
+                    environment.update_var("MaxY", input.inner.position.y.to_string());
+                }
             }
         }
-        if member.text.contents == CHOOSE_POINT_NAME && input.outer.middle_button.is_down() {
-            environment.update_var("X", input.inner.position.x.to_string());
-            environment.update_var("Y", input.inner.position.y.to_string());
+        if environment.get_var_for_text("Ready").unwrap_or_default() == "False" {
+            if member.text.contents == CHOOSE_POINT_NAME && input.outer.left_button.is_down() {
+                environment.update_var("X", input.inner.position.x.to_string());
+                environment.update_var("Y", input.inner.position.y.to_string());
+            }
         }
     }
 
@@ -570,11 +578,15 @@ pub async fn update_metagame(
     if history_action == HistoryAction::Undo {
         if let Some(step) = editor.undo_stack.pop() {
             // TODO: Figuring out best unpausing logic, for when have to make changes
-            if !events_to_apply.is_empty() {
-                if let Some(inner_game) = editor.paused_copy.take() {
-                    *subgame = inner_game;
-                }
+            if let Some(inner_game) = editor.paused_copy.take() {
+                *subgame = inner_game;
             }
+            // TODO: ?
+            if let Some(inner_game) = editor.inner_copy.take() {
+                *subgame = inner_game;
+            }
+            // TODO: Don't stop when in music_maker
+            menu_actions.push(menu::Action::Stop);
 
             let event = match step.direction {
                 StepDirection::Forward => &step.back,
@@ -601,11 +613,15 @@ pub async fn update_metagame(
     } else if history_action == HistoryAction::Redo {
         music_maker.refresh_song();
         if let Some(step) = editor.redo_stack.pop() {
-            if !events_to_apply.is_empty() {
-                if let Some(inner_game) = editor.paused_copy.take() {
-                    *subgame = inner_game;
-                }
+            if let Some(inner_game) = editor.paused_copy.take() {
+                *subgame = inner_game;
             }
+            // TODO: ?
+            if let Some(inner_game) = editor.inner_copy.take() {
+                *subgame = inner_game;
+            }
+            // TODO: Don't stop when in music_maker
+            menu_actions.push(menu::Action::Stop);
 
             let event = match step.direction {
                 StepDirection::Forward => &step.forward,
@@ -639,6 +655,11 @@ pub async fn update_metagame(
         if let Some(inner_game) = editor.paused_copy.take() {
             *subgame = inner_game;
         }
+        // TODO: ?
+        if let Some(inner_game) = editor.inner_copy.take() {
+            *subgame = inner_game;
+        }
+        menu_actions.push(menu::Action::Stop);
     }
     handle_events(
         events_to_apply,
@@ -679,6 +700,13 @@ pub fn has_editable_screen(members: &[play::Member]) -> bool {
     members
         .iter()
         .any(|m| m.text.contents == EDITABLE_SCREEN_NAME)
+}
+
+pub fn has_playable_screen(members: &[play::Member]) -> bool {
+    // TODO: ?
+    members
+        .iter()
+        .any(|m| m.text.contents == EDITABLE_SCREEN_NAME || m.text.contents == PLAY_SCREEN_NAME)
 }
 
 pub fn is_screen_member_name(name: &str) -> bool {
@@ -1206,7 +1234,8 @@ async fn apply_menu_actions(
                     sink_player.music_sink.pause();
                     sink_player.sfx_sinks.clear();
                 }
-                log::debug!("Stop!");
+                audio_player.pause_record();
+                log::debug!("Pause!");
             }
             menu::Action::Stop => {
                 if let Some(inner_game) = editor.paused_copy.take() {
@@ -1218,6 +1247,7 @@ async fn apply_menu_actions(
                     sink_player.music_sink.stop();
                     sink_player.sfx_sinks.clear();
                 }
+                audio_player.stop_record();
                 log::debug!("Stop!");
             }
             menu::Action::Quit => {

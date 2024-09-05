@@ -926,6 +926,20 @@ impl WhyDrawer {
                 let screen_rect =
                     pixels::Rect::aabb(x - offset, y - offset, x + offset, y + offset);
 
+                let sprite = subgame.members[editor.selected_index].sprite;
+                let source = sheet_source_rect(sprite);
+                let params = DrawParams {
+                    source: Some(source),
+                    colour: Colour::new(1.0, 1.0, 1.0, 0.6),
+                    ..Default::default()
+                };
+                self.drawer.draw_params_texture(
+                    inner_camera,
+                    drawn_source_rect(screen_rect.centre().into(), source),
+                    &subgame.assets.texture,
+                    params,
+                );
+
                 let params = DrawParams {
                     colour: colours::RED,
                     ..Default::default()

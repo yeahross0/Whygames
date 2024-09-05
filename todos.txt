@@ -1,22 +1,20 @@
 Layers tab
-        Button to change draw sprite in Drawer
 Add pause button to MusicEditor
-        add standard sfx
-        // /// /// // /Make it so input is reset between games
 Add ability to change font colour
-        Make time picker look better
-Make editor possible without middle click
-Handle games being played when switching page
+Handle 2.0 and 0.5 playback speed for sound/music
+Make undo/redo at all sensible when switching between music and draw and the other
+// TODO: Don't stop music after undo/redo when in music_maker
 
+--- Middle click
+Make editor possible without middle click
+        Tidy Choose Area
+        Do CHoosePoint
+Add that click/move button again
 
 --- Buttons/Style
 Member button look nicer
 Fit all buttons in looking ok in Maker
 Grey out whatevers not in initial demo (including Save in Draw)
-
---- Fix too long chores/qs/ds
-        Fix circumstances where text len is too big
-Stop text getting too big in rename member
 
 --- Add member setup
 Made Add/Clone work ok when you want to backout, only add member after finishing screens
@@ -24,6 +22,12 @@ Force member names to be unique
 
 --- Member screen
 Add move up/down/delete/whatever to ChooseMember screen (Not the Todos one, already done)
+
+Below for later
+
+--- Fix too long chores/qs/ds
+        Fix circumstances where text len is too big
+Stop text getting too big in rename member
 
 --- Show/hide out of shot sprites
 add button to show/hide
@@ -57,6 +61,11 @@ add button to show/hide
         Stop game when time runs out
         Pause/Stop game when MoveTo Setup
         Add Enter shortcut to some screens (just the ones that take text I suppose)
+        Button to change draw sprite in Drawer
+        add standard sfx
+        // /// /// // /Make it so input is reset between games
+        Make time picker look better
+        Handle games being played when switching page
 
         --- Draw BIG games
         Make borders work in Big games

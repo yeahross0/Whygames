@@ -134,7 +134,7 @@ impl Input {
     pub fn update(
         &mut self,
         inner_camera: Camera,
-        inner_centre: pixels::Position,
+        inner_centre: Option<pixels::Position>,
         temp_save: &mut bool,
     ) {
         self.chars_pressed = pressed_chars();
@@ -172,17 +172,23 @@ impl Input {
 
         self.outer
             .update(outer_position, is_left_down, is_middle_down, is_right_down);
-        // TODO: Added this, need to think
-        if !is_mouse_hovering(inner_centre, outer_position) {
-            if !self.inner.left_button.is_held_down() {
-                is_left_down = false;
+        if let Some(inner_centre) = inner_centre {
+            // TODO: Added this, need to think
+            if !is_mouse_hovering(inner_centre, outer_position) {
+                if !self.inner.left_button.is_held_down() {
+                    is_left_down = false;
+                }
+                if !self.inner.middle_button.is_held_down() {
+                    is_middle_down = false;
+                }
+                if !self.inner.right_button.is_held_down() {
+                    is_right_down = false;
+                }
             }
-            if !self.inner.middle_button.is_held_down() {
-                is_middle_down = false;
-            }
-            if !self.inner.right_button.is_held_down() {
-                is_right_down = false;
-            }
+        } else {
+            is_left_down = false;
+            is_middle_down = false;
+            is_right_down = false;
         }
         self.inner
             .update(inner_position, is_left_down, is_middle_down, is_right_down);
@@ -207,6 +213,8 @@ fn is_mouse_hovering(tool_position: pixels::Position, mouse_position: pixels::Po
 }
 
 pub const BACKSPACE_CODE: u32 = 8;
+pub const ENTER_CODE: u32 = 8;
+pub const ENTER_CHAR: char = '\r';
 pub const CTRL_Z_CHAR: char = '\u{1a}';
 pub const CTRL_Y_CHAR: char = '\u{19}';
 pub const FIRST_LEGIT_KEY: u32 = 32;

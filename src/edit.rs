@@ -215,6 +215,9 @@ pub fn question_from_context(context_variables: &HashMap<String, String>) -> Que
         Question::IsTextSetTo { value } => {
             *value = context_variables.get("Text").cloned().unwrap_or_default();
         }
+        Question::IsShortcutUsed(shortcut) => {
+            *shortcut = get_typed_variable(context_variables, "Shortcut").unwrap_or_default();
+        }
         _ => {}
     }
     question
@@ -421,6 +424,9 @@ pub fn demand_from_context(
             *speed = get_typed_variable(context_variables, "Speed").unwrap_or_default();
             *sprites = animation_scratch.to_vec();
         }
+        Demand::PlaySound { name } => {
+            *name = context_variables.get("Sound").unwrap().to_string();
+        }
         _ => {}
     }
     demand
@@ -559,7 +565,7 @@ fn shorten(s: &str, limit: usize) -> String {
     let real_limit = limit.max(3).min(s.len());
     let mut out = s[..real_limit].to_string();
     if out.len() < s.len() {
-        out.push_str("..")
+        out.push_str("...")
     }
     out
 }
@@ -682,23 +688,30 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
         }
         Question::IsTimeAt(When::Exact { time }) => {
             const TIME_DIVISIONS: usize = 12;
-            let text_buffer = format!(
-                "Is the time {}-{}",
-                time / TIME_DIVISIONS + 1,
-                time % TIME_DIVISIONS + 1
-            );
-            simple_text(&text_buffer)
+            vec![
+                "Is the time ".plain(),
+                format!(
+                    "{}-{}",
+                    time / TIME_DIVISIONS + 1,
+                    time % TIME_DIVISIONS + 1
+                )
+                .in_colour(colours::GREEN),
+            ]
         }
         Question::IsTimeAt(When::Random { start, end }) => {
             const TIME_DIVISIONS: usize = 12;
-            let text_buffer = format!(
-                "Is randomly in {}-{} to {}-{}",
-                start / TIME_DIVISIONS + 1,
-                start % TIME_DIVISIONS + 1,
-                end / TIME_DIVISIONS + 1,
-                end % TIME_DIVISIONS + 1
-            );
-            simple_text(&text_buffer)
+            vec![
+                "Is randomly in ".plain(),
+                format!(
+                    "{}-{}",
+                    start / TIME_DIVISIONS + 1,
+                    start % TIME_DIVISIONS + 1
+                )
+                .in_colour(colours::GREEN),
+                " to ".plain(),
+                format!("{}-{}", end / TIME_DIVISIONS + 1, end % TIME_DIVISIONS + 1)
+                    .in_colour(colours::GREEN),
+            ]
         }
         // Anywhere
         Question::IsMouseInteracting {
@@ -925,7 +938,7 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
         } => {
             vec![
                 "Is ".plain(),
-                name.in_colour(colours::RED),
+                shorten(name, 12).in_colour(colours::RED),
                 "'s switch ".plain(),
                 "On".in_colour(colours::GREEN),
             ]
@@ -936,7 +949,7 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
         } => {
             vec![
                 "Is ".plain(),
-                name.in_colour(colours::RED),
+                shorten(name, 11).in_colour(colours::RED),
                 "'s switch ".plain(),
                 "Off".in_colour(colours::GREEN),
             ]
@@ -947,7 +960,7 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
         } => {
             vec![
                 "Is ".plain(),
-                name.in_colour(colours::RED),
+                shorten(name, 11).in_colour(colours::RED),
                 " switched on".in_colour(colours::GREEN),
             ]
         }
@@ -957,20 +970,20 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
         } => {
             vec![
                 "Is ".plain(),
-                name.in_colour(colours::RED),
+                shorten(name, 11).in_colour(colours::RED),
                 " switched off".in_colour(colours::GREEN),
             ]
         }
         Question::IsCollidingWith(CollisionWith::Area(area)) => {
-            vec!["Has Collided With ".plain(), FancyText::Area(*area)]
+            vec!["Has touched ".plain(), FancyText::Area(*area)]
         }
         Question::IsCollidingWith(CollisionWith::Member { name }) => {
             vec![
-                "Has Collided With ".plain(),
-                shorten(name, 9).in_colour(colours::RED),
+                "Has touched ".plain(),
+                shorten(name, 12).in_colour(colours::RED),
             ]
         }
-        Question::IsAnimationFinished => simple_text("Has Animation Finished"),
+        Question::IsAnimationFinished => simple_text("Has animation finished"),
         Question::IsPagedVariableValid { name, value } => {
             simple_text(&format!("Is {} {} valid", name, value))
         }
@@ -978,10 +991,17 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
             simple_text(&format!("Is {} {} selected", name, value))
         }
         Question::IsAnimationSpriteValid { index } => {
-            simple_text(&format!("Is Animation {} valid", index))
+            simple_text(&format!("Is animation {} valid", index))
         }
         Question::IsSubgamePlaying => simple_text("Is subgame playing"),
         Question::IsSubgameEnding => simple_text("Is subgame ending"),
+        Question::IsShortcutUsed(shortcut) => {
+            vec![
+                "Is ".plain(),
+                format!("{:?}", shortcut).in_colour(colours::GREEN),
+                " shortcut used ".plain(),
+            ]
+        }
     }
 }
 
@@ -1074,7 +1094,7 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
         Demand::StopMusic => simple_text("Stop the music"),
         Demand::StopSounds => simple_text("Stop all sounds"),
         Demand::Motion(Motion::Stop) => {
-            vec!["Stop ".in_colour(colours::AMBER), "moving".plain()]
+            vec!["Stop ".in_colour(colours::BLUE), "moving".plain()]
         }
         Demand::Motion(Motion::Go { direction, speed }) => {
             if direction.len() == 1 {
@@ -1124,7 +1144,7 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
             vec![
                 "Jump ".in_colour(colours::BLUE),
                 "to ".plain(),
-                name.in_colour(colours::RED),
+                shorten(name, 16).in_colour(colours::RED),
             ]
         }
         Demand::Motion(Motion::JumpTo(JumpLocation::Relative { offset: _ })) => {
@@ -1132,9 +1152,9 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
         }
         Demand::Motion(Motion::Swap { name }) => {
             vec![
-                "Swap".in_colour(colours::AMBER),
-                " position with ".plain(),
-                name.in_colour(colours::RED),
+                "Swap".in_colour(colours::BLUE),
+                " places with ".plain(),
+                shorten(name, 10).in_colour(colours::RED),
             ]
         }
         Demand::Motion(Motion::Roam {
@@ -1158,14 +1178,15 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
             speed: _,
         }) => {
             vec![
-                "Target ".in_colour(colours::AMBER),
-                name.in_colour(colours::RED),
+                "Target ".in_colour(colours::BLUE),
+                shorten(name, 16).in_colour(colours::RED),
             ]
         }
         Demand::Motion(Motion::AttachFromPositions { name }) => {
             vec![
-                "Attach to ".in_colour(colours::AMBER),
-                name.in_colour(colours::RED),
+                "Attach".in_colour(colours::BLUE),
+                " to ".plain(),
+                shorten(name, 14).in_colour(colours::RED),
             ]
         }
         Demand::SetAnimationSprite => simple_text("Set the animation sprite"),
@@ -1194,7 +1215,7 @@ pub fn fancy_demand_text(demand: &Demand) -> Vec<FancyText> {
         Demand::SetTextFromPosition { axis, scale: _ } => {
             vec![
                 "Set text from ".plain(),
-                format!("{:?}, ", axis).in_colour(colours::AMBER),
+                format!("{:?}", axis).in_colour(colours::GREEN),
                 " position".plain(),
             ]
         }

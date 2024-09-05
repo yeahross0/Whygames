@@ -28,6 +28,7 @@ use crate::music::{self, MusicMaker};
 use crate::nav::{Link, Navigation};
 use crate::seeded_rng::SeededRng;
 use crate::seeded_rng::{ChooseRandom, RandomRange};
+use crate::serial::Shortcut;
 use base64::engine::general_purpose::STANDARD_NO_PAD as BaseEncoder;
 use base64::Engine;
 use macroquad::{
@@ -329,6 +330,14 @@ impl Game {
             .unwrap_or(OUTER_CENTRE)
     }
 
+    // TODO: ?
+    pub fn screen_position_option(&self) -> Option<pixels::Position> {
+        self.members
+            .iter()
+            .find(|member| member.text.contents == PLAY_SCREEN_NAME)
+            .map(|member| member.position.into())
+    }
+
     pub fn music_maker_member(&self) -> Option<&Member> {
         self.members
             .iter()
@@ -466,6 +475,8 @@ pub fn update_game(
     draw_tool: &mut DrawTool,
     music_maker: &mut MusicMaker,
     subgame: Option<&Game>,
+    // TODO: Into some UpdateGameInputStruct
+    shortcuts: &HashSet<Shortcut>,
 ) -> (Vec<Event>, Vec<menu::Action>) {
     let mut events_to_apply = Vec::new();
     let mut menu_actions = Vec::new();
@@ -786,6 +797,7 @@ pub fn update_game(
                             // TODO: Rnadom number for now
                             game.frame_number == 150
                         }
+                        Question::IsShortcutUsed(shortcut) => shortcuts.contains(shortcut),
                     };
             }
             if triggered {
@@ -1591,9 +1603,11 @@ pub fn update_game(
                 }
                 Demand::Pause => {
                     menu_actions.push(menu::Action::Pause);
+                    music_maker.actions.insert(music::Action::PausePhrase);
                 }
                 Demand::Stop => {
                     menu_actions.push(menu::Action::Stop);
+                    music_maker.actions.insert(music::Action::StopPhrase);
                 }
                 Demand::MoveToGame { name } => {
                     menu_actions.push(menu::Action::MoveToGame { name });

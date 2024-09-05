@@ -236,6 +236,19 @@ impl AudioPlayer {
             .play(&midi_file_container.container, is_looped)
     }
 
+    pub fn pause_record(&mut self) {
+        if let Some(seq_con) = self
+            .record_player
+            .sequencer
+            .clone()
+            .lock()
+            .unwrap()
+            .as_mut()
+        {
+            seq_con.pause();
+        }
+    }
+
     pub fn stop_record(&mut self) {
         if let Some(seq_con) = self
             .record_player
@@ -383,7 +396,8 @@ impl AudioParameters {
     pub fn to_output_device_params(&self) -> OutputDeviceParameters {
         OutputDeviceParameters {
             channels_count: self.channels_count,
-            sample_rate: self.sample_rate,
+            // Placeholder for pitch changes
+            sample_rate: (self.sample_rate as f32 * 1.0) as usize,
             channel_sample_count: self.channel_sample_count,
         }
     }

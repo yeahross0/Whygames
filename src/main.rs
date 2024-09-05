@@ -25,10 +25,10 @@ const TEMP_TESTING_INTRO_TEXT: bool = false;
 // TODO: Art animate -> starts off with no entries, if click add looks like nothing was added
 // TODO: Save before crashing
 // TODO: Make it so animation has to have at least 1 frame, and stop deleting last frame
-// TOOD: Will need to check what Questions/Demands are missing from editor section at some point
+// TODO: Will need to check what Questions/Demands are missing from editor section at some point
+// TODO: Will that NextInQueue -> BackToStart work in all cases? ResetToThisPoint action...?
 
 use art::SpriteSize;
-use drawer::sheet_source_rect;
 use edit::sprite_from_context;
 use macroquad::{
     color::{colors as quad_colours, Color as Colour},
@@ -530,7 +530,7 @@ async fn main() -> WhyResult<()> {
         'multi_loop: while time_keeping.has_more_frames_to_play(game.frame_number) {
             input.update(
                 inner_camera,
-                game.screen_position(),
+                game.screen_position_option(),
                 &mut draw_tool.tracker.temp_save,
             );
 

@@ -3415,7 +3415,11 @@
             }
           ],
           "demands": [
-            "BackInQueue"
+            {
+              "MoveToGame": {
+                "name": "Setup"
+              }
+            }
           ]
         }
       ]
@@ -3940,6 +3944,55 @@
                 }
               }
             }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Art",
+      "position": {
+        "y": 160,
+        "x": 353
+      },
+      "sprite": {
+        "index": 119,
+        "size": {
+          "Square": 32
+        }
+      },
+      "text": {
+        "contents": "",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            "ResetQueue",
+            {
+              "AddToQueue": {
+                "name": "ChooseSprite"
+              }
+            },
+            {
+              "AddToQueue": {
+                "name": "Draw"
+              }
+            },
+            "NextInQueue"
           ]
         }
       ]

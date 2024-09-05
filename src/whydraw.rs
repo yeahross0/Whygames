@@ -2,7 +2,6 @@ use super::images_texture;
 use crate::anim::animation_time_from_speed;
 use crate::art::{Sprite, SpriteSize};
 use crate::aud::AudioPlayer;
-use crate::coll::CollisionObject;
 use crate::colours;
 use crate::doodle::{DrawTool, PreviewShape, Shape, ShapeStyle};
 use crate::drawer::{
@@ -31,8 +30,9 @@ use crate::inp::{Input, Mouse};
 use crate::meta::{
     is_screen_member_name, Environment, Transition, CHOOSE_AREA_NAME, CHOOSE_POINT_NAME,
     EDITABLE_SCREEN_NAME, FADE_LEN, INNER_HEIGHT, INNER_WIDTH, MUSIC_MAKER_NAME, OUTER_CENTRE,
+    OUTER_HEIGHT, OUTER_WIDTH,
 };
-use crate::pixels::{self, Position};
+use crate::pixels;
 use crate::play::{self, is_position_in_sprite_sheet_image};
 use crate::serial::IntroText;
 use crate::TEMP_TESTING_INTRO_TEXT;
@@ -419,6 +419,9 @@ impl WhyDrawer {
                 if sprite.is_square() {
                     let dest_rect = pixels::Rect::tlwh(56, 0, INNER_HEIGHT, INNER_HEIGHT);
                     self.drawer.draw_grid(inner_camera, dest_rect, 8, 8);
+                } else if sprite.size == SpriteSize::OuterBg {
+                    let dest_rect = pixels::Rect::tlwh(0, 0, OUTER_WIDTH, OUTER_HEIGHT);
+                    self.drawer.draw_grid(inner_camera, dest_rect, 16, 9);
                 } else {
                     let dest_rect = pixels::Rect::tlwh(0, 0, INNER_WIDTH, INNER_HEIGHT);
                     self.drawer.draw_grid(inner_camera, dest_rect, 16, 9);

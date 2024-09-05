@@ -97,6 +97,18 @@
               "SetSwitch": "On"
             }
           ]
+        },
+        {
+          "questions": [
+            {
+              "IsShortcutUsed": "Ok"
+            }
+          ],
+          "demands": [
+            {
+              "SetSwitch": "On"
+            }
+          ]
         }
       ]
     },

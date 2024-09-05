@@ -38,6 +38,16 @@ pub enum Length {
     Infinite,
 }
 
+impl Length {
+    pub fn last_frame(self) -> Option<usize> {
+        match self {
+            Length::Short => Some(240),
+            Length::Long => Some(480),
+            Length::Infinite => None,
+        }
+    }
+}
+
 #[derive(Copy, Clone, Debug, Default, Serialize, Deserialize, PartialEq, EnumString)]
 pub enum GameSize {
     #[default]
@@ -181,6 +191,7 @@ pub enum Question {
     },
     IsSubgamePlaying,
     IsSubgameEnding,
+    IsShortcutUsed(Shortcut),
 }
 
 #[allow(clippy::enum_variant_names)]
@@ -475,4 +486,11 @@ pub struct Colour {
 pub struct Text {
     pub contents: String,
     pub colour: Colour,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Default, Eq, Hash, EnumString)]
+pub enum Shortcut {
+    #[default]
+    Ok,
+    Cancel,
 }

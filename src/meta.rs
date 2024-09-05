@@ -8,17 +8,16 @@ use crate::edit::{get_typed_variable, hovered_in_general_area, sprite_from_conte
 use crate::err::WhyResult;
 use crate::history;
 use crate::history::{Event, Step, StepDirection};
-use crate::inp::{Input, Mouse, BACKSPACE_CODE, CTRL_Y_CHAR, CTRL_Z_CHAR, FIRST_LEGIT_KEY};
+use crate::inp::{
+    Input, Mouse, BACKSPACE_CODE, CTRL_Y_CHAR, CTRL_Z_CHAR, ENTER_CHAR, ENTER_CODE, FIRST_LEGIT_KEY,
+};
 use crate::menu;
 use crate::music::{MusicMaker, POTENTIAL_NOTE_OFFSET};
 use crate::nav::{Link, Navigation};
 use crate::pixels;
-use crate::play::{
-    self, is_position_in_sized_area, rename_in_todo_list, update_game, Assets, DifficultyLevel,
-    SoundQueue,
-};
+use crate::play::{self, rename_in_todo_list, update_game, Assets, DifficultyLevel, SoundQueue};
 use crate::seeded_rng::SeededRng;
-use crate::serial::{self, ImageString, SoundString};
+use crate::serial::{self, ImageString, Shortcut, SoundString};
 use crate::time::TimeKeeping;
 use crate::AudioPlayer;
 
@@ -195,6 +194,15 @@ pub async fn update_metagame(
     let (editor, dummy_editor) = editors;
     editor.edit_text_index = None;
 
+    let mut shortcuts = HashSet::new();
+    if !input.chars_pressed.is_empty() {
+        log::debug!("{:?}", input.chars_pressed);
+    }
+    if input.chars_pressed.contains(&ENTER_CHAR) {
+        shortcuts.insert(Shortcut::Ok);
+        log::debug!("OK BRO");
+    }
+
     match transition {
         Transition::FadeIn {
             game: older_game, ..
@@ -212,12 +220,13 @@ pub async fn update_metagame(
                 draw_tool,
                 music_maker,
                 Some(subgame),
+                &shortcuts,
             );
         }
         Transition::None => {}
     }
 
-    let (mut new_events, menu_actions) = update_game(
+    let (mut new_events, mut menu_actions) = update_game(
         game,
         input.outer,
         &mut sounds_to_play,
@@ -227,6 +236,7 @@ pub async fn update_metagame(
         draw_tool,
         music_maker,
         Some(subgame),
+        &shortcuts,
     );
 
     // TODO: Rework using an question/demand and undoable event
@@ -269,6 +279,7 @@ pub async fn update_metagame(
             draw_tool,
             music_maker,
             None,
+            &shortcuts,
         );
     }
 
@@ -320,9 +331,11 @@ pub async fn update_metagame(
 
             for &ch in &input.chars_pressed {
                 log::debug!("CH: {}", ch);
+                //log::debug!("UCH: {}", ch as u32);
                 // TODO: Wasm config
                 if ch as u32 == BACKSPACE_CODE {
                     text.pop();
+                } else if ch as u32 == ENTER_CODE {
                 } else if (ch as u32) >= FIRST_LEGIT_KEY {
                     text.push(ch);
                 }
@@ -502,7 +515,6 @@ pub async fn update_metagame(
                 member.position,
                 &mut subgame.assets,
                 &mut events_to_apply,
-                subgame.size,
             );
         }
 
@@ -539,8 +551,8 @@ pub async fn update_metagame(
         #[cfg(target_arch = "wasm32")]
         let is_ctrl_y_pressed = macroquad::input::is_key_down(KeyCode::LeftControl)
             && input.keyboard[&KeyCode::Y].is_repeated;
-        let is_shift_pressed = macroquad::input::is_key_down(KeyCode::LeftShift)
-            || macroquad::input::is_key_down(KeyCode::RightShift);
+        //let is_shift_pressed = macroquad::input::is_key_down(KeyCode::LeftShift)
+        //    || macroquad::input::is_key_down(KeyCode::RightShift);
 
         if is_ctrl_y_pressed
         /*|| (is_ctrl_z_pressed && is_shift_pressed)*/
@@ -557,6 +569,13 @@ pub async fn update_metagame(
 
     if history_action == HistoryAction::Undo {
         if let Some(step) = editor.undo_stack.pop() {
+            // TODO: Figuring out best unpausing logic, for when have to make changes
+            if !events_to_apply.is_empty() {
+                if let Some(inner_game) = editor.paused_copy.take() {
+                    *subgame = inner_game;
+                }
+            }
+
             let event = match step.direction {
                 StepDirection::Forward => &step.back,
                 StepDirection::Back => &step.forward,
@@ -582,6 +601,12 @@ pub async fn update_metagame(
     } else if history_action == HistoryAction::Redo {
         music_maker.refresh_song();
         if let Some(step) = editor.redo_stack.pop() {
+            if !events_to_apply.is_empty() {
+                if let Some(inner_game) = editor.paused_copy.take() {
+                    *subgame = inner_game;
+                }
+            }
+
             let event = match step.direction {
                 StepDirection::Forward => &step.forward,
                 StepDirection::Back => &step.back,
@@ -610,6 +635,11 @@ pub async fn update_metagame(
         music_maker.refresh_song();
     }
 
+    if !events_to_apply.is_empty() {
+        if let Some(inner_game) = editor.paused_copy.take() {
+            *subgame = inner_game;
+        }
+    }
     handle_events(
         events_to_apply,
         subgame,
@@ -620,6 +650,17 @@ pub async fn update_metagame(
         music_maker,
     );
 
+    if !menu_actions.is_empty() {
+        if let Some(inner_game) = editor.paused_copy.take() {
+            *subgame = inner_game;
+        }
+    }
+    // TODO: Have this work even if multiple frames because of delta
+    if let Some(last) = subgame.length.last_frame() {
+        if subgame.frame_number >= last {
+            menu_actions.push(menu::Action::Stop);
+        }
+    }
     apply_menu_actions(
         menu_actions,
         editor,

@@ -453,7 +453,7 @@
             {
               "IsCollidingWith": {
                 "Member": {
-                  "name": "gdr"
+                  "name": "gdr1234567890"
                 }
               }
             }
@@ -484,7 +484,7 @@
       ]
     },
     {
-      "name": "gdr",
+      "name": "gdr1234567890",
       "position": {
         "y": 68,
         "x": 169

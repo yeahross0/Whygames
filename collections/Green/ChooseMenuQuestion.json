@@ -130,6 +130,51 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Scut",
+      "position": {
+        "y": 63,
+        "x": 63
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "Is Shortcut Used",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "MoveToGame": {
+                "name": "ChooseShortcut"
+              }
+            },
+            {
+              "SetVariableFromText": {
+                "name": "Question"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "published": true,

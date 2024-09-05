@@ -1579,6 +1579,51 @@
           ]
         }
       ]
+    },
+    {
+      "name": "UpdArt",
+      "position": {
+        "y": 199,
+        "x": 113
+      },
+      "sprite": {
+        "index": 0,
+        "size": "Empty"
+      },
+      "text": {
+        "contents": "Update Art",
+        "colour": {
+          "r": 0.055,
+          "g": 0.098,
+          "b": 0.114,
+          "a": 1.0
+        }
+      },
+      "todo_list": [
+        {
+          "questions": [
+            {
+              "IsMouseInteracting": {
+                "which": "Left",
+                "state": "Press",
+                "hover": "This"
+              }
+            }
+          ],
+          "demands": [
+            {
+              "SetVariableFromText": {
+                "name": "Demand"
+              }
+            },
+            {
+              "MoveToGame": {
+                "name": "FinishDemand"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "published": true,

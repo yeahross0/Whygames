@@ -252,7 +252,6 @@ impl DrawTool {
         tool_position: Vec2,
         assets: &mut Assets,
         events_to_apply: &mut Vec<Event>,
-        subgame_size: play::Size,
     ) {
         let draw_mode: DrawMode = environment.get_typed_var("Draw Mode").unwrap();
 

@@ -778,7 +778,8 @@ impl MusicMaker {
 
         // TODO:
         if self.actions.remove(&Action::PlayPhrase) {
-            log::debug!("PLAYING (MIDI)");
+            log::debug!("PlayPhrase");
+            //log::debug!("PLAYING (MIDI)");
 
             smf.tracks = vec![];
             if self.is_solo_playback() {
@@ -794,17 +795,18 @@ impl MusicMaker {
 
             midi_file_container.update(smf)?;
 
-            audio_player.play_record(midi_file_container, true);
-
             audio_player.set_record_speed(self.tempo);
+
+            audio_player.play_record(midi_file_container, true);
         }
 
         if self.actions.remove(&Action::PausePhrase) {
-            // TODO: Pause method
-            audio_player.stop_record();
+            log::debug!("PausePhrase");
+            audio_player.pause_record();
         }
 
         if self.actions.remove(&Action::StopPhrase) {
+            log::debug!("StopPhrase");
             audio_player.stop_record();
         }
 

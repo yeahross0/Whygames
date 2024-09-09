@@ -264,7 +264,11 @@ pub async fn update_metagame(
     if environment.context["Difficulty"] == "Tough" {
         environment.difficulty_level = DifficultyLevel::Tough;
     }
+    let old_playback_rate = environment.playback_rate;
     environment.playback_rate = environment.get_typed_var("Playback Rate").unwrap_or(1.0);
+    if environment.playback_rate != old_playback_rate {
+        audio_player.set_playback_rate(environment.playback_rate as f32);
+    }
 
     events_to_apply.append(&mut new_events);
 
@@ -304,6 +308,7 @@ pub async fn update_metagame(
                     let source = Decoder::new(cursor).unwrap();
                     match Sink::try_new(&sink_player.stream_handle) {
                         Ok(sink) => {
+                            sink.set_speed(environment.playback_rate as f32);
                             sink.append(source);
                             sink_player.sfx_sinks.push(sink);
                         }

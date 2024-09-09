@@ -116,7 +116,7 @@ impl AudioPlayer {
         let mut record_left = buffer();
         let mut record_right = buffer();
 
-        let live_device = run_output_device(params.to_output_device_params(), {
+        let live_device = run_output_device(params.to_output_device_params(1.0), {
             move |data| {
                 synth_clone
                     .lock()
@@ -130,7 +130,7 @@ impl AudioPlayer {
         })
         .unwrap();
 
-        let record_device = run_output_device(params.to_output_device_params(), {
+        let record_device = run_output_device(params.to_output_device_params(1.0), {
             move |data| {
                 if let Some(s) = sequencer_clone.lock().unwrap().as_mut() {
                     s.render(&mut record_left[..], &mut record_right[..])
@@ -154,6 +154,7 @@ impl AudioPlayer {
 
         let record_player = RecordPlayer {
             sequencer,
+            params,
             _device: record_device,
         };
 
@@ -162,6 +163,36 @@ impl AudioPlayer {
             live_player,
             record_player,
         })
+    }
+
+    pub fn set_playback_rate(&mut self, playback_rate: f32) {
+        // TODO: Probably better way than recreating output device every time...
+        let sequencer_clone = self.record_player.sequencer.clone();
+        let buffer = || vec![0_f32; self.record_player.params.channel_sample_count];
+
+        let mut record_left = buffer();
+        let mut record_right = buffer();
+        self.record_player._device = run_output_device(
+            self.record_player
+                .params
+                .to_output_device_params(playback_rate),
+            {
+                move |data| {
+                    if let Some(s) = sequencer_clone.lock().unwrap().as_mut() {
+                        s.render(&mut record_left[..], &mut record_right[..])
+                    }
+
+                    for (i, value) in record_left
+                        .iter()
+                        .interleave(record_right.iter())
+                        .enumerate()
+                    {
+                        data[i] = *value;
+                    }
+                }
+            },
+        )
+        .unwrap();
     }
 
     pub fn play_music(&mut self, music_data: Option<Vec<u8>>) -> WhyResult<()> {
@@ -363,6 +394,7 @@ pub struct LivePlayer {
 
 pub struct RecordPlayer {
     sequencer: Arc<Mutex<Option<MidiFileSequencer>>>,
+    params: AudioParameters,
     _device: Box<dyn BaseAudioOutputDevice>,
 }
 
@@ -393,11 +425,11 @@ impl AudioParameters {
         Ok(serde_json::from_str(file_contents)?)
     }
 
-    pub fn to_output_device_params(&self) -> OutputDeviceParameters {
+    pub fn to_output_device_params(&self, playback_rate: f32) -> OutputDeviceParameters {
         OutputDeviceParameters {
             channels_count: self.channels_count,
             // Placeholder for pitch changes
-            sample_rate: (self.sample_rate as f32 * 1.0) as usize,
+            sample_rate: (self.sample_rate as f32 * playback_rate) as usize,
             channel_sample_count: self.channel_sample_count,
         }
     }

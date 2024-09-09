@@ -40,7 +40,7 @@ pub const INNER_WIDTH: u32 = 256;
 pub const INNER_HEIGHT: u32 = 144;
 pub const INNER_SIZE: pixels::Size = pixels::Size::new(INNER_WIDTH, INNER_HEIGHT);
 pub const INNER_CENTRE: pixels::Position = INNER_SIZE.centre();
-pub const INITIAL_SCALE: f32 = 2.0;
+pub const INITIAL_SCALE: f32 = 4.0;
 
 pub const EDITABLE_SCREEN_NAME: &str = "{Screen}";
 pub const SCREEN_NAME: &str = "{Screen}";
@@ -585,8 +585,9 @@ pub async fn update_metagame(
             if let Some(inner_game) = editor.inner_copy.take() {
                 *subgame = inner_game;
             }
-            // TODO: Don't stop when in music_maker
-            menu_actions.push(menu::Action::Stop);
+            if !game.music_maker_member().is_some() {
+                menu_actions.push(menu::Action::Stop);
+            }
 
             let event = match step.direction {
                 StepDirection::Forward => &step.back,
@@ -620,8 +621,9 @@ pub async fn update_metagame(
             if let Some(inner_game) = editor.inner_copy.take() {
                 *subgame = inner_game;
             }
-            // TODO: Don't stop when in music_maker
-            menu_actions.push(menu::Action::Stop);
+            if !game.music_maker_member().is_some() {
+                menu_actions.push(menu::Action::Stop);
+            }
 
             let event = match step.direction {
                 StepDirection::Forward => &step.forward,
@@ -659,7 +661,9 @@ pub async fn update_metagame(
         if let Some(inner_game) = editor.inner_copy.take() {
             *subgame = inner_game;
         }
-        menu_actions.push(menu::Action::Stop);
+        if !game.music_maker_member().is_some() {
+            menu_actions.push(menu::Action::Stop);
+        }
     }
     handle_events(
         events_to_apply,

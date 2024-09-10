@@ -334,9 +334,12 @@ pub async fn update_metagame(
 
             // TODO: Wasm config
             #[cfg(target_arch = "wasm32")]
-            if macroquad::input::is_key_down(KeyCode::Backspace) {
+            if input.keyboard[&KeyCode::Backspace].is_repeated {
                 text.pop();
             }
+            //if macroquad::input::is_key_down(KeyCode::Backspace) {
+            //text.pop();
+            //}
 
             for &ch in &input.chars_pressed {
                 log::debug!("CH: {}", ch);
@@ -351,6 +354,13 @@ pub async fn update_metagame(
             }
         }
     } else if has_editable_screen(&game.members) && editor.inner_copy.is_none() {
+        // TODO: ?
+        #[cfg(target_arch = "wasm32")]
+        if input.keyboard[&KeyCode::Backspace].is_repeated {
+            events_to_apply.push(Event::RemoveCharacter {
+                index: editor.selected_index,
+            });
+        }
         for &ch in &input.chars_pressed {
             if ch as u32 == BACKSPACE_CODE {
                 events_to_apply.push(Event::RemoveCharacter {

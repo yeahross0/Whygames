@@ -1002,6 +1002,8 @@ pub fn fancy_question_text(question: &Question) -> Vec<FancyText> {
                 " shortcut used ".plain(),
             ]
         }
+        Question::IsOnWeb => simple_text("Is on web"),
+        Question::IsOnDesktop => simple_text("Is on desktop"),
     }
 }
 

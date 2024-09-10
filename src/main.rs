@@ -27,6 +27,7 @@ const TEMP_TESTING_INTRO_TEXT: bool = false;
 // TODO: Make it so animation has to have at least 1 frame, and stop deleting last frame
 // TODO: Will need to check what Questions/Demands are missing from editor section at some point
 // TODO: Will that NextInQueue -> BackToStart work in all cases? ResetToThisPoint action...?
+// TODO: Bug trying to SetText demand in Maker for Screen and Screen2
 
 use art::SpriteSize;
 use edit::sprite_from_context;
@@ -331,6 +332,7 @@ async fn main() -> WhyResult<()> {
         let keyboard = HashMap::from([
             (KeyCode::Z, RepeatableButton::default()),
             (KeyCode::Y, RepeatableButton::default()),
+            (KeyCode::Backspace, RepeatableButton::default()),
         ]);
         Input {
             outer: outer_mouse,
@@ -347,6 +349,32 @@ async fn main() -> WhyResult<()> {
 
         let resources_loading: Coroutine = start_coroutine(async move {
             let sf2_data = macroquad::file::load_file("why.sf2");
+
+            // TODO: Ultra temporary code
+            //use futures::future::join_all;
+            let files = vec![
+                "collections/Green/ChooseDemand.json",
+                "collections/Green/ChooseMember.json",
+                "collections/Green/ChooseQuestion.json",
+                "collections/Green/ChooseSound.json",
+                "collections/Green/ChooseSprite.json",
+                "collections/Green/ChooseText.json",
+                "collections/Green/Draw.json",
+                "collections/Green/EditChore.json",
+                "collections/Green/EditTodos.json",
+                "collections/Green/Maker.json",
+                "collections/Green/Music.json",
+                "collections/Green/RenameMember.json",
+                "collections/Green/Setup.json",
+                "collections/Green/SwitchMember.json",
+                "collections/Green/NewTest.json",
+            ];
+
+            //let mut things = vec![];
+            for f in files {
+                macroquad::file::load_file(f).await;
+            }
+            //join_all(things).await;
 
             tx.send(sf2_data.await.unwrap()).unwrap();
         });

@@ -24,7 +24,8 @@ use crate::history::Event;
 use crate::inp::{Button, Mouse};
 use crate::menu;
 use crate::meta::{
-    Environment, EDITABLE_SCREEN_NAME, MUSIC_MAKER_NAME, OUTER_CENTRE, PLAY_SCREEN_NAME,
+    Environment, CHOOSE_AREA_NAME, CHOOSE_POINT_NAME, EDITABLE_SCREEN_NAME, MUSIC_MAKER_NAME,
+    OUTER_CENTRE, PLAY_SCREEN_NAME,
 };
 use crate::music::{self, MusicMaker};
 use crate::nav::{Link, Navigation};
@@ -337,12 +338,17 @@ impl Game {
 
     // TODO: ?
     pub fn screen_position_option(&self) -> Option<pixels::Position> {
+        let screens = [
+            EDITABLE_SCREEN_NAME,
+            CHOOSE_AREA_NAME,
+            CHOOSE_POINT_NAME,
+            PLAY_SCREEN_NAME,
+            MUSIC_MAKER_NAME,
+            "{Edit Sprite}",
+        ];
         self.members
             .iter()
-            .find(|member| {
-                member.text.contents == PLAY_SCREEN_NAME
-                    || member.text.contents == EDITABLE_SCREEN_NAME
-            })
+            .find(|member| screens.contains(&member.text.contents.as_str()))
             .map(|member| member.position.into())
     }
 
@@ -806,6 +812,20 @@ pub fn update_game(
                             game.frame_number == 150
                         }
                         Question::IsShortcutUsed(shortcut) => shortcuts.contains(shortcut),
+                        Question::IsOnWeb => {
+                            #[cfg(target_arch = "wasm32")]
+                            let res = true;
+                            #[cfg(not(target_arch = "wasm32"))]
+                            let res = false;
+                            res
+                        }
+                        Question::IsOnDesktop => {
+                            #[cfg(target_arch = "wasm32")]
+                            let res = false;
+                            #[cfg(not(target_arch = "wasm32"))]
+                            let res = true;
+                            res
+                        }
                     };
             }
             if triggered {
@@ -1390,7 +1410,7 @@ pub fn update_game(
                             position,
                             text: Text::from_str(""), // "DEBUG"
                             switch: Switch::Off,
-                            sprite: Sprite::none(),
+                            sprite: sprite_from_context(&environment.context),
                             animation: Animation::None,
                             todo_list: default_todo_list(),
                             ..Default::default()
@@ -2408,6 +2428,7 @@ pub fn cartridge_from_game(game: Game) -> Cartridge {
         data: music_data,
         looped: false,
     });
+
     Cartridge {
         format_version: 0,
         members: serialised_members(game.members),

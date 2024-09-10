@@ -192,6 +192,8 @@ pub enum Question {
     IsSubgamePlaying,
     IsSubgameEnding,
     IsShortcutUsed(Shortcut),
+    IsOnDesktop,
+    IsOnWeb,
 }
 
 #[allow(clippy::enum_variant_names)]

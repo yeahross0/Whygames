@@ -148,6 +148,11 @@ impl Input {
             .unwrap()
             .update(macroquad::input::is_key_down(KeyCode::Y));
 
+        self.keyboard
+            .get_mut(&KeyCode::Backspace)
+            .unwrap()
+            .update(macroquad::input::is_key_down(KeyCode::Backspace));
+
         let mouse_position = {
             let (x, y) = macroquad::input::mouse_position();
             pixels::Position::new(x as i32, y as i32)
@@ -160,6 +165,12 @@ impl Input {
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Middle);
         let mut is_right_down =
             macroquad::input::is_mouse_button_down(macroquad::input::MouseButton::Right);
+
+        if is_right_down {
+            self.rmb_held_down_for += 1;
+        } else {
+            self.rmb_held_down_for = 0;
+        }
 
         /*  TODO: */
         if *temp_save
@@ -192,12 +203,6 @@ impl Input {
         }
         self.inner
             .update(inner_position, is_left_down, is_middle_down, is_right_down);
-
-        if is_right_down {
-            self.rmb_held_down_for += 1;
-        } else {
-            self.rmb_held_down_for = 0;
-        }
     }
 }
 

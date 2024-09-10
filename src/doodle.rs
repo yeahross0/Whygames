@@ -72,7 +72,7 @@ impl DrawMode {
                 vec![0, 0, 0, 0, r(), r(), r(), r(), 0, 0, 0, 0],
             ],
             // TODO: Temp
-            //DrawMode::Erase => vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1]],
+            DrawMode::Erase => vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1]],
             _ => vec![vec![0]],
         }
     }
@@ -86,6 +86,7 @@ pub fn draw_using_brush(
     movement: Vec2,
     updates: &mut HashMap<pixels::Position, (Colour, Colour)>,
     sprite_rect: pixels::Rect,
+    is_erase: bool,
 ) {
     for row in 0..brush.len() {
         for column in 0..brush[row].len() {
@@ -94,7 +95,11 @@ pub fn draw_using_brush(
                 let y_offset = (row as isize - brush.len() as isize / 2) as f32;
                 let x = (mouse_position.x as f32 - movement.x + x_offset) as u32;
                 let y = (mouse_position.y as f32 - movement.y + y_offset) as u32;
-                let colour = paint_image.get_pixel(x % PAINT_SIZE as u32, y % PAINT_SIZE as u32);
+                let mut colour =
+                    paint_image.get_pixel(x % PAINT_SIZE as u32, y % PAINT_SIZE as u32);
+                if is_erase {
+                    colour = Colour::from_rgba(0, 0, 0, 0);
+                }
                 if x >= sprite_rect.min.x as u32
                     && y >= sprite_rect.min.y as u32
                     && x < sprite_rect.max.x as u32
@@ -263,7 +268,14 @@ impl DrawTool {
             &self.paint_choices[self.tracker.paint_index].image
         };
 
-        let sprite = sprite_from_context(&environment.context);
+        let mut sprite = sprite_from_context(&environment.context);
+        // TODO: ?
+        if sprite.size == SpriteSize::Empty {
+            sprite = Sprite {
+                index: 0,
+                size: SpriteSize::InnerBg,
+            }
+        };
 
         let sprite_rect = sheet_source_rect(sprite);
 
@@ -359,6 +371,7 @@ impl DrawTool {
                 movement,
                 &mut self.tracker.pixel_updates,
                 sprite_rect,
+                draw_mode == DrawMode::Erase,
             );
 
             while (movement.x != 0.0 || movement.y != 0.0) && draw_mode != DrawMode::Spray {
@@ -370,6 +383,7 @@ impl DrawTool {
                     movement,
                     &mut self.tracker.pixel_updates,
                     sprite_rect,
+                    draw_mode == DrawMode::Erase,
                 );
                 if movement.x.abs() < 1.0 {
                     movement.x = 0.0;
@@ -720,11 +734,11 @@ impl DrawTool {
             }
             DrawMode::Erase => {
                 // TODO: ?
-                for x in 0..meta::OUTER_WIDTH {
+                /*for x in 0..meta::OUTER_WIDTH {
                     for y in 0..meta::OUTER_HEIGHT {
                         assets.image.set_pixel(x, y, colours::WHITE);
                     }
-                }
+                }*/
 
                 // assets.texture.update(&assets.image);
             }
@@ -750,10 +764,12 @@ impl DrawTool {
         if self.tracker.temp_clear {
             let mut temp_pixel_updates: HashMap<pixels::Position, (Colour, Colour)> =
                 HashMap::new();
-            for x in 0..meta::INNER_WIDTH {
-                for y in 0..meta::INNER_HEIGHT {
+            for x in sprite_rect.min.x..sprite_rect.max.x {
+                for y in sprite_rect.min.y..sprite_rect.max.y {
+                    let x = x as u32;
+                    let y = y as u32;
                     let from = assets.image.get_pixel(x, y);
-                    let to = colours::WHITE;
+                    let to = colours::BLANK;
                     assets.image.set_pixel(x, y, to);
                     let pos = pixels::Position::new(x as i32, y as i32);
                     //self.tracker.pixel_updates.insert(pos, (from, to));

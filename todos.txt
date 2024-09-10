@@ -25,7 +25,7 @@ Add ability to change font colour
 Stop text getting too big in rename member
 
 --- Show/hide out of shot sprites
-
+        hide sprites when playing
 add button to show/hide
         add choose member button in Maker
 

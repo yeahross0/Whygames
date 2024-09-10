@@ -79,6 +79,51 @@ impl AudioPlayer {
                     .await
                     .unwrap();
                 temp_loaded_sounds.insert("Whale3".to_owned(), data);
+                // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                temp_loaded_sounds.insert(
+                    "Struggle".to_owned(),
+                    macroquad::file::load_file("sounds/Struggle.ogg")
+                        .await
+                        .unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Struggle".to_owned(),
+                    macroquad::file::load_file("sounds/Struggle.ogg")
+                        .await
+                        .unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Coin".to_owned(),
+                    macroquad::file::load_file("sounds/Coin.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Zap".to_owned(),
+                    macroquad::file::load_file("sounds/Zap.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Boom".to_owned(),
+                    macroquad::file::load_file("sounds/Boom.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Jump".to_owned(),
+                    macroquad::file::load_file("sounds/Jump.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "1Up".to_owned(),
+                    macroquad::file::load_file("sounds/1Up.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Lose".to_owned(),
+                    macroquad::file::load_file("sounds/Lose.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Hurt".to_owned(),
+                    macroquad::file::load_file("sounds/Hurt.ogg").await.unwrap(),
+                );
+                temp_loaded_sounds.insert(
+                    "Blip".to_owned(),
+                    macroquad::file::load_file("sounds/Blip.ogg").await.unwrap(),
+                );
 
                 Some(SinkPlayer {
                     music_sink: sink_music,

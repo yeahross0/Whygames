@@ -414,7 +414,7 @@ function __wbg_get_imports() {
         const ret = getObject(arg0).setTimeout(getObject(arg1), arg2);
         return ret;
     }, arguments) };
-    imports.wbg.__wbindgen_closure_wrapper975 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbindgen_closure_wrapper988 = function(arg0, arg1, arg2) {
         const ret = makeMutClosure(arg0, arg1, 180, __wbg_adapter_20);
         return addHeapObject(ret);
     };

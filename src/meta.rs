@@ -1,5 +1,5 @@
 use crate::art::SpriteSize;
-use crate::{colours, BootInfo};
+use crate::{colours, BootInfo, FileSystem};
 
 use crate::doodle::{draw_using_brush, DrawMode, DrawTool, Fill};
 use crate::drawer::{page_width_for_sprite, sprite_size_in_pixels};
@@ -21,7 +21,7 @@ use crate::serial::{self, ImageString, Shortcut, SoundString};
 use crate::time::TimeKeeping;
 use crate::AudioPlayer;
 
-use crate::{game_from_cartridge, temp_load, temp_save, texture_from_bytes};
+use crate::{game_from_cartridge, temp_save, texture_from_bytes};
 use base64::{engine::general_purpose::STANDARD_NO_PAD as BaseEncoder, Engine};
 use macroquad::{input::KeyCode, logging as log, math::Vec2};
 use rodio::{Decoder, Sink};
@@ -186,6 +186,7 @@ pub async fn update_metagame(
     audio_player: &mut AudioPlayer,
     transition: &mut Transition,
     time_keeping: TimeKeeping,
+    file_system: &FileSystem,
 ) -> WhyResult<MenuOutcome> {
     let mut events_to_apply = Vec::new();
     let mut sounds_to_play = SoundQueue::Ready {
@@ -710,6 +711,7 @@ pub async fn update_metagame(
         subgame,
         audio_player,
         transition,
+        file_system,
     )
     .await
 }
@@ -1222,6 +1224,7 @@ async fn apply_menu_actions(
     subgame: &mut play::Game,
     audio_player: &mut AudioPlayer,
     transition: &mut Transition,
+    file_system: &FileSystem,
 ) -> WhyResult<MenuOutcome> {
     // TODO: Use hashset? But then don't know order, except imposed order
     for menu_action in menu_actions {
@@ -1278,7 +1281,6 @@ async fn apply_menu_actions(
                 log::debug!("Move to Game! {}", name);
                 // TODO: Like a cartridge reset?
 
-                //game = temp_load("Green", &name).await?;
                 navigation.queue.index += 1;
                 navigation.queue.links.truncate(navigation.queue.index);
 
@@ -1321,7 +1323,14 @@ async fn apply_menu_actions(
                 navigation.queue.index = navigation.queue.index.max(1) - 1;
                 let name = &navigation.queue.links[navigation.queue.index].game;
                 // TODO: Work thsi out, shouldn't temp_load because do that later
-                *game = temp_load("Green", name).await?;
+                *game = play::Game::load(
+                    &Link {
+                        collection: "Green".to_string(),
+                        game: name.to_string(),
+                    },
+                    &file_system,
+                )
+                .await?;
                 log::debug!("FADING OUT TO: {}", name);
 
                 *transition = Transition::FadeOut {
@@ -1340,7 +1349,6 @@ async fn apply_menu_actions(
             menu::Action::BackInQueue => {
                 navigation.queue.index = navigation.queue.index.max(1) - 1;
                 let name = &navigation.queue.links[navigation.queue.index].game;
-                //game = temp_load("Green", name).await?;
 
                 let collection = &environment.context["Collection"];
                 navigation.next_game = Some(Link {
@@ -1359,7 +1367,6 @@ async fn apply_menu_actions(
                 let name = &navigation.queue.links[navigation.queue.index].game;
                 // TODO: Frame number and stuff, resetting everything
                 log::debug!("NEXT IN QUEUE: {:?}", name);
-                //game = temp_load("Green", name).await?;
 
                 let collection = &environment.context["Collection"];
                 navigation.next_game = Some(Link {
@@ -1410,7 +1417,14 @@ async fn apply_menu_actions(
                     .to_string();
                 log::debug!("Loading: {}", game_filename);
                 // TODO: Use sub collection variable or something?
-                *subgame = temp_load(&environment.context["Collection"], &game_filename).await?;
+                *subgame = play::Game::load(
+                    &Link {
+                        collection: environment.context["Collection"].clone(),
+                        game: game_filename.to_string(),
+                    },
+                    &file_system,
+                )
+                .await?;
                 editor.selected_index = 0;
                 editor.index_tracker = 0;
                 editor.previous_hovered_indices = Vec::new();

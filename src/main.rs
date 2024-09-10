@@ -158,18 +158,18 @@ mod tests {
     }
 }
 
-pub async fn temp_load(collection: &str, name: &str) -> WhyResult<play::Game> {
-    log::debug!("game name: {}/{}", collection, name);
-    let filename = format!("collections/{}/{}.json", collection, name);
-    let save_contents = macroquad::file::load_string(&filename).await?;
-    let cartridge: Result<Cartridge, _> = serde_json::from_str(&save_contents);
-
-    let rng = SeededRng::new(macroquad::miniquad::date::now() as _);
-
-    cartridge
-        .map(|cart| game_from_cartridge(cart, rng))
-        .map_err(|e| format!("Error deserialising game: {:?}", e).into())
-}
+//pub async fn temp_load(collection: &str, name: &str) -> WhyResult<play::Game> {
+//    log::debug!("game name: {}/{}", collection, name);
+//    let filename = format!("collections/{}/{}.json", collection, name);
+//    let save_contents = macroquad::file::load_string(&filename).await?;
+//    let cartridge: Result<Cartridge, _> = serde_json::from_str(&save_contents);
+//
+//    let rng = SeededRng::new(macroquad::miniquad::date::now() as _);
+//
+//    cartridge
+//        .map(|cart| game_from_cartridge(cart, rng))
+//        .map_err(|e| format!("Error deserialising game: {:?}", e).into())
+//}
 
 pub fn temp_save(collection: &str, name: &str, game: play::Game) -> WhyResult<()> {
     log::debug!("write game name: {}/{}", collection, name);
@@ -254,9 +254,41 @@ struct BootInfo {
     initial_subgame: Link,
 }
 
+struct FileSystem {
+    memfs: HashMap<String, String>,
+}
+
 #[macroquad::main(window_conf)]
 async fn main() -> WhyResult<()> {
     log::info!("Whygames 0.1");
+
+    if let Some(arg) = std::env::args().nth(1) {
+        if arg == "package" {
+            let mut memfs = HashMap::new();
+            let dummy = FileSystem {
+                memfs: HashMap::new(),
+            };
+            log::debug!("Packaging games");
+            {
+                let paths = std::fs::read_dir("collections/Green/").unwrap();
+                for path in paths {
+                    let p = path.unwrap().path();
+                    let s = p.to_str().unwrap();
+
+                    let link = Link {
+                        collection: "Green".to_string(),
+                        game: p.file_stem().unwrap().to_str().unwrap().to_string(),
+                    };
+                    let cartridge = Cartridge::load(&link, &dummy).await?;
+
+                    memfs.insert(s.to_string(), serde_json::to_string(&cartridge)?);
+                }
+            }
+            let s = serde_json::to_string(&memfs).unwrap();
+            std::fs::write("fs.json", s).unwrap_or_else(|e| log::error!("{}", e));
+            std::process::exit(0);
+        }
+    }
 
     macroquad::input::prevent_quit();
 
@@ -286,8 +318,77 @@ async fn main() -> WhyResult<()> {
     let mut draw_tool = DrawTool::init();
     let mut music_maker = MusicMaker::init();
 
-    let mut game = play::Game::load(&boot_info.initial_game).await?;
-    let mut subgame = play::Game::load(&boot_info.initial_subgame).await?;
+    let (sf2_data, memfs) = {
+        let (tx, rx) = mpsc::channel();
+
+        let resources_loading: Coroutine = start_coroutine(async move {
+            let sf2_data = macroquad::file::load_file("why.sf2");
+
+            // TODO: Ultra temporary code
+            //use futures::future::join_all;
+            //let files = vec![
+            //    "collections/Green/ChooseDemand.json",
+            //    "collections/Green/ChooseMember.json",
+            //    "collections/Green/ChooseQuestion.json",
+            //    "collections/Green/ChooseSound.json",
+            //    "collections/Green/ChooseSprite.json",
+            //    "collections/Green/ChooseText.json",
+            //    "collections/Green/Draw.json",
+            //    "collections/Green/EditChore.json",
+            //    "collections/Green/EditTodos.json",
+            //    "collections/Green/Maker.json",
+            //    "collections/Green/Music.json",
+            //    "collections/Green/RenameMember.json",
+            //    "collections/Green/Setup.json",
+            //    "collections/Green/SwitchMember.json",
+            //    "collections/Green/NewTest.json",
+            //];
+            //
+            ////let mut things = vec![];
+            //for f in files {
+            //    macroquad::file::load_file(f).await;
+            //}
+            //join_all(things).await;
+
+            #[cfg(target_arch = "wasm32")]
+            let memfs: HashMap<String, String> =
+                serde_json::from_str(&macroquad::file::load_string("fs.json").await.unwrap())
+                    .unwrap();
+            #[cfg(not(target_arch = "wasm32"))]
+            let memfs: HashMap<String, String> = HashMap::new();
+
+            tx.send((sf2_data.await.unwrap(), memfs)).unwrap();
+        });
+
+        let mut counter = 1;
+        while !resources_loading.is_done() {
+            counter += 1;
+            let dots = (counter / 15) % 3 + 1;
+            let dots = ".".repeat(dots);
+            macroquad::text::draw_text(
+                &format!("Loading{}", dots),
+                20.0,
+                20.0,
+                30.0,
+                quad_colours::WHITE,
+            );
+
+            next_frame().await;
+        }
+
+        rx.recv()
+    }?;
+
+    let mut audio_player = {
+        let audio_params = AudioParameters::load("system/audio_params.json").await?;
+
+        AudioPlayer::init(audio_params, sf2_data).await?
+    };
+
+    let file_system = FileSystem { memfs };
+
+    let mut game = play::Game::load(&boot_info.initial_game, &file_system).await?;
+    let mut subgame = play::Game::load(&boot_info.initial_subgame, &file_system).await?;
 
     environment.init_vars(&subgame, &boot_info);
 
@@ -342,66 +443,6 @@ async fn main() -> WhyResult<()> {
             mouse_scroll: 0.0,
             keyboard,
         }
-    };
-
-    let sf2_data = {
-        let (tx, rx) = mpsc::channel();
-
-        let resources_loading: Coroutine = start_coroutine(async move {
-            let sf2_data = macroquad::file::load_file("why.sf2");
-
-            // TODO: Ultra temporary code
-            //use futures::future::join_all;
-            let files = vec![
-                "collections/Green/ChooseDemand.json",
-                "collections/Green/ChooseMember.json",
-                "collections/Green/ChooseQuestion.json",
-                "collections/Green/ChooseSound.json",
-                "collections/Green/ChooseSprite.json",
-                "collections/Green/ChooseText.json",
-                "collections/Green/Draw.json",
-                "collections/Green/EditChore.json",
-                "collections/Green/EditTodos.json",
-                "collections/Green/Maker.json",
-                "collections/Green/Music.json",
-                "collections/Green/RenameMember.json",
-                "collections/Green/Setup.json",
-                "collections/Green/SwitchMember.json",
-                "collections/Green/NewTest.json",
-            ];
-
-            //let mut things = vec![];
-            for f in files {
-                macroquad::file::load_file(f).await;
-            }
-            //join_all(things).await;
-
-            tx.send(sf2_data.await.unwrap()).unwrap();
-        });
-
-        let mut counter = 1;
-        while !resources_loading.is_done() {
-            counter += 1;
-            let dots = (counter / 15) % 3 + 1;
-            let dots = ".".repeat(dots);
-            macroquad::text::draw_text(
-                &format!("Loading{}", dots),
-                20.0,
-                20.0,
-                30.0,
-                quad_colours::WHITE,
-            );
-
-            next_frame().await;
-        }
-
-        rx.recv()
-    }?;
-
-    let mut audio_player = {
-        let audio_params = AudioParameters::load("system/audio_params.json").await?;
-
-        AudioPlayer::init(audio_params, sf2_data).await?
     };
 
     audio_player.play_music(game.assets.music_data.clone())?;
@@ -574,6 +615,7 @@ async fn main() -> WhyResult<()> {
                 &mut audio_player,
                 &mut transition,
                 time_keeping,
+                &file_system,
             )
             .await?;
 
@@ -621,7 +663,7 @@ async fn main() -> WhyResult<()> {
 
         if let Some(link) = navigation.next_game.take() {
             time_keeping.reset();
-            game = temp_load(&link.collection, &link.game).await?;
+            game = play::Game::load(&link, &file_system).await?;
             game.frame_number = 0;
             log::debug!("FRAME NUMBER: {}", game.frame_number);
             // TODO: Think about if this is what we want all the time

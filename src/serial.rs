@@ -1,6 +1,7 @@
 use crate::art::SpriteSize;
 use crate::err::WhyResult;
 use crate::nav::Link;
+use crate::FileSystem;
 
 use super::meta::{INNER_CENTRE, OUTER_CENTRE};
 use super::pixels;
@@ -9,6 +10,7 @@ use super::anim::AnimationStyle;
 use super::art::Sprite;
 use super::common::Speed;
 use super::inp::Button;
+use macroquad::logging as log;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use strum_macros::EnumString;
@@ -126,8 +128,13 @@ impl Cartridge {
         }
     }
 
-    pub async fn load(link: &Link) -> WhyResult<Cartridge> {
-        let file_contents = macroquad::file::load_string(&link.to_filename()).await?;
+    pub async fn load(link: &Link, file_system: &FileSystem) -> WhyResult<Cartridge> {
+        let filename = &link.to_filename();
+        let file_contents = if file_system.memfs.contains_key(filename) {
+            file_system.memfs[filename].clone()
+        } else {
+            macroquad::file::load_string(filename).await?
+        };
 
         Self::from_file_contents(&file_contents)
     }

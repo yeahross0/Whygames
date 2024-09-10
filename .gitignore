@@ -3,6 +3,7 @@
 *.wasm
 *.zip
 *.7z
+fs.json
 /artifacts
 /temp
 /dist

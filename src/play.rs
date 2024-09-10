@@ -22,7 +22,6 @@ use crate::edit::{
 use crate::err::WhyResult;
 use crate::history::Event;
 use crate::inp::{Button, Mouse};
-use crate::menu;
 use crate::meta::{
     Environment, CHOOSE_AREA_NAME, CHOOSE_POINT_NAME, EDITABLE_SCREEN_NAME, MUSIC_MAKER_NAME,
     OUTER_CENTRE, PLAY_SCREEN_NAME,
@@ -32,6 +31,7 @@ use crate::nav::{Link, Navigation};
 use crate::seeded_rng::SeededRng;
 use crate::seeded_rng::{ChooseRandom, RandomRange};
 use crate::serial::Shortcut;
+use crate::{menu, FileSystem};
 use base64::engine::general_purpose::STANDARD_NO_PAD as BaseEncoder;
 use base64::Engine;
 use macroquad::{
@@ -317,8 +317,8 @@ pub struct Game {
 }
 
 impl Game {
-    pub async fn load(link: &Link) -> WhyResult<Game> {
-        let cartridge = Cartridge::load(link).await?;
+    pub async fn load(link: &Link, file_system: &FileSystem) -> WhyResult<Game> {
+        let cartridge = Cartridge::load(link, file_system).await?;
 
         let rng = SeededRng::new(macroquad::miniquad::date::now() as u64);
 

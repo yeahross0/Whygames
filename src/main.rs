@@ -31,6 +31,7 @@ const TEMP_TESTING_INTRO_TEXT: bool = false;
 
 use art::SpriteSize;
 use edit::sprite_from_context;
+use files::FileSystem;
 use macroquad::{
     color::{colors as quad_colours, Color as Colour},
     experimental::coroutines::{start_coroutine, Coroutine},
@@ -75,6 +76,7 @@ mod doodle;
 mod drawer;
 mod edit;
 mod err;
+mod files;
 mod history;
 mod inp;
 mod maths;
@@ -254,41 +256,9 @@ struct BootInfo {
     initial_subgame: Link,
 }
 
-struct FileSystem {
-    memfs: HashMap<String, String>,
-}
-
 #[macroquad::main(window_conf)]
 async fn main() -> WhyResult<()> {
     log::info!("Whygames 0.1");
-
-    if let Some(arg) = std::env::args().nth(1) {
-        if arg == "package" {
-            let mut memfs = HashMap::new();
-            let dummy = FileSystem {
-                memfs: HashMap::new(),
-            };
-            log::debug!("Packaging games");
-            {
-                let paths = std::fs::read_dir("collections/Green/").unwrap();
-                for path in paths {
-                    let p = path.unwrap().path();
-                    let s = p.to_str().unwrap();
-
-                    let link = Link {
-                        collection: "Green".to_string(),
-                        game: p.file_stem().unwrap().to_str().unwrap().to_string(),
-                    };
-                    let cartridge = Cartridge::load(&link, &dummy).await?;
-
-                    memfs.insert(s.to_string(), serde_json::to_string(&cartridge)?);
-                }
-            }
-            let s = serde_json::to_string(&memfs).unwrap();
-            std::fs::write("fs.json", s).unwrap_or_else(|e| log::error!("{}", e));
-            std::process::exit(0);
-        }
-    }
 
     macroquad::input::prevent_quit();
 

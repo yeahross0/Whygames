@@ -40,8 +40,8 @@ image = { version = "0.24", default-features = false, features = [
     "tga",
 ] }
 #rustysynth = "*"
-#rustysynth = { git = "https://github.com/yeahross0/rustysynth", rev = "60ab772" }
-rustysynth = { path = "../rustysynth/rustysynth" }
+rustysynth = { git = "https://github.com/yeahross0/rustysynth", rev = "9a6f0a9" }
+#rustysynth = { path = "../rustysynth/rustysynth" }
 tinyaudio = "*"
 itertools = "*"
 midly = { version = "0.5.3", default-features = false, features = [
